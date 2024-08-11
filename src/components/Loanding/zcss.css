@@ -1,0 +1,10 @@
+.Content-Loandig{
+    background-image: url('../../../public/img/panda.jpg');
+    width: 100vw;
+    height: 90vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.8;
+    display: flex;
+    
+}
