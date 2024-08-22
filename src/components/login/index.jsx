@@ -25,8 +25,11 @@ export default function Login() {
         try {
             const response = await axios.post('/api/auth/login', dataForm);
             toast.success('Login exitoso. Bienvenido');
-            const { token, role } = response.data;
+            const { token, role, userId } = response.data;  // Incluye `userId` en la desestructuración
             localStorage.setItem('token', token);
+            sessionStorage.setItem('userId', userId); // Guardamos el ID del usuario en sessionStorage
+            console.log('Datos de la respuesta:', response.data);
+            
             // Redirige al usuario según su rol
             if (role === 'admin') {
                 router.push('/admin');
