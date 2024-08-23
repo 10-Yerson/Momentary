@@ -1,6 +1,6 @@
 'use client';
 
-import Dashboard from '@/components/SidebarADM'
+import Dashboard from '@/app/admin/components/SidebarADM'
 import ProtectedRoute from '../../../components/protected/ProtectedRoute';
 import { useEffect, useState } from 'react';
 import axios from '../../../utils/axios';

@@ -84,7 +84,7 @@
 
 
 .background-dg {
-  background-image: url('../../../public/img/leopardo-fondo-negro.jpg');
+  background-image: url('../../../../../public/img/leopardo-fondo-negro.jpg');
   object-fit: contain;
   display: grid;
   place-content: center;

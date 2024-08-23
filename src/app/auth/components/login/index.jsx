@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import './main.css';
 import Link from 'next/link';
-import axios from '../../utils/axios';
+import axios from '../../../../utils/axios';
 import { ToastContainer, toast } from 'react-toastify'; // Asegúrate de importar 'toast'
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation';
