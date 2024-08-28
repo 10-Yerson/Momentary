@@ -10,7 +10,7 @@ export default function Welcome() {
   const [userName, setUserName] = useState('');
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = async () => { 
             try {
                 const userId = sessionStorage.getItem('userId');
                 if (!userId) {
