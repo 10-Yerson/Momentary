@@ -14,7 +14,7 @@ export default function CreatePublication() {
     useEffect(() => {
         const fetchPublications = async () => {
             try {
-                const response = await axios.get('/api/publication');
+                const response = await axios.get('/api/publication/user');
                 setPublications(response.data);
             } catch (err) {
                 console.error('Error al obtener publicaciones:', err);
