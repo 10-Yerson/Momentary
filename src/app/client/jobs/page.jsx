@@ -5,7 +5,7 @@ import axios from '../../../utils/axios';
 import ProtectedRoute from '../../../components/protected/ProtectedRoute'
 import UserPanel from '../components/Dasboard/siderbar'
 
-export default function Page() { // Cambié el nombre del componente a "Page" con la primera letra mayúscula
+export default function ViewPublication() { // Cambié el nombre del componente a "Page" con la primera letra mayúscula
   const [publications, setPublications] = useState([]);
   const [error, setError] = useState('');
 

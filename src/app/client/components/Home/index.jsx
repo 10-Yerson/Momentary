@@ -1,42 +1,45 @@
 'use client'
 
 import React, { useEffect, useState } from "react";
-import { ToastContainer, toast } from 'react-toastify'; 
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from '../../../../utils/axios'
+import ModalProfile from "../Modal/ModalProfile";
 
 export default function Welcome() {
   const [userData, setUserData] = useState(null);
   const [userName, setUserName] = useState('');
 
-    useEffect(() => {
-        const fetchData = async () => { 
-            try {
-                const userId = sessionStorage.getItem('userId');
-                if (!userId) {
-                    throw new Error('ID del usuario no encontrado en sessionStorage');
-                }
-                const userResponse = await axios.get(`/api/user/${userId}`);
-                setUserData(userResponse.data);
-                setUserName(userResponse.data.name || '');
-                console.log('Datos Usuario', userResponse.data);
-                
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                toast.error('Error cargando datos del usuario');
-            }
-        };
+  const [isModalOpen, setModalOpen] = useState(false);
 
-        fetchData();
-    }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userId = sessionStorage.getItem('userId');
+        if (!userId) {
+          throw new Error('ID del usuario no encontrado en sessionStorage');
+        }
+        const userResponse = await axios.get(`/api/user/${userId}`);
+        setUserData(userResponse.data);
+        setUserName(userResponse.data.name || '');
+        console.log('Datos Usuario', userResponse.data);
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        toast.error('Error cargando datos del usuario');
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
-    <div class="h-screen flex overflow-hidden select-none ml-32 flex-1">
+      <div class="h-screen flex overflow-hidden select-none ml-32 flex-1">
         <main
           class="my-1 pt-2 pb-2 px-10 flex-1 bg-gray-200 dark:bg-black rounded-l-lg
 		transition duration-500 ease-in-out overflow-y-auto">
-             <div class="flex flex-col capitalize text-3xl">
+          <div class="flex flex-col capitalize text-3xl">
             <span class="font-semibold py-3">hello,</span>
             <span>{userName}</span>
 
@@ -287,26 +290,25 @@ export default function Welcome() {
             </a>
 
             <div class="flex items-center">
-
               <img
-                class="h-10 w-10 rounded-full object-cover"
-                src="https://i.pinimg.com/originals/68/e1/e1/68e1e137959d363f172dc3cc50904669.jpg"
-                alt="tempest profile" />
-
-              <button class="ml-1 focus:outline-none">
-
-                <svg class="h-4 w-4 fill-current" viewBox="0 0 192 512">
+                className="h-10 w-10 rounded-full object-cover cursor-pointer"
+                src="https://metro.co.uk/wp-content/uploads/2018/09/sei_30244558-285d.jpg?quality=90&strip=all"
+                alt="tempest profile"
+                onClick={() => setModalOpen(true)}
+              />
+              <button className="ml-1 focus:outline-none">
+                <svg className="h-4 w-4 fill-current" viewBox="0 0 192 512">
                   <path
                     d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72
-							72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72
-							72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0
-							352c0 39.8 32.2 72 72 72s72-32.2
-							72-72-32.2-72-72-72-72 32.2-72 72z"></path>
+                            72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72
+                            72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0
+                            352c0 39.8 32.2 72 72 72s72-32.2
+                            72-72-32.2-72-72-72-72 32.2-72 72z"></path>
                 </svg>
-
               </button>
-
             </div>
+
+            <ModalProfile isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
 
           </div>
 
