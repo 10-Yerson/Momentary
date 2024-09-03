@@ -71,11 +71,12 @@ export default function CreatePublication() {
                         {/* Botón de Publicar */}
                         <div className="flex justify-start">
                             <button
+                                className="bg-neutral-950 text-white border border-neutral-400 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md"
                                 type="submit"
-                                className="bg-blue-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-blue-700 transition duration-300 ease-in-out"
                             >
                                 Publicar
                             </button>
+
                         </div>
                     </form>
                 </div>
