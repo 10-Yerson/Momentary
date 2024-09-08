@@ -1,7 +1,3 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import axios from '../../../utils/axios';
 import ProtectedRoute from '../../../components/protected/ProtectedRoute'
 import CoverImage from '../components/Perfil/CoverImage';
 import ProfileInfo from '../components/Perfil/ProfileInfo';
@@ -11,29 +7,6 @@ import PublicationGetting from '../components/Perfil/publication';
 
 
 export default function ProfilePage() {
-
-  const [userData, setUserData] = useState(null);
-  const [userName, setUserName] = useState('');
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userId = sessionStorage.getItem('userId');
-        if (!userId) {
-          throw new Error('ID del usuario no encontrado en sessionStorage');
-        }
-        const userResponse = await axios.get(`/api/user/${userId}`);
-        setUserData(userResponse.data);
-        setUserName(userResponse.data.name || '');
-        console.log('Datos Usuario', userResponse.data);
-
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        toast.error('Error cargando datos del usuario');
-      }
-    };
-
-    fetchData();
-  }, []);
   return (
     <>
       <ProtectedRoute roles={['user']}>

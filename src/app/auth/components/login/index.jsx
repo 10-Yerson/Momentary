@@ -29,7 +29,7 @@ export default function Login() {
             localStorage.setItem('token', token);
             sessionStorage.setItem('userId', userId); // Guardamos el ID del usuario en sessionStorage
             console.log('Datos de la respuesta:', response.data);
-            
+
             // Redirige al usuario según su rol
             if (role === 'admin') {
                 router.push('/admin');
@@ -39,7 +39,7 @@ export default function Login() {
         } catch (error) {
             console.log('Error', error);
             toast.error('Verifica tus datos');
-            
+
         }
     };
 
@@ -98,6 +98,13 @@ export default function Login() {
                             className="input"
                             placeholder="Enter your Password"
                         />
+                    </div>
+                    <div class="flex flex-row items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <input type="radio" class="form-radio text-blue-600" />
+                            <label class="text-black font-normal text-sm">Remember me</label>
+                        </div>
+                        <span class="text-blue-600 text-sm font-medium cursor-pointer">Forgot password?</span>
                     </div>
                     <button className="button-submit" type="submit">Iniciar Sesión</button>
                     <p className="p">No tienes cuenta?

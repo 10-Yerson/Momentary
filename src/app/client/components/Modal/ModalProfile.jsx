@@ -6,8 +6,10 @@ import React, { useEffect, useState } from "react";
 export default function ModalProfile({ isOpen, onClose }) {
     if (!isOpen) return null;
 
-    const [userData, setUserData] = useState(null);
+    const [data, setData] = useState(null);
     const [userName, setUserName] = useState('');
+    const [lastname, setLastname] = useState('')
+    const [profilePicture, setProfilePicture] = useState('')
 
     useEffect(() => {
         const fetchData = async () => {
@@ -16,9 +18,11 @@ export default function ModalProfile({ isOpen, onClose }) {
                 if (!userId) {
                     throw new Error('ID del usuario no encontrado en sessionStorage');
                 }
-                const userResponse = await axios.get(`/api/user/${userId}`);
-                setUserData(userResponse.data);
-                setUserName(userResponse.data.name || '');
+                const response = await axios.get(`/api/user/${userId}`);
+                setData(response.data)
+                setUserName(response.data.name);
+                setLastname(response.data.apellido);
+                setProfilePicture(response.data.profilePicture)
 
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -31,15 +35,16 @@ export default function ModalProfile({ isOpen, onClose }) {
     return (
         <div className="absolute right-6 top-16 w-80 bg-white shadow-lg rounded-lg">
             <div className="flex justify-between items-center p-4 border-b">
-                    <Link className='flex justify-center items-center gap-x-5'
+                <Link className='flex justify-center items-center gap-x-5'
                     href="/client/profile">
-                        <img
-                            className="h-12 w-12 rounded-full object-cover cursor-pointer"
-                            src="https://metro.co.uk/wp-content/uploads/2018/09/sei_30244558-285d.jpg?quality=90&strip=all"
-                            alt="profile"
-                        />
-                        <h2 className="text-xl">{userName}</h2>
-                    </Link>
+                    <img
+                        className="h-12 w-12 rounded-full object-cover cursor-pointer"
+                        src={profilePicture}
+                    />
+                    <p className="text-gray-800 text-xl">
+                        {userName} <span className="text-gray-600">{lastname}</span>
+                    </p>
+                </Link>
                 <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
                     <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />

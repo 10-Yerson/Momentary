@@ -129,7 +129,7 @@ export default function UserPanel() {
             class="mt-auto flex items-center justify-end p-2 text-blue-700 bg-purple-200
 			dark:text-blue-500 rounded-full">
 
-            <a href="#">
+            <a href="/">
               <svg class="fill-current h-5 w-5" viewBox="0 0 24 24">
                 <path
                   d="M12 1c-5 0-9 4-9 9v7a3 3 0 003 3h3v-8H5v-2a7 7 0 017-7
