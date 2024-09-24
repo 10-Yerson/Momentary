@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios';
+import Createpublication from '../Modal/Createpublication';
 
 export default function PostBox() {
   const [userName, setUserName] = useState('');
   const [lastname, setLastname] = useState('');
   const [profilePicture, setProfilePicture] = useState('')
-
   const [data, setdata] = useState([])
+  const [isModalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +25,6 @@ export default function PostBox() {
         setProfilePicture(response.data.profilePicture);
       } catch (error) {
         console.error('Error fetching data:', error);
-        toast.error('Error cargando datos del usuario');
       }
     };
 
@@ -37,13 +37,14 @@ export default function PostBox() {
           <img
             alt="User profile picture"
             className="h-10 w-10 rounded-full object-cover"
-            src={profilePicture}
+            src={profilePicture  || 'https://placehold.co/40x40'}
           />
-          <input
+          <input onClick={() => setModalOpen(true)}
             className="w-full p-2 bg-gray-200 rounded-full"
             placeholder="¿Qué estás pensando?"
-            type="text"
+            type="text"  readOnly 
           />
+          <Createpublication isOpen={isModalOpen} onClose={() => setModalOpen(false)}/>
         </div>
       </div>
     );

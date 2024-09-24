@@ -50,7 +50,7 @@ export default function Register() {
 
     const dataMain = { name, apellido, fechaNacimiento, genero, email, password };
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register/user', dataMain);
+      const response = await axios.post('http://localhost:5000/api/auth/register', dataMain);
       toast.success('Registration successful!');
       router.push('/auth/sign-in');
     } catch (error) {
