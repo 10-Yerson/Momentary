@@ -5,6 +5,7 @@ import axios from '../../../../utils/axios'; // Ajusta la ruta de tu archivo axi
 import { useContext } from 'react';
 import { MyContext } from '../../context/MyContext';
 import { toast } from 'react-toastify';
+import Link from 'next/link';
 
 const NotFriends = () => {
   const [noFriends, setNoFriends] = useState(null); // Cambiar el valor inicial de [] a null
@@ -68,6 +69,7 @@ const NotFriends = () => {
           {noFriends.map((user) => (
             <li key={user._id} className="flex justify-between items-center mb-4 p-2 border-b border-gray-200">
               <div className="flex items-center">
+              <Link href={`/client/userprofile/${user._id}`} className="flex items-center">
                 <img
                   src={user.profilePicture || '/default-profile.png'} // Mostrar imagen por defecto si no hay una foto de perfil
                   alt="Foto de perfil"
@@ -76,6 +78,7 @@ const NotFriends = () => {
                 <div>
                   <p>{user.name} {user.apellido}</p>
                 </div>
+              </Link>
               </div>
               <button
                 className={`px-4 py-2 ${sentRequests[user._id] ? 'bg-gray-500 cursor-default' : 'bg-blue-500 hover:bg-blue-700'} text-white rounded`}

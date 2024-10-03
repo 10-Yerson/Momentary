@@ -1,6 +1,7 @@
 'use client'; // Si estás usando Next.js App Directory
 import { useState, useEffect } from 'react';
-import axios from '../../../../utils/axios'; // Ajusta la ruta de tu archivo de Axios
+import { useRouter } from 'next/navigation';
+import axios from '../../../../utils/axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaUserFriends, FaUserCircle } from 'react-icons/fa';
@@ -8,6 +9,7 @@ import { FaUserFriends, FaUserCircle } from 'react-icons/fa';
 export default function Amigos() {
   const [friends, setFriends] = useState([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   // Función para cargar la lista de amigos
   useEffect(() => {
@@ -25,6 +27,27 @@ export default function Amigos() {
 
     fetchFriends();
   }, []);
+
+  // Función para manejar la redirección al perfil del usuario
+  const handleViewProfile = (friendId) => {
+    router.push(`/client/userprofile/${friendId}`);
+  };
+
+  // Función para enviar la solicitud de amistad
+  const handleSendRequest = async (userId) => {
+    try {
+      setLoading(true);
+      await axios.post(`/api/FriendRequest/solicitud/${userId}`);
+      toast.success('Solicitud enviada');
+
+      // Cambia el estado local para reflejar que la solicitud fue enviada
+      setFriends((prevFriends) => [...prevFriends, { _id: userId }]); // Añadir el amigo a la lista
+    } catch (error) {
+      toast.error('Error al enviar la solicitud');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="p-6">
@@ -62,18 +85,32 @@ export default function Amigos() {
                 {/* Información del amigo */}
                 <div>
                   <p className="text-xl font-semibold text-gray-800">{friend.name} {friend.apellido}</p>
-                  <p className="text-sm text-gray-600">Amigo desde: {new Date(friend.createdAt).toLocaleDateString()}</p> {/* Ejemplo de más información */}
+                  <p className="text-sm text-gray-600">Amigo desde: {new Date(friend.createdAt).toLocaleDateString()}</p>
                 </div>
               </div>
 
               {/* Botones de acción */}
               <div className="mt-4 flex justify-between">
-                <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold rounded-lg">
+                <button 
+                  className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold rounded-lg"
+                  onClick={() => handleViewProfile(friend._id)} // Redirigir al perfil
+                >
                   Ver perfil
                 </button>
-                <button className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold rounded-lg">
-                  Eliminar amigo
-                </button>
+
+                {/* Mostrar "Amigos" si ya son amigos, de lo contrario "Enviar solicitud" */}
+                {friends.find(f => f._id === friend._id) ? (
+                  <span className="px-4 py-2 bg-green-500 text-white text-sm font-semibold rounded-lg">
+                    Amigos
+                  </span>
+                ) : (
+                  <button 
+                    className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold rounded-lg"
+                    onClick={() => handleSendRequest(friend._id)} // Enviar solicitud
+                  >
+                    Enviar solicitud
+                  </button>
+                )}
               </div>
             </li>
           ))}

@@ -27,12 +27,6 @@ export default function Loandig() {
             </button>
           </a>
         </div>
-
-        <div class="grid place-content-center">
-          <div class="loader"></div>
-          <div class="loader"></div>
-          <div class="loader"></div>
-        </div>
       </div>
     </div>
   )
