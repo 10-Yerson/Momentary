@@ -41,12 +41,11 @@ export default function Amigos() {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 bg-gray-50 min-h-screen w-full">
       <ToastContainer />
 
-      {/* Encabezado */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-4xl font-bold text-gray-800">
+        <h1 className="text-3xl font-bold text-gray-800">
           <FaUserFriends className="inline-block mr-2 text-blue-600" /> Mis Seguidores y Seguidos
         </h1>
         <span className="text-lg text-gray-600">
@@ -54,17 +53,16 @@ export default function Amigos() {
         </span>
       </div>
 
-      {/* Mostrar cargando o listas de seguidores y seguidos */}
       {loading ? (
         <p className="text-gray-600">Cargando usuarios...</p>
       ) : (
-        <>
-          <h2 className="text-3xl font-semibold mb-4 text-gray-800">Seguidores</h2>
-          {followers.length > 0 ? (
-            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {followers.map((follower) => (
-                <li key={follower._id} className="bg-white p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105">
-                  <div className="flex items-center">
+        <div className="flex flex-col md:flex-row gap-8">
+          <div className="w-full md:w-1/2">
+            <h2 className="text-3xl font-semibold mb-4 text-gray-800">Seguidores</h2>
+            {followers.length > 0 ? (
+              <div className="grid grid-cols-1 gap-4">
+                {followers.map((follower) => (
+                  <div key={follower._id} className="bg-white p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 flex items-center">
                     {follower.profilePicture ? (
                       <img
                         src={follower.profilePicture}
@@ -74,29 +72,29 @@ export default function Amigos() {
                     ) : (
                       <FaUserCircle className="w-16 h-16 text-gray-300 mr-4" />
                     )}
-                    <div>
+                    <div className="flex-grow">
                       <p className="text-xl font-semibold text-gray-800">{follower.name}</p>
                     </div>
+                    <button
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-md transition-all duration-300"
+                      onClick={() => handleViewProfile(follower._id)} // Navegar al perfil
+                    >
+                      Ver perfil
+                    </button>
                   </div>
-                  <button 
-                    className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-md transition-all duration-300"
-                    onClick={() => handleViewProfile(follower._id)} // Navegar al perfil
-                  >
-                    Ver perfil
-                  </button>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-600">No tienes seguidores.</p>
-          )}
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-600">No tienes seguidores.</p>
+            )}
+          </div>
 
-          <h2 className="text-3xl font-semibold mb-4 text-gray-800">Siguiendo</h2>
-          {following.length > 0 ? (
-            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {following.map((followed) => (
-                <li key={followed._id} className="bg-white p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105">
-                  <div className="flex items-center">
+          <div className="w-full md:w-1/2">
+            <h2 className="text-3xl font-semibold mb-4 text-gray-800">Siguiendo</h2>
+            {following.length > 0 ? (
+              <div className="grid grid-cols-1 gap-4">
+                {following.map((followed) => (
+                  <div key={followed._id} className="bg-white p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 flex items-center">
                     {followed.profilePicture ? (
                       <img
                         src={followed.profilePicture}
@@ -106,24 +104,27 @@ export default function Amigos() {
                     ) : (
                       <FaUserCircle className="w-16 h-16 text-gray-300 mr-4" />
                     )}
-                    <div>
+                    <div className="flex-grow">
                       <p className="text-xl font-semibold text-gray-800">{followed.name}</p>
                     </div>
+                    <button
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-md transition-all duration-300"
+                      onClick={() => handleViewProfile(followed._id)} // Navegar al perfil
+                    >
+                      Ver perfil
+                    </button>
                   </div>
-                  <button 
-                    className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-md transition-all duration-300"
-                    onClick={() => handleViewProfile(followed._id)} // Navegar al perfil
-                  >
-                    Ver perfil
-                  </button>
-                </li>
-              ))}
-            </ul> 
-          ) : (
-            <p className="text-gray-600">No sigues a nadie.</p>
-          )}
-        </>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-600">No sigues a nadie.</p>
+            )}
+          </div>
+        </div>
       )}
     </div>
+
+
+
   );
 }

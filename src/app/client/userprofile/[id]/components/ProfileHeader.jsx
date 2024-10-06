@@ -3,7 +3,8 @@
 import axios from '../../../../../utils/axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { FaCog } from 'react-icons/fa';
 
 export default function ProfileHeader() {
@@ -39,11 +40,11 @@ export default function ProfileHeader() {
   const handleFollowToggle = async () => {
     try {
       if (isFollowing) {
-        await axios.post(`/api/friends/dejar-seguir/${id}`);
+        await axios.post(`/api/followers/dejar-seguir/${id}`);
         setIsFollowing(false);
         toast.success('Dejaste de seguir a este usuario');
       } else {
-        await axios.post(`/api/friends/seguir/${id}`);
+        await axios.post(`/api/followers/seguir/${id}`);
         setIsFollowing(true);
         toast.success('Ahora sigues a este usuario');
       }
@@ -102,6 +103,7 @@ export default function ProfileHeader() {
       <div className="text-2xl">
         <i className="fas fa-ellipsis-h"></i>
       </div>
+      <ToastContainer/>
     </div>
   );
 }
