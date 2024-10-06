@@ -9,10 +9,6 @@ import 'react-toastify/dist/ReactToastify.css';
 Modal.setAppElement('body');
 
 export default function ProfileInfo() {
-
-  const [userName, setUserName] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [profilePicture, setProfilePicture] = useState('')
   const [selectedImage, setSelectedImage] = useState(null); // Nueva imagen seleccionada
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setdata] = useState([])
@@ -26,9 +22,7 @@ export default function ProfileInfo() {
         }
         const response = await axios.get(`/api/user/${userId}`);
         setdata(response.data);
-        setUserName(response.data.name);
-        setLastname(response.data.apellido);
-        setProfilePicture(response.data.profilePicture);
+        console.log('Data ', response.data)
       } catch (error) {
         console.error('Error fetching data:', error);
         toast.error('Error cargando datos del usuario');
@@ -75,41 +69,43 @@ export default function ProfileInfo() {
   };
 
   return (
-    <div className="flex items-center space-x-4">
-      <div className="relative">
-        <img
-          alt="Profile picture"
-          className="h-24 w-24 rounded-full border-4 border-white object-cover"
-          src={profilePicture}
-        />
-        <button onClick={() => setIsModalOpen(true)}
-          className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow">
-          <FaCamera size={23} color="black" />
-        </button>
-      </div>
-      <div>
-        <p className="text-gray-800 text-2xl">
-          {userName} <span className="text-gray-600">{lastname}</span>
-        </p>
-
-        <div className="flex space-x-2 mt-2">
-          <button className="bg-neutral-950 text-white border border-neutral-400 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md">
-            Añadir a historia
+    <div className="flex flex-col items-center space-x-4">
+      <div className="flex items-center justify-around w-full my-10">
+        <div className="relative">
+          <img
+            src={data.profilePicture}
+            alt="Profile picture"
+            className="rounded-full w-36 h-36 object-cover"
+          />
+          <div className="absolute top-0 left-0 bg-white rounded-full px-3 py-1 text-sm shadow-md">
+            Nota...
+          </div>
+          <button onClick={() => setIsModalOpen(true)}
+            className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow">
+            <FaCamera size={23} color="black" />
           </button>
-          <button className="bg-gray-200 px-4 py-2 rounded">Editar perfil</button>
-          <button className="bg-gray-200 px-4 py-2 rounded">
-            <i className="fas fa-ellipsis-h"></i>
-          </button>
+        </div>
+        <div className="ml-8">
+          <div className="flex items-center">
+            <h1 className="text-2xl font-semibold"> {data.name} {data.apellido}</h1>
+            <button className="ml-4 px-6 py-2 border rounded-md text-md">Editar perfil</button>
+            <button className="ml-2 px-6 py-2 border rounded-md text-md">Ver archivo</button>
+            <i className="ml-2 fas fa-cog text-lg"></i>
+          </div>
+          <div className="flex mt-3 text-lg">
+            <span className="mr-6"><strong>0</strong> publicaciones</span>
+            <span className="mr-6"><strong>{data.followers?.length || 0}</strong> seguidores</span>
+            <span><strong>{data.following?.length || 0}</strong> seguidos</span>
+          </div>
         </div>
       </div>
       <Modal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
         contentLabel="Upload Profile Picture"
-        className="relative bg-white p-8 rounded-lg max-w-lg mx-auto mt-32 shadow-2xl transform transition-all duration-300 ease-out"
+        className="relative bg-white p-8 rounded-lg max-w-lg mx-auto shadow-2xl transform transition-all duration-300 ease-out"
         overlayClassName="fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
       >
-        {/* Botón de cerrar en forma de "X" */}
         <button
           onClick={() => setIsModalOpen(false)}
           className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
@@ -147,5 +143,6 @@ export default function ProfileInfo() {
         </div>
       </Modal>
     </div>
+
   );
 }

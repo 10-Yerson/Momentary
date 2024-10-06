@@ -41,7 +41,7 @@ export default function Amigos() {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen w-full">
+    <div className="p-6 min-h-screen w-full">
       <ToastContainer />
 
       <div className="flex justify-between items-center mb-6">

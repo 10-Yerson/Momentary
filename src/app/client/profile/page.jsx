@@ -12,10 +12,10 @@ export default function ProfilePage() {
       <ProtectedRoute roles={['user']}>
         <div className='flex justify-center'>
           <main className='my-1 pt-2 pb-2 px-10 max-w-[80vw] flex-1 dark:bg-black rounded-l-lg transition duration-500 ease-in-out overflow-y-auto mx-auto'>
-            <CoverImage />
+            {/* <CoverImage /> */}
             <div className="container mx-auto px-4 py-4">
               <ProfileInfo/>
-              <ProfileNavigation />
+              {/* <ProfileNavigation /> */}
               <PostBox />
               <PublicationGetting/>
             </div>

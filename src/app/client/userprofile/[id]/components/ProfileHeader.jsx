@@ -74,10 +74,8 @@ export default function ProfileHeader() {
       <div className="flex items-center">
         <img
           alt="Profile picture of user"
-          className="rounded-full border border-gray-200 shadow-lg"
-          height="150"
+          className="rounded-full border border-gray-200 shadow-lg w-32 h-32 object-cover"
           src={user.profilePicture || "https://storage.googleapis.com/a1aa/image/Mu0ExRQkd0JqAtVC0PkQNVV8VJfpubi9jIe6TyXjgQBngzjTA.jpg"}
-          width="150"
         />
         <div className="ml-6">
           <h2 className="text-2xl font-bold text-gray-800">{user.name || 'Nombre de usuario'}</h2>

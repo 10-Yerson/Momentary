@@ -88,7 +88,7 @@ export default function UserPanel() {
 							0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128
 							57.2 128 128 0 70.7-57.2 128-128 128z"></path>
                 </svg>
-                <span class="text-xs mt-2">jobs</span>
+                <span class="text-xs mt-2">Buscar</span>
               </a>
 
             </li>
@@ -104,7 +104,7 @@ export default function UserPanel() {
 							8.06L15.47 10l-4.88 4.88-2.12-2.12-1.06 1.06L10.59
 							17l5.94-5.94z"></path>
                 </svg>
-                <span class="text-xs mt-2">Amigos</span>
+                <span class="text-xs mt-2">Seguidores</span>
               </a>
 
             </li>

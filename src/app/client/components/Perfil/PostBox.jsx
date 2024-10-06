@@ -32,7 +32,7 @@ export default function PostBox() {
   }, []);
   
     return (
-      <div className="mt-4 bg-white p-4 rounded shadow">
+      <div className="mt-4 bg-white p-4 rounded">
         <div className="flex items-center space-x-4">
           <img
             alt="User profile picture"
@@ -40,7 +40,7 @@ export default function PostBox() {
             src={profilePicture  || 'https://placehold.co/40x40'}
           />
           <input onClick={() => setModalOpen(true)}
-            className="w-full p-2 bg-gray-200 rounded-full"
+            className="w-full p-2 bg-gray-50 rounded-full"
             placeholder="¿Qué estás pensando?"
             type="text"  readOnly 
           />
