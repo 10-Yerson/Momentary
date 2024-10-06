@@ -58,24 +58,6 @@ export default function UserPanel() {
             <li
               class="mt-3 p-2 hover:text-blue-600 dark-hover:text-blue-300
 				rounded-lg">
-              <a
-                href="/client/earnings"
-                class=" flex flex-col items-center">
-                <svg class="fill-current h-5 w-5" viewBox="0 0 24 24">
-                  <path
-                    d="M21 18v1a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0
-							012-2h14a2 2 0 012 2v1h-9a2 2 0 00-2 2v8a2 2 0 002
-							2m0-2h10V8H12m4 5.5a1.5 1.5 0 01-1.5-1.5 1.5 1.5 0
-							011.5-1.5 1.5 1.5 0 011.5 1.5 1.5 1.5 0 01-1.5 1.5z"></path>
-                </svg>
-                <span class="text-xs mt-2">earnings</span>
-              </a>
-
-            </li>
-
-            <li
-              class="mt-3 p-2 hover:text-blue-600 dark-hover:text-blue-300
-				rounded-lg">
               <a href="/client/jobs" class=" flex flex-col items-center">
                 <svg class="fill-current h-5 w-5" viewBox="0 0 512 512">
                   <path
@@ -113,12 +95,24 @@ export default function UserPanel() {
               <a
                 href="#"
                 class=" flex flex-col items-center">
-                <svg class="fill-current h-5 w-5" viewBox="0 0 24 24">
-                  <path
-                    d="M17 10.5V7a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0
-							001 1h12a1 1 0 001-1v-3.5l4 4v-11l-4 4z"></path>
+                <svg class="fill-current h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2a7 7 0 00-7 7v5a3 3 0 01-2 2.83V18h18v-1.17a3 3 0 01-2-2.83V9a7 7 0 00-7-7zm0 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
                 </svg>
-                <span class="text-xs mt-2">lesson</span>
+                <span class="text-xs mt-2">Notificaciones</span>
+              </a>
+
+            </li>
+
+            <li
+              class="mt-3 p-2 hover:text-blue-600 dark-hover:text-blue-300
+				rounded-lg">
+              <a
+                href="/client/earnings"
+                class=" flex flex-col items-center">
+                <svg class="fill-current h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z" />
+                </svg>
+                <span class="text-xs mt-2">Perfil</span>
               </a>
 
             </li>

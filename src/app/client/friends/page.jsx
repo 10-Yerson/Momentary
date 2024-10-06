@@ -1,4 +1,4 @@
-'use cleint'
+'use client'
 
 import { MyProvider, useState } from '../context/MyContext';
 import UserPanel from '../components/Dasboard/siderbar'

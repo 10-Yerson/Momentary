@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'next/navigation'; // Hook para obtener parámetros de la URL
 import axios from '../../../../utils/axios'; // Asegúrate de ajustar la ruta
 import { toast } from 'react-toastify';
@@ -9,6 +9,7 @@ import ProfileBio from './components/ProfileBio';
 import ProfileHighlights from './components/ProfileHighlights';
 import ProfileTabs from './components/ProfileTabs';
 import ProfilePost from './components/ProfilePost';
+import { MyProvider, useState } from '../../context/MyContext';
 
 const UserProfile = () => {
   // const { id } = useParams(); // Obtener el ID del usuario desde la URL
@@ -45,16 +46,15 @@ const UserProfile = () => {
   // }
 
   return (
-
-    <main className='my-1 pt-2 pb-2 px-10 max-w-[80vw] flex-1 dark:bg-black rounded-l-lg transition duration-500 ease-in-out overflow-y-auto mx-auto'>
-      <ProfileHeader />
-      <ProfileBio />
-      {/* <ProfileHighlights /> */}
-      <ProfileTabs />
-      <ProfilePost />
-
-    </main>
-
+    <MyProvider>
+     <main className='my-1 pt-2 pb-2 px-10 max-w-[80vw] flex-1 dark:bg-black rounded-l-lg transition duration-500 ease-in-out overflow-y-auto mx-auto'>
+        <ProfileHeader />
+        <ProfileBio />
+        <ProfileTabs />
+        <ProfilePost />
+      </main>
+    </MyProvider>
+ 
   );
 };
 
