@@ -41,18 +41,44 @@ export default function ProfilePost() {
 
   return (
     <div className="p-4">
-      {message && <p className="text-center text-gray-500 pt-10 text-1xl">{message}</p>} {/* Muestra el mensaje si existe */}
-      {!message && publications.length > 0 ? (
-        publications.map((pub) => (
-          <div key={pub._id} className="border p-2 my-2 rounded">
-            <img src={pub.image} alt="Post" className="w-full h-48 object-cover rounded" />
-            <p className="mt-2">{pub.description}</p>
+    {message && <p className="text-center text-gray-500 pt-10 text-1xl">{message}</p>}
+    {!message && publications.length > 0 ? (
+      publications.map((publication) => (
+        <div key={publication._id} className="p-4 border border-gray-300 rounded-lg shadow-sm my-2">
+          <div className="flex items-center space-x-4 mb-2">
+            <img
+              src={publication.user.profilePicture || 'https://metro.co.uk/wp-content/uploads/2018/09/sei_30244558-285d.jpg?quality=90&strip=all'}
+              alt="Perfil"
+              className="w-10 h-10 rounded-full object-cover"
+            />
+            <div>
+              <h3 className="text-lg font-semibold">{publication.user.name}</h3>
+              <p className="text-sm text-gray-500">{new Date(publication.createdAt).toLocaleString()}</p>
+            </div>
           </div>
-        ))
-      ) : (
-        !message && <p className="text-center text-gray-500 pt-10 text-1xl">No hay publicaciones de este usuario.</p>
-      )}
-      <ToastContainer />
-    </div>
+          
+          <p className="mb-4">{publication.description}</p>
+          
+          {publication.image && (
+            <img
+              src={publication.image}
+              alt="Imagen de la publicación"
+              className="w-full h-96 object-cover rounded-lg"
+            />
+          )}
+          
+          <div className="flex justify-between items-center mt-4">
+            <p className="text-sm text-gray-500">👍 {publication.likes} Likes</p>
+            <p className="text-sm text-gray-500">💬 {publication.comments.length} Comentarios</p>
+            <p className="text-sm text-gray-500">🔄 {publication.shares} Compartidos</p>
+          </div>
+        </div>
+      ))
+    ) : (
+      !message && <p className="text-center text-gray-500 pt-10 text-1xl">No hay publicaciones de este usuario.</p>
+    )}
+    <ToastContainer />
+  </div>
+  
   );
 }

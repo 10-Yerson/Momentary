@@ -49,17 +49,20 @@ export default function ProfileInfo() {
       if (!userId) {
         throw new Error('ID del usuario no encontrado en sessionStorage');
       }
-
       const formData = new FormData();
       formData.append('profilePicture', selectedImage);
-
       const response = await axios.put(`/api/user/profile/${userId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-
-      setProfilePicture(response.data.profilePicture);
+  
+      // Actualizamos el estado 'data' con la nueva imagen de perfil
+      setdata(prevData => ({
+        ...prevData,
+        profilePicture: response.data.profilePicture,
+      }));
+  
       toast.success('Imagen de perfil actualizada exitosamente');
       setIsModalOpen(false);
     } catch (error) {
@@ -67,6 +70,7 @@ export default function ProfileInfo() {
       toast.error('Error actualizando la imagen de perfil');
     }
   };
+  
 
   return (
     <div className="flex flex-col items-center space-x-4">

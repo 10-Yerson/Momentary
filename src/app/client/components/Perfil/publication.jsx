@@ -59,9 +59,6 @@ export default function PublicationGetting() { // Cambié el nombre del componen
                                 <p className="text-sm text-gray-500">👍 {publication.likes} Likes</p>
                                 <p className="text-sm text-gray-500">💬 {publication.comments.length} Comentarios</p>
                                 <p className="text-sm text-gray-500">🔄 {publication.shares} Compartidos</p>
-                                {/* <p className="text-sm text-gray-500">👍 Likes: {publication.likes}</p>
-                                <p className="text-sm text-gray-500">💬 Comentarios: {publication.comments.length}</p>
-                                <p className="text-sm text-gray-500">🔄 Compartidos: {publication.shares}</p> */}
                             </div>
                         </div>
                     ))}

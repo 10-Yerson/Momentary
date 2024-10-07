@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify'; // Asegúrate de importa
 import 'react-toastify/dist/ReactToastify.css';
 import './main.css';
 import { useRouter } from 'next/navigation';
+const URL_API = process.env.NEXT_PUBLIC_BASE_URL
 
 export default function Register() {
     const [name, setName] = useState('');
@@ -50,7 +51,7 @@ export default function Register() {
 
     const dataMain = { name, apellido, fechaNacimiento, genero, email, password };
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', dataMain);
+      const response = await axios.post(`${URL_API}/api/auth/register`, dataMain);
       toast.success('Registration successful!');
       router.push('/auth/sign-in');
     } catch (error) {

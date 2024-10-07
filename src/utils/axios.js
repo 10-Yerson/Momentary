@@ -1,9 +1,11 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL:  process.env.NEXT_PUBLIC_BASE_URL,
     timeout: 5000,
 });
+console.log('Base URL:',  process.env.NEXT_PUBLIC_BASE_URL);
+
 
 // Interceptor para agregar el token a cada solicitud
 instance.interceptors.request.use(
