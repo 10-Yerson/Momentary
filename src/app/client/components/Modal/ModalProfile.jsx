@@ -4,7 +4,7 @@ import axios from '../../../../utils/axios'
 import React, { useEffect, useState } from "react";
 
 export default function ModalProfile({ isOpen, onClose }) {
-    if (!isOpen) return null;
+    if (!isOpen) return;
 
     const [data, setData] = useState(null);
     const [userName, setUserName] = useState('');
@@ -26,12 +26,13 @@ export default function ModalProfile({ isOpen, onClose }) {
 
             } catch (error) {
                 console.error('Error fetching data:', error);
-                toast.error('Error cargando datos del usuario');
             }
         };
 
         fetchData();
-    }, []);
+    }, [isOpen]);
+    if (!isOpen) return null;
+
     return (
         <div className="absolute right-6 top-16 w-80 bg-white shadow-lg rounded-lg">
             <div className="flex justify-between items-center p-4 border-b">

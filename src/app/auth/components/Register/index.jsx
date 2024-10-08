@@ -52,11 +52,11 @@ export default function Register() {
     const dataMain = { name, apellido, fechaNacimiento, genero, email, password };
     try {
       const response = await axios.post(`${URL_API}/api/auth/register`, dataMain);
-      toast.success('Registration successful!');
+      toast.success("Registration successful!")
       router.push('/auth/sign-in');
     } catch (error) {
       console.log('Error', error);
-      toast.error('Revisa tus datos');
+      toast.error("Revisa tus datos");
     }
   };
 
