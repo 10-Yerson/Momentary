@@ -31,15 +31,15 @@ export default function Register() {
 
   const validateForm = () => {
     if (!name || !apellido || !fechaNacimiento || !genero || !email || !password || !confirmPassword) {
-      toast.error('Por favor, completa todos los campos.');
+      toast.error("Por favor, completa todos los campos.");
       return false;
     }
     if (password !== confirmPassword) {
-      toast.error('Las contraseñas no coinciden.');
+      toast.error("Las contraseñas no coinciden.");
       return false;
     }
     if (!termsAccepted) {
-      toast.error('Debes aceptar los términos y condiciones.');
+      toast.error("Debes aceptar los términos y condiciones.");
       return false;
     }
     return true;
