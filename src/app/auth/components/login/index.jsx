@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import './main.css';
 import Link from 'next/link';
 import axios from '../../../../utils/axios';
 import { ToastContainer, toast } from 'react-toastify'; // Asegúrate de importar 'toast'
@@ -44,81 +43,74 @@ export default function Login() {
     };
 
     return (
-        <div className='flex flex-row justify-center w-screen h-screen bg-black gap-x-5'>
-            <div className='w-[50vw] flex justify-end'>
-                <form className="form" onSubmit={handleLogin}>
-                    <div className="flex-column">
-                        <label>Email </label>
+        <div className="flex flex-col md:flex-row justify-center items-center w-screen h-screen bg-black">
+            <div className="md:w-[50vw] flex justify-center items-center">
+                <form className="flex flex-col bg-white p-5 md:p-7 w-full md:w-[70%] lg:w-[65%] rounded-lg h-[66vh]" onSubmit={handleLogin}>
+                    <div className="flex flex-col mb-2">
+                        <label className="font-semibold text-center text-2xl">Momentary</label>
                     </div>
-                    <div className="inputForm">
-                        <svg
-                            height="20"
-                            viewBox="0 0 32 32"
-                            width="20"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
+                    <div className="flex flex-col mb-2">
+                        <label className="text-gray-800 font-semibold">Email</label>
+                    </div>
+                    <div className="flex items-center border border-gray-200 rounded-lg h-12 px-2 transition duration-200 focus-within:border-blue-500">
+                        <svg height="20" viewBox="0 0 32 32" width="20" xmlns="http://www.w3.org/2000/svg">
                             <g id="Layer_3" data-name="Layer 3">
-                                <path
-                                    d="m30.853 13.87a15 15 0 0 0 -29.729 4.082 15.1 15.1 0 0 0 12.876 12.918 15.6 15.6 0 0 0 2.016.13 14.85 14.85 0 0 0 7.715-2.145 1 1 0 1 0 -1.031-1.711 13.007 13.007 0 1 1 5.458-6.529 2.149 2.149 0 0 1 -4.158-.759v-10.856a1 1 0 0 0 -2 0v1.726a8 8 0 1 0 .2 10.325 4.135 4.135 0 0 0 7.83.274 15.2 15.2 0 0 0 .823-7.455zm-14.853 8.13a6 6 0 1 1 6-6 6.006 6.006 0 0 1 -6 6z"
-                                ></path>
+                                <path d="m30.853 13.87a15 15 0 0 0 -29.729 4.082 15.1 15.1 0 0 0 12.876 12.918 15.6 15.6 0 0 0 2.016.13 14.85 14.85 0 0 0 7.715-2.145 1 1 0 1 0 -1.031-1.711 13.007 13.007 0 1 1 5.458-6.529 2.149 2.149 0 0 1 -4.158-.759v-10.856a1 1 0 0 0 -2 0v1.726a8 8 0 1 0 .2 10.325 4.135 4.135 0 0 0 7.83.274 15.2 15.2 0 0 0 .823-7.455zm-14.853 8.13a6 6 0 1 1 6-6 6.006 6.006 0 0 1 -6 6z" />
                             </g>
                         </svg>
                         <input
-                            value={email}  // Corregido 'vale' a 'value'
+                            value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
                             type="text"
-                            className="input"
+                            className="ml-2 rounded-lg border-none w-full h-full focus:outline-none"
                             placeholder="Enter your Email"
                         />
                     </div>
 
-                    <div className="flex-column">
-                        <label>Password </label>
+                    <div className="flex flex-col mt-4">
+                        <label className="text-gray-800 font-semibold">Password</label>
                     </div>
-                    <div className="inputForm">
-                        <svg
-                            height="20"
-                            viewBox="-64 0 512 512"
-                            width="20"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="m336 512h-288c-26.453125 0-48-21.523438-48-48v-224c0-26.476562 21.546875-48 48-48h288c26.453125 0 48 21.523438 48 48v224c0 26.476562-21.546875 48-48 48zm-288-288c-8.8125 0-16 7.167969-16 16v224c0 8.832031 7.1875 16 16 16h288c8.8125 0 16-7.167969 16-16v-224c0-8.832031-7.1875-16-16-16zm0 0"
-                            ></path>
-                            <path
-                                d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0"
-                            ></path>
+                    <div className="flex items-center border border-gray-200 rounded-lg h-12 px-2 transition duration-200 focus-within:border-blue-500">
+                        <svg height="20" viewBox="-64 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="m336 512h-288c-26.453125 0-48-21.523438-48-48v-224c0-26.476562 21.546875-48 48-48h288c26.453125 0 48 21.523438 48 48v224c0 26.476562-21.546875 48-48 48zm-288-288c-8.8125 0-16 7.167969-16 16v224c0 8.832031 7.1875 16 16 16h288c8.8125 0 16-7.167969 16-16v-224c0-8.832031-7.1875-16-16-16zm0 0" />
+                            <path d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0" />
                         </svg>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
-                            className="input"
+                            className="ml-2 rounded-lg border-none w-full h-full focus:outline-none"
                             placeholder="Enter your Password"
                         />
                     </div>
-                    <div class="flex flex-row items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <input type="radio" class="form-radio text-blue-600" />
-                            <label class="text-black font-normal text-sm">Remember me</label>
+
+                    <div className="flex items-center justify-between mt-4">
+                        <div className="flex items-center gap-2">
+                            <input type="radio" className="form-radio text-blue-600" />
+                            <label className="text-gray-800 font-normal text-sm">Remember me</label>
                         </div>
-                        <span class="text-blue-600 text-sm font-medium cursor-pointer">Forgot password?</span>
+                        <span className="text-blue-600 text-sm font-medium cursor-pointer">Forgot password?</span>
                     </div>
-                    <button className="button-submit" type="submit">Iniciar Sesión</button>
-                    <p className="p">No tienes cuenta?
+
+                    <button className="mt-4 bg-gray-800 text-white font-medium text-sm rounded-lg h-12 w-full transition duration-200 hover:bg-gray-900" type="submit">Iniciar Sesión</button>
+
+                    <p className="text-center text-gray-800 text-sm mt-4">No tienes cuenta?
                         <Link href="/auth/sign-up">
-                            <span className="span">Register</span>
+                            <span className="ml-1 text-blue-600 font-medium cursor-pointer">Register</span>
                         </Link>
                     </p>
                 </form>
             </div>
 
-            <div className='flex justify-center content-center w-[50vw] h-[90vh]'>
-                <div className='background-dg'>.</div>
+            <div className="hidden md:flex justify-center items-center md:w-[50%]">
+                <img className="bg-cover bg-center w-[50%]" src="/img/leopardo-fondo-negro.jpg" alt="img" />
             </div>
+
             <ToastContainer />
         </div>
+
+
     );
 }
