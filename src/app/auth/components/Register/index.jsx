@@ -31,15 +31,15 @@ export default function Register() {
 
   const validateForm = () => {
     if (!name || !apellido || !fechaNacimiento || !genero || !email || !password || !confirmPassword) {
-      toast.error('Por favor, completa todos los campos.');
+      toast.error('Por favor, completa todos los campos');
       return false;
     }
     if (password !== confirmPassword) {
-      toast.error('Las contraseñas no coinciden.');
+      toast.error('Las contraseñas no coinciden');
       return false;
     }
     if (!termsAccepted) {
-      toast.error('Debes aceptar los t&eacute;rminos y condiciones.');
+      toast.error('Debes aceptar los terminos y condiciones');
       return false;
     }
     return true;
@@ -52,7 +52,7 @@ export default function Register() {
     const dataMain = { name, apellido, fechaNacimiento, genero, email, password };
     try {
       const response = await axios.post(`${URL_API}/api/auth/register`, dataMain);
-      toast.success('Registration successful!')
+      toast.success('Registration successful')
       router.push('/auth/sign-in');
     } catch (error) {
       console.log('Error', error);
