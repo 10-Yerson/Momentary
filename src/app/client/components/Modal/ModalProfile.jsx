@@ -4,34 +4,35 @@ import axios from '../../../../utils/axios'
 import React, { useEffect, useState } from "react";
 
 export default function ModalProfile({ isOpen, onClose }) {
-    if (!isOpen) return;
+  // Inicializa los estados fuera de cualquier condición
+  const [data, setData] = useState(null);
+  const [userName, setUserName] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [profilePicture, setProfilePicture] = useState('');
 
-    const [data, setData] = useState(null);
-    const [userName, setUserName] = useState('');
-    const [lastname, setLastname] = useState('')
-    const [profilePicture, setProfilePicture] = useState('')
+  useEffect(() => {
+    if (!isOpen) return; 
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const userId = sessionStorage.getItem('userId');
-                if (!userId) {
-                    throw new Error('ID del usuario no encontrado en sessionStorage');
-                }
-                const response = await axios.get(`/api/user/${userId}`);
-                setData(response.data)
-                setUserName(response.data.name);
-                setLastname(response.data.apellido);
-                setProfilePicture(response.data.profilePicture)
+    const fetchData = async () => {
+      try {
+        const userId = sessionStorage.getItem('userId');
+        if (!userId) {
+          throw new Error('ID del usuario no encontrado en sessionStorage');
+        }
+        const response = await axios.get(`/api/user/${userId}`);
+        setData(response.data);
+        setUserName(response.data.name);
+        setLastname(response.data.apellido);
+        setProfilePicture(response.data.profilePicture);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
+    fetchData();
+  }, [isOpen]); 
 
-        fetchData();
-    }, [isOpen]);
-    if (!isOpen) return null;
+  if (!isOpen) return null;
 
     return (
         <div className="absolute right-6 top-16 w-80 bg-white shadow-lg rounded-lg">
