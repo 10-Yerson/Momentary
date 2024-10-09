@@ -31,7 +31,7 @@ export default function Register() {
 
   const validateForm = () => {
     if (!name || !apellido || !fechaNacimiento || !genero || !email || !password || !confirmPassword) {
-      toast.error('Por favor, completa todos los campos');
+      toast.error('Completa todos los campos');
       return false;
     }
     if (password !== confirmPassword) {
