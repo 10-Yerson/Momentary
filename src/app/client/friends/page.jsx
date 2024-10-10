@@ -8,7 +8,7 @@ export default function ViewPublication() {
     return (
         <MyProvider>
             <UserPanel />
-            <div className='flex overflow-hidden select-none ml-32 flex-1'>
+            <div className='flex overflow-hidden select-none ml-40 flex-1'>
                 <Amigos/>
             </div>
         </MyProvider>

@@ -10,7 +10,7 @@ export default function UserPanel() {
     <>
       <ToastContainer />
       <div className="bg-gray-100 dark:bg-gray-900 flex-1">
-        <nav className="w-32 flex flex-col items-center bg-white dark:bg-gray-800 py-4 fixed h-screen">
+        <nav className="w-40 flex flex-col items-center bg-white dark:bg-gray-800 py-4 fixed h-screen">
           <div>
             <svg
               className="h-8 w-8 fill-current text-blue-600 dark:text-blue-300"
