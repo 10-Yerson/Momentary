@@ -22,7 +22,7 @@ export default function UserPanel() {
     <li className="p-2 text-blue-600 dark:text-blue-300">
       <a href={href} className="flex flex-col items-center">
         {icon}
-        <span className="text-xs mt-1">{label}</span>
+        <span className="text-xs">{label}</span>
       </a>
     </li>
   );
@@ -65,7 +65,7 @@ export default function UserPanel() {
                   <path d="M23 3v-.5a2.5 2.5 0 00-5 0V3c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h5c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1m-1 0h-3v-.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5V3M6 11h9v2H6v-2m0-4h9v2H6V7m16 4v5c0 1.11-.89 2-2 2H6l-4 4V4a2 2 0 012-2h11v2H4v13.17L5.17 16H20v-5h2z" />
                 </svg>
               }
-              label="messages"
+              label="ㅤ"
             />
             <NavItems
               href="/client/jobs"
@@ -74,25 +74,25 @@ export default function UserPanel() {
                   <path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z" />
                 </svg>
               }
-              label="Buscar"
+              label="ㅤ"
             />
             <NavItems
-              href="/client/friends"
+              href="/client"
               icon={
                 <svg className="fill-current h-6 w-6" viewBox="0 0 24 24">
                   <path d="M19 5v2h-4V5h4M9 5v6H5V5h4m10 8v6h-4v-6h4M9 17v2H5v-2h4M21 3h-8v6h8V3M11 3H3v10h8V3m10 8h-8v10h8V11m-10 4H3v6h8v-6z" />
                 </svg>
               }
-              label="Seguidores"
+              label="ㅤ"
             />
             <NavItems
-              href="/client"
+              href="/client/#"
               icon={
                 <svg className="fill-current h-5 w-5" viewBox="0 0 24 24">
                   <path d="M12 2a7 7 0 00-7 7v5a3 3 0 01-2 2.83V18h18v-1.17a3 3 0 01-2-2.83V9a7 7 0 00-7-7zm0 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
                 </svg>
               }
-              label="Notificaciones"
+              label="ㅤ"
             />
             <NavItems
               href="/client/earnings"
@@ -101,7 +101,7 @@ export default function UserPanel() {
                   <path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z" />
                 </svg>
               }
-              label="Perfil"
+              label="ㅤ"
             />
           </ul>
         </nav>
