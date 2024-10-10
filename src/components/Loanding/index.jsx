@@ -4,7 +4,7 @@ import './main.css'
 export default function Loandig() {
   return (
 
-    <div className="relative h-[90vh] flex flex-col justify-end">
+    <div className=" h-[90vh] flex flex-col justify-end">
       <div className="area">
         <ul className="circles">
           <li></li>

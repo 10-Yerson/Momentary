@@ -43,13 +43,13 @@ export default function Login() {
     };
 
     return (
-        <div className="flex flex-col md:flex-row justify-center items-center w-screen h-screen bg-black">
-            <div className="md:w-[50vw] flex justify-center items-center">
-                <form className="flex flex-col bg-white p-5 md:p-7 w-full md:w-[70%] lg:w-[65%] rounded-lg h-[66vh]" onSubmit={handleLogin}>
-                    <div className="flex flex-col mb-2">
+        <div className="flex flex-col md:flex-row justify-center items-center h-screen">
+            <div className="md:w-[50%] flex justify-center items-center w-full h-full">
+                <form className="flex flex-col bg-white p-5 md:p-7 w-[90%] rounded-lg md:w-[70%] gap-3" onSubmit={handleLogin}>
+                    <div className="flex flex-col">
                         <label className="font-semibold text-center text-2xl">Momentary</label>
                     </div>
-                    <div className="flex flex-col mb-2">
+                    <div className="flex flex-col">
                         <label className="text-gray-800 font-semibold">Email</label>
                     </div>
                     <div className="flex items-center border border-gray-200 rounded-lg h-12 px-2 transition duration-200 focus-within:border-blue-500">
@@ -81,7 +81,7 @@ export default function Login() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
-                            className="ml-2 rounded-lg border-none w-full h-full focus:outline-none"
+                            className="ml-2 rounded-lg border-none w-full h-full focus:outline-noe"
                             placeholder="Enter your Password"
                         />
                     </div>
@@ -91,7 +91,7 @@ export default function Login() {
                             <input type="radio" className="form-radio text-blue-600" />
                             <label className="text-gray-800 font-normal text-sm">Remember me</label>
                         </div>
-                        <span className="text-blue-600 text-sm font-medium cursor-pointer">Forgot password?</span>
+                        <span className="text-blue-600 text-sm font-medium cursor-pointer">Olvide mi contraseña?</span>
                     </div>
 
                     <button className="mt-4 bg-gray-800 text-white font-medium text-sm rounded-lg h-12 w-full transition duration-200 hover:bg-gray-900" type="submit">Iniciar Sesión</button>
@@ -104,8 +104,8 @@ export default function Login() {
                 </form>
             </div>
 
-            <div className="hidden md:flex justify-center items-center md:w-[50%]">
-                <img className="bg-cover bg-center w-[50%]" src="/img/leopardo-fondo-negro.jpg" alt="img" />
+            <div className="hidden md:flex justify-center items-center md:w-[50%] h-full">
+                <img className="bg-cover bg-center w-[44%]" src="https://res.cloudinary.com/dbgj8dqup/image/upload/v1728571705/uploads/hcdj0ryb9sosdoqcwob7.png" alt="img" />
             </div>
 
             <ToastContainer />

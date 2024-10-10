@@ -62,7 +62,7 @@ export default function Register() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-[url('/img/fondoo.jpg')] bg-cover bg-center opacity-85">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2 bg-white px-7 py-5 rounded-2xl font-sans w-[91vw] sm:w-[40vw] opacity-95">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2 bg-white px-7 py-6 rounded-2xl font-sans w-[91vw] sm:w-[40vw] opacity-95">
         {step === 1 && (
           <div>
             <h2 className="text-3xl font-semibold text-gray-800 mb-8">Datos Personales</h2>
@@ -126,10 +126,9 @@ export default function Register() {
         )}
 
         {step === 2 && (
-          <div className="flex flex-col gap-2 h-[85vh] sm:h-[80%] lg:h-full">
-            <h2 className="text-3xl font-semibold text-gray-800 mb-8 text-center">Credenciales de Inicio de Sesión</h2>
+          <div className="flex flex-col gap-2 sm:h-[80%] lg:h-full">
+            <h2 className="text-3xl font-semibold text-gray-800 mb-4 text-center">Credenciales de Inicio de Sesión</h2>
 
-            {/* Campo de Email */}
             <div className="flex flex-col mb-1">
               <label className="text-gray-900 font-semibold">Email</label>
             </div>
@@ -163,7 +162,7 @@ export default function Register() {
               />
             </div>
 
-            <div className="flex flex-col mb-1">
+            <div className="flex flex-col">
               <label className="text-gray-900 font-semibold">Confirm Password</label>
             </div>
             <div className="relative border border-gray-200 rounded-lg h-12 flex items-center pl-2 transition-all duration-200 ease-in-out focus-within:border-blue-600">
@@ -180,7 +179,7 @@ export default function Register() {
               />
             </div>
 
-            <div className="flex items-center mt-4 mb-2">
+            <div className="flex items-center mt-2">
               <input
                 type="checkbox"
                 checked={termsAccepted}
@@ -197,7 +196,7 @@ export default function Register() {
               Sign Up
             </button>
 
-            <p className="text-center text-black text-sm my-2">
+            <p className="text-center text-black text-sm my-1">
               Don't have an account? <span className="text-blue-600 font-medium cursor-pointer">
                 <a href="/auth/sign-in">Sign In</a>
               </span>
