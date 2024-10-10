@@ -65,9 +65,9 @@ export default function Register() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-2 bg-white px-7 py-6 rounded-2xl font-sans w-[91vw] sm:w-[40vw] opacity-95">
         {step === 1 && (
           <div>
-            <h2 className="text-3xl font-semibold text-gray-800 mb-8">Datos Personales</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-8">Datos Personales</h2>
 
-            <div className="flex flex-col mt-3 mb-1">
+            <div className="flex flex-col mt-3">
               <label htmlFor="name" className="text-gray-900 font-semibold">Nombre</label>
             </div>
             <div className="relative border border-gray-200 rounded-lg h-12 flex items-center pl-2 transition-all duration-200 ease-in-out focus-within:border-blue-600">
@@ -78,7 +78,7 @@ export default function Register() {
                 placeholder="Enter your Nombre" className="pl-5 pr-2 w-full h-full border-none rounded-lg outline-none" type="text" />
             </div>
 
-            <div className="flex flex-col mt-3 mb-1">
+            <div className="flex flex-col mt-3">
               <label htmlFor="apellido" className="text-gray-900 font-semibold">Apellido</label>
             </div>
             <div className="relative border border-gray-200 rounded-lg h-12 flex items-center pl-2 transition-all duration-200 ease-in-out focus-within:border-blue-600">
@@ -89,7 +89,7 @@ export default function Register() {
                 placeholder="Enter your Apellido" className="pl-5 pr-2 w-full h-full border-none rounded-lg outline-none" type="text" />
             </div>
 
-            <div className="flex flex-col mt-3 mb-1">
+            <div className="flex flex-col mt-3">
               <label htmlFor="fechaNacimiento" className="text-gray-900 font-semibold">Fecha de Nacimiento</label>
             </div>
             <div className="relative border border-gray-200 rounded-lg h-12 flex items-center pl-2 transition-all duration-200 ease-in-out focus-within:border-blue-600">
@@ -127,9 +127,9 @@ export default function Register() {
 
         {step === 2 && (
           <div className="flex flex-col gap-2 sm:h-[80%] lg:h-full">
-            <h2 className="text-3xl font-semibold text-gray-800 mb-4 text-center">Credenciales de Inicio de Sesión</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-3 text-center">Credenciales de Inicio de Sesión</h2>
 
-            <div className="flex flex-col mb-1">
+            <div className="flex flex-col">
               <label className="text-gray-900 font-semibold">Email</label>
             </div>
             <div className="relative border border-gray-200 rounded-lg h-12 flex items-center pl-2 transition-all duration-200 ease-in-out focus-within:border-blue-600">
@@ -145,7 +145,7 @@ export default function Register() {
               />
             </div>
 
-            <div className="flex flex-col mb-1">
+            <div className="flex flex-col">
               <label className="text-gray-900 font-semibold">Password</label>
             </div>
             <div className="relative border border-gray-200 rounded-lg h-12 flex items-center pl-2 transition-all duration-200 ease-in-out focus-within:border-blue-600">
@@ -193,20 +193,14 @@ export default function Register() {
               type="submit"
               className="bg-gray-900 text-white text-base font-medium rounded-lg h-12 w-full mt-5 mb-2 cursor-pointer opacity-95"
             >
-              Sign Up
+              Registrar
             </button>
-
-            <p className="text-center text-black text-sm my-1">
-              Don't have an account? <span className="text-blue-600 font-medium cursor-pointer">
-                <a href="/auth/sign-in">Sign In</a>
-              </span>
-            </p>
 
             <div className="flex justify-between">
               <button type="button" onClick={prevStep}
                 className="flex items-center justify-center px-4 h-10 me-3 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 focus:outline-none"
               >
-                Back
+                Volver
               </button>
             </div>
           </div>
