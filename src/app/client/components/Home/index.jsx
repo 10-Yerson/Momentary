@@ -38,7 +38,7 @@ export default function Welcome() {
 
   return (
     <>
-      <div className="h-screen flex overflow-hidden select-none ml-40 flex-1">
+      <div className="h-screen flex overflow-hidden select-none md:ml-40 ml-0  flex-1">
         <main className="pt-2 pb-2 px-10 flex-1 bg-white dark:bg-black rounded-l-lg
 		      transition duration-500 ease-in-out overflow-hidden">
           <div className="flex flex-col capitalize text-3xl">
