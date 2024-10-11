@@ -27,7 +27,7 @@ const PublicationForm = () => {
         }
 
         const token = localStorage.getItem('token');
-        const userId = sessionStorage.getItem('userId');
+        const userId = localStorage.getItem('userId');
 
         try {
             const response = await axios.post('/api/publication', formData, {

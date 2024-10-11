@@ -17,7 +17,7 @@ export default function Amigos() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const userId = sessionStorage.getItem('userId');
+        const userId = localStorage.getItem('userId');
         setLoading(true); // Iniciar la carga
         const [followersResponse, followingResponse] = await Promise.all([
           axios.get(`/api/followers/seguidores/${userId}`), // Petición para obtener seguidores

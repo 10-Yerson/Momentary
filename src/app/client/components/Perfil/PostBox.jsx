@@ -14,9 +14,9 @@ export default function PostBox() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userId = sessionStorage.getItem('userId');
+        const userId = localStorage.getItem('userId');
         if (!userId) {
-          throw new Error('ID del usuario no encontrado en sessionStorage');
+          throw new Error('ID del usuario no encontrado en localStorage');
         }
         const response = await axios.get(`/api/user/${userId}`);
         setdata(response.data);

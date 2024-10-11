@@ -45,9 +45,9 @@ export default function ProfileInfo() {
 
   const handleSaveImage = async () => {
     try {
-      const userId = sessionStorage.getItem('userId');
+      const userId = localStorage.getItem('userId');
       if (!userId) {
-        throw new Error('ID del usuario no encontrado en sessionStorage');
+        throw new Error('ID del usuario no encontrado en localStorage');
       }
       const formData = new FormData();
       formData.append('profilePicture', selectedImage);

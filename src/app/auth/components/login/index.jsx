@@ -26,7 +26,7 @@ export default function Login() {
             toast.success('Login exitoso. Bienvenido');
             const { token, role, userId } = response.data;  // Incluye `userId` en la desestructuración
             localStorage.setItem('token', token);
-            sessionStorage.setItem('userId', userId); // Guardamos el ID del usuario en sessionStorage
+            localStorage.setItem('userId', userId); // Guardamos el ID del usuario en sessionStorage
             console.log('Datos de la respuesta:', response.data);
 
             // Redirige al usuario según su rol
