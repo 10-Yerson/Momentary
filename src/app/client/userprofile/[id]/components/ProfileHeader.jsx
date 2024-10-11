@@ -70,21 +70,21 @@ export default function ProfileHeader() {
       : 'Seguir';
 
   return (
-    <div className="flex items-center justify-between bg-white">
-      <div className="flex items-center">
+    <div className="flex flex-col md:flex-row items-center justify-between bg-white p-4 md:p-6 lg:p-8">
+      <div className="flex flex-col md:flex-row items-center text-center md:text-left">
         <img
           alt="Profile picture of user"
-          className="rounded-full border border-gray-200 shadow-lg w-32 h-32 object-cover"
+          className="rounded-full border border-gray-200 shadow-lg w-24 h-24 md:w-32 md:h-32 object-cover"
           src={user.profilePicture || "https://storage.googleapis.com/a1aa/image/Mu0ExRQkd0JqAtVC0PkQNVV8VJfpubi9jIe6TyXjgQBngzjTA.jpg"}
         />
-        <div className="ml-6">
-          <h2 className="text-2xl font-bold text-gray-800">{user.name || 'Nombre de usuario'}</h2>
-          <div className="flex space-x-4 mt-2 text-gray-600">
+        <div className="mt-4 md:mt-0 md:ml-6">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800">{user.name} {user.apellido}</h2>
+          <div className="flex justify-center md:justify-start space-x-4 mt-2 text-gray-600">
             <div><span className="font-bold">{user.postsCount || 0}</span> publicaciones</div>
             <div><span className="font-bold">{user.followers.length || 0}</span> seguidores</div>
             <div><span className="font-bold">{user.following.length || 0}</span> seguidos</div>
           </div>
-          <div className="mt-4 flex space-x-2">
+          <div className="mt-4 flex justify-center md:justify-start space-x-2">
             <button
               className={`px-4 py-1 rounded ${isFollowing ? 'bg-gray-200 text-gray-800' : 'bg-blue-500 text-white'}`}
               onClick={handleFollowToggle}
@@ -98,10 +98,11 @@ export default function ProfileHeader() {
           </div>
         </div>
       </div>
-      <div className="text-2xl">
+      <div className="mt-4 md:mt-0 text-2xl md:ml-6">
         <i className="fas fa-ellipsis-h"></i>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
+
   );
 }

@@ -10,6 +10,7 @@ import ProfileHighlights from './components/ProfileHighlights';
 import ProfileTabs from './components/ProfileTabs';
 import ProfilePost from './components/ProfilePost';
 import { MyProvider, useState } from '../../context/MyContext';
+import UserPanel from '../../components/Dasboard/siderbar';
 
 const UserProfile = () => {
   // const { id } = useParams(); // Obtener el ID del usuario desde la URL
@@ -47,14 +48,15 @@ const UserProfile = () => {
 
   return (
     <MyProvider>
-     <main className='my-1 pt-2 pb-2 px-10 max-w-[80vw] flex-1 dark:bg-black rounded-l-lg transition duration-500 ease-in-out overflow-y-auto mx-auto'>
+      <UserPanel />
+      <main className='flex overflow-hidden select-none md:ml-40 ml-0 flex-1 flex-col'>
         <ProfileHeader />
         <ProfileBio />
         <ProfileTabs />
         <ProfilePost />
       </main>
     </MyProvider>
- 
+
   );
 };
 
