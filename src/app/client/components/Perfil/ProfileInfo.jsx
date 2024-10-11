@@ -16,9 +16,9 @@ export default function ProfileInfo() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userId = sessionStorage.getItem('userId');
+        const userId = localStorage.getItem('userId');
         if (!userId) {
-          throw new Error('ID del usuario no encontrado en sessionStorage');
+          throw new Error('ID del usuario no encontrado en localStorage');
         }
         const response = await axios.get(`/api/user/${userId}`);
         setdata(response.data);
@@ -56,13 +56,13 @@ export default function ProfileInfo() {
           'Content-Type': 'multipart/form-data',
         },
       });
-  
+
       // Actualizamos el estado 'data' con la nueva imagen de perfil
       setdata(prevData => ({
         ...prevData,
         profilePicture: response.data.profilePicture,
       }));
-  
+
       toast.success('Imagen de perfil actualizada exitosamente');
       setIsModalOpen(false);
     } catch (error) {
@@ -70,37 +70,43 @@ export default function ProfileInfo() {
       toast.error('Error actualizando la imagen de perfil');
     }
   };
-  
+
 
   return (
-    <div className="flex flex-col items-center space-x-4">
-      <div className="flex items-center justify-around w-full my-10">
-        <div className="relative">
+    <div className="flex flex-row items-center justify-around w-full my-6 md:my-10 space-x-4">
+      <div className="relative">
+        <div className="rounded-full overflow-hidden w-16 h-16 sm:w-24 sm:h-24 md:w-36 md:h-36">
           <img
             src={data.profilePicture}
             alt="Profile picture"
-            className="rounded-full w-36 h-36 object-cover"
+            className="object-cover w-full h-full"
           />
-          <div className="absolute top-0 left-0 bg-white rounded-full px-3 py-1 text-sm shadow-md">
-            Nota...
-          </div>
-          <button onClick={() => setIsModalOpen(true)}
-            className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow">
-            <FaCamera size={23} color="black" />
-          </button>
         </div>
-        <div className="ml-8">
-          <div className="flex items-center">
-            <h1 className="text-2xl font-semibold"> {data.name} {data.apellido}</h1>
-            <button className="ml-4 px-6 py-2 border rounded-md text-md">Editar perfil</button>
-            <button className="ml-2 px-6 py-2 border rounded-md text-md">Ver archivo</button>
-            <i className="ml-2 fas fa-cog text-lg"></i>
-          </div>
-          <div className="flex mt-3 text-lg">
-            <span className="mr-6"><strong>0</strong> publicaciones</span>
-            <span className="mr-6"><strong>{data.followers?.length || 0}</strong> seguidores</span>
-            <span><strong>{data.following?.length || 0}</strong> seguidos</span>
-          </div>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow"
+        >
+          <FaCamera size={22} className="sm:text-lg md:text-2xl" color="black" />
+        </button>
+      </div>
+
+      <div className="flex flex-col items-start">
+        <div className="flex items-center space-x-2 sm:space-x-4">
+          <h1 className="text-base sm:text-xl md:text-3xl font-semibold">
+            {data.name} {data.apellido}
+          </h1>
+          <button className="px-3 sm:px-4 py-1 border rounded-md text-xs sm:text-sm md:text-lg">
+            Editar perfil
+          </button>
+          <button className="px-3 sm:px-4 py-1 border rounded-md text-xs sm:text-sm md:text-lg">
+            Ver archivo
+          </button>
+          <i className="fas fa-cog text-md sm:text-lg"></i>
+        </div>
+        <div className="flex mt-3 text-xs sm:text-sm md:text-lg space-x-4">
+          <span><strong>0</strong> publicaciones</span>
+          <span><strong>{data.followers?.length || 0}</strong> seguidores</span>
+          <span><strong>{data.following?.length || 0}</strong> seguidos</span>
         </div>
       </div>
       <Modal

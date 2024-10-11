@@ -19,7 +19,7 @@ export default function ProfileHeader() {
       try {
         const response = await axios.get(`/api/user/${id}`);
         setUser(response.data);
-        const currentUserId = sessionStorage.getItem('userId');
+        const currentUserId = localStorage.getItem('userId');
 
         // Actualizar el estado de `isFollowing` y `isFollowedBy` basado en la respuesta
         setIsFollowing(response.data.followers.includes(currentUserId));

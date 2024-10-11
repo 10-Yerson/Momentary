@@ -22,7 +22,7 @@ export default function PublicationGetting() { // Cambié el nombre del componen
 
     return (
         <>
-            <div className="mx-auto p-4 bg-white shadow-md rounded-lg mt-8">
+            <div className="mx-auto rounded-lg mt-8">
                 <h1 className="text-2xl font-semibold text-gray-800 mb-4">Mis Publicaciones</h1>
                 {error && <p className="text-red-500">{error}</p>}
 
