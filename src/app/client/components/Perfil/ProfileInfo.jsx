@@ -113,7 +113,7 @@ export default function ProfileInfo() {
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
         contentLabel="Upload Profile Picture"
-        className="relative bg-white p-8 rounded-lg max-w-lg mx-auto shadow-2xl transform transition-all duration-300 ease-out"
+        className="relative bg-white p-8 rounded-lg md:w-[50%] lg:w-[40%] w-[90%] mx-auto shadow-2xl transform transition-all duration-300 ease-out"
         overlayClassName="fixed inset-0 bg-gray-900 bg-opacity-75 flex justify-center items-center"
       >
         <button

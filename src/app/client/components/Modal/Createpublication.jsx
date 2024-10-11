@@ -57,7 +57,7 @@ export default function Createpublication({ isOpen, onClose }) {
     return (
         <div>
             <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                <form className="bg-white w-[37vw] rounded-lg shadow-lg p-6" onSubmit={handleSubmit}>
+                <form className="bg-white w-[85%]  md:w-[60%] rounded-lg lg:w-[50%] shadow-lg p-6" onSubmit={handleSubmit}>
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-xl font-semibold">Crear publicación</h2>
                         <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
