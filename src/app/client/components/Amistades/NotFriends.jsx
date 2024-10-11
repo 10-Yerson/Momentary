@@ -68,29 +68,22 @@ const UsersToFollow = () => {
   };
 
   return (
-    <div className="w-1/2 p-4">
+    <div className="w-full md:w-1/2 p-4">
       <h2 className="text-lg font-semibold mb-4">Usuarios para seguir</h2>
-
-      {/* Mostrar mensaje de cargando mientras se realiza la petición */}
       {loading ? (
-        <div className="flex-col gap-4 w-full flex items-center justify-center h-full">
-          <div
-            className="w-24 h-24 border-4 border-transparent text-blue-400 text-4xl animate-spin flex items-center justify-center border-t-blue-400 rounded-full"
-          >
-            <div
-              className="w-20 h-20 border-4 border-transparent text-red-400 text-2xl animate-spin flex items-center justify-center border-t-red-400 rounded-full"
-            ></div>
+        <div className="flex-col gap-4 flex items-center justify-center h-full w-full">
+          <div className="w-24 h-24 border-4 border-transparent text-blue-400 text-4xl animate-spin flex items-center justify-center border-t-blue-400 rounded-full">
+            <div className="w-20 h-20 border-4 border-transparent text-red-400 text-2xl animate-spin flex items-center justify-center border-t-red-400 rounded-full"></div>
           </div>
         </div>
       ) : users && users.length > 0 ? (
-        // Si hay usuarios disponibles, los muestra
         <ul>
           {users.map((user) => (
             <li key={user._id} className="flex justify-between items-center mb-4 p-2 border-b border-gray-200">
               <div className="flex items-center">
                 <Link href={`/client/userprofile/${user._id}`} className="flex items-center">
                   <img
-                    src={user.profilePicture || '/default-profile.png'} // Mostrar imagen por defecto si no hay una foto de perfil
+                    src={user.profilePicture || '/default-profile.png'}
                     alt="Foto de perfil"
                     className="w-10 h-10 rounded-full mr-4"
                   />
@@ -101,10 +94,8 @@ const UsersToFollow = () => {
               </div>
               <button
                 className={`px-4 py-2 ${following[user._id] ? 'bg-gray-500 cursor-default' : 'bg-blue-500 hover:bg-blue-700'} text-white rounded`}
-                onClick={() =>
-                  following[user._id] ? handleUnfollowUser(user._id) : handleFollowUser(user._id)
-                }
-                disabled={loading} // Deshabilita el botón si está cargando
+                onClick={() => following[user._id] ? handleUnfollowUser(user._id) : handleFollowUser(user._id)}
+                disabled={loading}
               >
                 {following[user._id] ? 'Siguiendo' : 'Seguir'}
               </button>
@@ -112,7 +103,6 @@ const UsersToFollow = () => {
           ))}
         </ul>
       ) : (
-        // Si no hay usuarios disponibles para seguir, muestra este mensaje
         <p>No hay usuarios disponibles para seguir.</p>
       )}
     </div>

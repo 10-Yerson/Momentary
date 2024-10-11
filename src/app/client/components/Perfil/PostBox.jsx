@@ -32,7 +32,7 @@ export default function PostBox() {
   }, []);
   
     return (
-      <div className="mt-4 bg-white p-4 rounded">
+      <div className="mt-4 bg-white rounded">
         <div className="flex items-center space-x-4">
           <img
             alt="User profile picture"
