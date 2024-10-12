@@ -53,7 +53,7 @@ export default function UserSeguidos({OpenIS, Modaltoggle}) {
             </div>
           </div>
         ) : data.length === 0 ? (
-          <p className="text-center text-gray-500 text-lg">No sigue a ningún perfil</p>
+          <p className="text-center text-gray-500 text-lg">Aún no sigue a ningún perfil.</p>
         ) : (
           <div className="mt-4 space-y-4 max-h-[400px] overflow-y-auto">
             {data.map((follower) => (

@@ -7,12 +7,13 @@ import Link from 'next/link';
 export default function Seguidos({ OpenIS, Modaltoggle }) {
 
   const [data, setData] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     if (!OpenIS) return;
 
     const FollowersData = async () => {
       try {
+        setLoading(true);
         const userId = localStorage.getItem('userId');
         if (!userId) {
           throw new Error('ID del usuario no encontrado en localStorage');
@@ -23,6 +24,8 @@ export default function Seguidos({ OpenIS, Modaltoggle }) {
       } catch (error) {
         console.error('Error fetching data:', error);
         toast.error('Error cargando datos del usuario');
+      } finally {
+        setLoading(false);
       }
     };
     FollowersData();
@@ -40,24 +43,39 @@ export default function Seguidos({ OpenIS, Modaltoggle }) {
           &times;
         </button>
         <h2 className="text-2xl font-bold mb-4 sm:text-lg md:text-xl">Seguidos</h2>
-        <div className="mt-4 space-y-4 max-h-[400px] overflow-y-auto">
-          {data.map((follower) => (
-            <div key={follower._id} className="flex items-center space-x-4 border-b pb-4">
-              <Link href={`/client/userprofile/${follower._id}`}>
-                <img
-                  src={follower.profilePicture}
-                  alt={`${follower.name} ${follower.apellido}`}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-              </Link>
-              <div>
-                <Link href={`/client/userprofile/${follower._id}`}>
-                  <p className="font-semibold text-gray-800">{follower.name} {follower.apellido}</p>
-                </Link>
+        {loading ? (
+          <div className="flex justify-center items-center w-1/2">
+            <div class="relative flex w-64 animate-pulse gap-2 p-4">
+              <div class="h-12 w-12 rounded-full bg-slate-400"></div>
+              <div class="flex-1">
+                <div class="mb-1 h-5 w-3/5 rounded-lg bg-slate-400 text-lg"></div>
+                <div class="h-5 w-[90%] rounded-lg bg-slate-400 text-sm"></div>
               </div>
+              <div class="absolute bottom-5 right-0 h-4 w-4 rounded-full bg-slate-400"></div>
             </div>
-          ))}
-        </div>
+          </div>
+        ) : data.length === 0 ? (
+          <p className="text-center text-gray-500">Todavía no sigues a nadie. ¡Explora y empieza a conectar!</p>
+        ) : (
+          <div className="mt-4 space-y-4 max-h-[400px] overflow-y-auto">
+            {data.map((follower) => (
+              <div key={follower._id} className="flex items-center space-x-4 border-b pb-4">
+                <Link href={`/client/userprofile/${follower._id}`}>
+                  <img
+                    src={follower.profilePicture}
+                    alt={`${follower.name} ${follower.apellido}`}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                </Link>
+                <div>
+                  <Link href={`/client/userprofile/${follower._id}`}>
+                    <p className="font-semibold text-gray-800">{follower.name} {follower.apellido}</p>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
       </div>
     </div>
