@@ -6,12 +6,16 @@ import { FaCamera } from 'react-icons/fa';
 import Modal from 'react-modal';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Seguidores from './Seguidores';
+import Seguidos from './Seguidos';
 Modal.setAppElement('body');
 
 export default function ProfileInfo() {
   const [selectedImage, setSelectedImage] = useState(null); // Nueva imagen seleccionada
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setdata] = useState([])
+  const [isOpen, setIsOpen] = useState(false);
+  const [OpenIs, setOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,6 +74,13 @@ export default function ProfileInfo() {
       toast.error('Error actualizando la imagen de perfil');
     }
   };
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const Modaltoggle = () => {
+    setOpen(!OpenIs);
+  };
 
 
   return (
@@ -105,9 +116,11 @@ export default function ProfileInfo() {
         </div>
         <div className="flex mt-3 text-xs sm:text-sm md:text-lg space-x-4">
           <span><strong>0</strong> publicaciones</span>
-          <span><strong>{data.followers?.length || 0}</strong> seguidores</span>
-          <span><strong>{data.following?.length || 0}</strong> seguidos</span>
+          <span onClick={toggleModal} ><strong>{data.followers?.length || 0}</strong> seguidores</span>
+          <span onClick={Modaltoggle}><strong>{data.following?.length || 0}</strong> seguidos</span>
         </div>
+        <Seguidores isOpen={isOpen} toggleModal={toggleModal} />
+        <Seguidos OpenIS={OpenIs} Modaltoggle={Modaltoggle} />
       </div>
       <Modal
         isOpen={isModalOpen}
