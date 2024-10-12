@@ -57,8 +57,12 @@ export default function ProfileHeader() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <div className="loader">Cargando...</div>
+      <div class="flex flex-row gap-2">
+        <div class="w-7 h-7 rounded-full bg-blue-700 animate-bounce [animation-delay:.7s]"></div>
+        <div class="w-7 h-7 rounded-full bg-blue-700 animate-bounce [animation-delay:.3s]"></div>
+        <div class="w-7 h-7 rounded-full bg-blue-700 animate-bounce [animation-delay:.7s]"></div>
       </div>
+    </div>
     );
   }
 

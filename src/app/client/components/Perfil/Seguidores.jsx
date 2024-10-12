@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios'
+import Link from 'next/link';
 
 export default function Seguidores({ isOpen, toggleModal }) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    if (!isOpen) return; 
+    if (!isOpen) return;
     const FollowersData = async () => {
       try {
         const userId = localStorage.getItem('userId');
@@ -40,13 +41,17 @@ export default function Seguidores({ isOpen, toggleModal }) {
         <div className="mt-4 space-y-4 max-h-[400px] overflow-y-auto">
           {data.map((follower) => (
             <div key={follower._id} className="flex items-center space-x-4 border-b pb-4">
-              <img
-                src={follower.profilePicture}
-                alt={`${follower.name} ${follower.apellido}`}
-                className="w-12 h-12 rounded-full object-cover"
-              />
+              <Link href={`/client/userprofile/${follower._id}`}>
+                <img
+                  src={follower.profilePicture}
+                  alt={`${follower.name} ${follower.apellido}`}
+                  className="w-12 h-12 rounded-full object-cover"
+                />
+              </Link>
               <div>
-                <p className="font-semibold text-gray-800">{follower.name} {follower.apellido}</p>
+                <Link href={`/client/userprofile/${follower._id}`}>
+                  <p className="font-semibold text-gray-800">{follower.name} {follower.apellido}</p>
+                </Link>
               </div>
             </div>
           ))}

@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios'
+import Link from 'next/link';
 
 export default function Seguidos({ OpenIS, Modaltoggle }) {
 
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    if (!OpenIS) return; 
+    if (!OpenIS) return;
 
     const FollowersData = async () => {
       try {
@@ -25,10 +26,10 @@ export default function Seguidos({ OpenIS, Modaltoggle }) {
       }
     };
     FollowersData();
-  }, [OpenIS]); 
+  }, [OpenIS]);
 
   if (!OpenIS) return null;
-  
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white p-6 rounded shadow-lg lg:w-[50%] md:w-[50%] w-[90%] relative">
@@ -42,13 +43,17 @@ export default function Seguidos({ OpenIS, Modaltoggle }) {
         <div className="mt-4 space-y-4 max-h-[400px] overflow-y-auto">
           {data.map((follower) => (
             <div key={follower._id} className="flex items-center space-x-4 border-b pb-4">
-              <img
-                src={follower.profilePicture}
-                alt={`${follower.name} ${follower.apellido}`}
-                className="w-12 h-12 rounded-full object-cover"
-              />
+              <Link href={`/client/userprofile/${follower._id}`}>
+                <img
+                  src={follower.profilePicture}
+                  alt={`${follower.name} ${follower.apellido}`}
+                  className="w-12 h-12 rounded-full object-cover"
+                />
+              </Link>
               <div>
-                <p className="font-semibold text-gray-800">{follower.name} {follower.apellido}</p>
+                <Link href={`/client/userprofile/${follower._id}`}>
+                  <p className="font-semibold text-gray-800">{follower.name} {follower.apellido}</p>
+                </Link>
               </div>
             </div>
           ))}
