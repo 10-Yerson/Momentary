@@ -3,12 +3,13 @@
 import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios'
 
-export default function Seguidos({OpenIS, Modaltoggle}) {
+export default function Seguidos({ OpenIS, Modaltoggle }) {
 
-  if (!OpenIS) return null;
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    if (!OpenIS) return; 
+
     const FollowersData = async () => {
       try {
         const userId = localStorage.getItem('userId');
@@ -17,14 +18,17 @@ export default function Seguidos({OpenIS, Modaltoggle}) {
         }
         const response = await axios.get(`/api/followers/seguidos/${userId}`);
         setData(response.data);
-        console.log('Seguidos ', response.data)
+        console.log('Seguidos ', response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
         toast.error('Error cargando datos del usuario');
       }
     };
     FollowersData();
-  }, [])
+  }, [OpenIS]); 
+
+  if (!OpenIS) return null;
+  
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white p-6 rounded shadow-lg lg:w-[50%] md:w-[50%] w-[90%] relative">
@@ -49,7 +53,7 @@ export default function Seguidos({OpenIS, Modaltoggle}) {
             </div>
           ))}
         </div>
-        
+
       </div>
     </div>
   )

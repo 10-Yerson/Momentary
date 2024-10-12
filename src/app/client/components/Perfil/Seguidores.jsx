@@ -4,26 +4,28 @@ import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios'
 
 export default function Seguidores({ isOpen, toggleModal }) {
-    if (!isOpen) return null;
-    const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
 
-useEffect (()=>{
-  const FollowersData = async () => {
-    try {
-      const userId = localStorage.getItem('userId');
-      if (!userId) {
-        throw new Error('ID del usuario no encontrado en localStorage');
+  useEffect(() => {
+    if (!isOpen) return; 
+    const FollowersData = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+          throw new Error('ID del usuario no encontrado en localStorage');
+        }
+        const response = await axios.get(`/api/followers/seguidores/${userId}`);
+        setData(response.data);
+        console.log('Seguidores ', response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        toast.error('Error cargando datos del usuario');
       }
-      const response = await axios.get(`/api/followers/seguidores/${userId}`);
-      setData(response.data);
-      console.log('Seguidores ', response.data)
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      toast.error('Error cargando datos del usuario');
-    }
-  };
-  FollowersData();
-},[])
+    };
+    FollowersData();
+  }, [isOpen]); // Se ejecuta cuando isOpen cambia
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -49,7 +51,7 @@ useEffect (()=>{
             </div>
           ))}
         </div>
-        
+
       </div>
     </div>
   );
