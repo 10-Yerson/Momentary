@@ -44,7 +44,7 @@ export default function UserPanel() {
             <NavItem href="/client/messages" iconPath="M23 3v-.5a2.5 2.5 0 00-5 0V3c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h5c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1m-1 0h-3v-.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5V3M6 11h9v2H6v-2m0-4h9v2H6V7m16 4v5c0 1.11-.89 2-2 2H6l-4 4V4a2 2 0 012-2h11v2H4v13.17L5.17 16H20v-5h2z" label="messages" />
             <NavItem href="/client/jobs" iconPath="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z" label="buscar" />
             <NavItem href="/client/friends" iconPath="M19 19H5V8h14m0-5h-1V1h-2v2H8V1H6v2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2m-2.47 8.06L15.47 10l-4.88 4.88-2.12-2.12-1.06 1.06L10.59 17l5.94-5.94z" label="seguidores" />
-            <NavItem href="#" iconPath="M12 2a7 7 0 00-7 7v5a3 3 0 01-2 2.83V18h18v-1.17a3 3 0 01-2-2.83V9a7 7 0 00-7-7zm0 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" label="notificaciones" />
+            <NavItem href="/client/notifications" iconPath="M12 2a7 7 0 00-7 7v5a3 3 0 01-2 2.83V18h18v-1.17a3 3 0 01-2-2.83V9a7 7 0 00-7-7zm0 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" label="notificaciones" />
             <NavItem href="/client/profile" iconPath="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z" label="perfil" />
           </ul>
 
@@ -88,7 +88,7 @@ export default function UserPanel() {
               label="ㅤ"
             />
             <NavItems
-              href="/client/#"
+              href="/client/notifications"
               icon={
                 <svg className="fill-current h-5 w-5" viewBox="0 0 24 24">
                   <path d="M12 2a7 7 0 00-7 7v5a3 3 0 01-2 2.83V18h18v-1.17a3 3 0 01-2-2.83V9a7 7 0 00-7-7zm0 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
