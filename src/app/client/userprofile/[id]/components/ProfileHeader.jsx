@@ -46,11 +46,11 @@ export default function ProfileHeader() {
       if (isFollowing) {
         await axios.post(`/api/followers/dejar-seguir/${id}`);
         setIsFollowing(false);
-        toast.success('Dejaste de seguir a este usuario');
+        // toast.success('Dejaste de seguir a este usuario');
       } else {
         await axios.post(`/api/followers/seguir/${id}`);
         setIsFollowing(true);
-        toast.success('Ahora sigues a este usuario');
+        // toast.success('Ahora sigues a este usuario');
       }
     } catch (error) {
       console.error(error);
