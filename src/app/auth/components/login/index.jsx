@@ -11,10 +11,12 @@ import { useRouter } from 'next/navigation';
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setLoading(true); // Inicia el loading
 
         const dataForm = {
             email,
@@ -39,6 +41,8 @@ export default function Login() {
             console.log('Error', error);
             toast.error('Verifica tus datos');
 
+        } finally {
+            setLoading(false); // Finaliza el loading
         }
     };
 
@@ -94,7 +98,11 @@ export default function Login() {
                         <span className="text-blue-600 text-sm font-medium cursor-pointer">Olvide mi contraseña?</span>
                     </div>
 
-                    <button className="mt-4 bg-gray-800 text-white font-medium text-sm rounded-lg h-12 w-full transition duration-200 hover:bg-gray-900" type="submit">Iniciar Sesión</button>
+                    <button
+                        className="mt-4 bg-gray-800 text-white font-medium text-sm rounded-lg h-12 w-full transition duration-200 hover:bg-gray-900" type="submit"
+                    >
+                        {loading ? 'Cargando...' : 'Iniciar Sesión'}
+                    </button>
 
                     <p className="text-center text-gray-800 text-sm mt-4">No tienes cuenta?
                         <Link href="/auth/sign-up">

@@ -39,7 +39,7 @@ export default function Register() {
       return false;
     }
     if (!termsAccepted) {
-      toast.error('Debes aceptar los terminos y condiciones');
+      toast.info('Debes aceptar los terminos y condiciones');
       return false;
     }
     return true;
@@ -52,9 +52,14 @@ export default function Register() {
     const dataMain = { name, apellido, fechaNacimiento, genero, email, password };
     try {
       const response = await axios.post(`${URL_API}/api/auth/register`, dataMain);
-      toast.success('Registration successful')
+      toast.success('Registration successful', { autoClose: 4000, })
       router.push('/auth/sign-in');
     } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error('Ocurrió un error. Intenta nuevamente.');
+      }
       console.log('Error', error);
       toast.error('Revisa tus datos');
     }
