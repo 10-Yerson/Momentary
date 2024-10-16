@@ -38,9 +38,8 @@ export default function Login() {
                 router.push('/client');
             }
         } catch (error) {
-            console.log('Error', error);
-            toast.error('Verifica tus datos');
-
+            console.log('Error:', error.response?.data?.msg || error.message);
+            toast.error(error.response?.data?.msg || 'Verifica tus datos');
         } finally {
             setLoading(false); // Finaliza el loading
         }
