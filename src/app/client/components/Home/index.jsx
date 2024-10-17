@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from '../../../../utils/axios'
 import ModalProfile from "../Modal/ModalProfile";
 import Link from 'next/link';
+import SeguidoresPublication from "../Publicaciones";
 
 export default function Welcome() {
 
@@ -91,7 +92,7 @@ export default function Welcome() {
 
         <div className="flex">
           <div className="w-full mt-8 flex-shrink-0 flex flex-col	dark:bg-gray-600 rounded-lg bg-white px-3">
-            Publicaciones
+            <SeguidoresPublication/>
           </div>
         </div>
 
