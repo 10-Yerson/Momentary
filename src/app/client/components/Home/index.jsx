@@ -7,6 +7,7 @@ import axios from '../../../../utils/axios'
 import ModalProfile from "../Modal/ModalProfile";
 import Link from 'next/link';
 import SeguidoresPublication from "../Publicaciones";
+import CompanyFollowers from "../Publicaciones/company";
 
 export default function Welcome() {
 
@@ -89,14 +90,11 @@ export default function Welcome() {
             </div>
           </aside>
         </main>
-
-        <div className="flex">
-          <div className="w-full mt-8 flex-shrink-0 flex flex-col	dark:bg-gray-600 rounded-lg bg-white px-3">
-            <SeguidoresPublication/>
-          </div>
-        </div>
-
       </div>
+      <div className="flex overflow-hidden select-none md:ml-40 ml-0 flex-1 md:flex-row">
+          <SeguidoresPublication />
+          <CompanyFollowers />
+        </div>
     </>
   );
 }
