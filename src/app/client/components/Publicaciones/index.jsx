@@ -28,7 +28,7 @@ export default function SeguidoresPublication() {
 
     return (
       
-            <div className="lg:w-[50%] md-[80%] w-[95%] flex justify-center flex-col">
+            <div className="w-full md:w-1/2 flex justify-center flex-col">
                 {publications.map((publication) => (
                     <div
                         key={publication._id}
