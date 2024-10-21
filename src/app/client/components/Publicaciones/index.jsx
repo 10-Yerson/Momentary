@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import axios from '../../../../utils/axios'; // Ajusta la ruta según tu estructura
+import axios from '../../../../utils/axios'; // Ajusta la ruta según tu estructura 
 
 export default function SeguidoresPublication() {
     const [publications, setPublications] = useState([]);
@@ -14,7 +14,6 @@ export default function SeguidoresPublication() {
         const id = localStorage.getItem('userId');
         setUserId(id);
     }, []);
-
 
     // Obtener publicaciones de la API
     useEffect(() => {
@@ -48,7 +47,6 @@ export default function SeguidoresPublication() {
             } else {
                 // Si no ha dado like, agregar el like
                 await axios.post(`/api/publication/${publicationId}/like`, { userId });
-
             }
 
             // Actualizar el estado local después de dar o quitar like
@@ -59,7 +57,7 @@ export default function SeguidoresPublication() {
                             ...publication,
                             likes: liked
                                 ? publication.likes.filter((id) => id !== userId) // Eliminar like
-                                : [...publication.likes, userId] // Agregar like
+                                : [...(Array.isArray(publication.likes) ? publication.likes : []), userId] // Agregar like
                         }
                         : publication
                 )
@@ -71,9 +69,7 @@ export default function SeguidoresPublication() {
                 console.error('Error al manejar el like:', error.message);
             }
         }
-        
     };
-
 
     if (loading) return <p>Cargando publicaciones...</p>;
     if (error) return <p>{error}</p>;
@@ -81,7 +77,7 @@ export default function SeguidoresPublication() {
     return (
         <div className="w-full md:w-1/2 flex justify-center flex-col">
             {publications.map((publication) => {
-                const liked = publication.likes.includes(userId); // Verifica si el usuario ya dio "like"
+                const liked = Array.isArray(publication.likes) && publication.likes.includes(userId); // Verifica si el usuario ya dio "like"
 
                 return (
                     <div key={publication._id} className="bg-white rounded-lg mb-6 p-3">
@@ -152,7 +148,7 @@ export default function SeguidoresPublication() {
                         {/* Contador de likes */}
                         <div className="px-4 pb-2">
                             <p className="text-sm font-semibold mb-1">
-                                {publication.likes.length.toLocaleString()} Me gusta
+                                {Array.isArray(publication.likes) ? publication.likes.length.toLocaleString() : '0'} Me gusta
                             </p>
                         </div>
                     </div>
