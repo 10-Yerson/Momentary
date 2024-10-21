@@ -7,7 +7,14 @@ export default function SeguidoresPublication() {
     const [publications, setPublications] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const userId = localStorage.getItem('userId');
+    const [userId, setUserId] = useState(null); // Estado para almacenar el userId
+
+    // Obtener el userId de localStorage al montar el componente
+    useEffect(() => {
+        const id = localStorage.getItem('userId');
+        setUserId(id);
+    }, []);
+
 
     // Obtener publicaciones de la API
     useEffect(() => {
@@ -29,7 +36,6 @@ export default function SeguidoresPublication() {
 
     // Manejar el "like" y "unlike" de una publicación
     const handleLike = async (publicationId, liked) => {
-        // const userId = localStorage.getItem('userId');
         if (!userId) {
             console.error("No se encontró el userId en localStorage");
             return;
