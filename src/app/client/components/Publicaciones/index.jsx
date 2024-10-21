@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios'; // Ajusta la ruta según tu estructura
 
