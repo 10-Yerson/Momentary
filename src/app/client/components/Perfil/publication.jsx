@@ -23,16 +23,15 @@ export default function PublicationGetting() { // Cambié el nombre del componen
     return (
         <>
             <div className="mx-auto rounded-lg mt-8">
-                <h1 className="text-2xl font-semibold text-gray-800 mb-4">Mis Publicaciones</h1>
                 {error && <p className="text-red-500">{error}</p>}
 
                 {publications.length === 0 && (
                     <p className="text-gray-500">No has creado ninguna publicación todavía.</p>
                 )}
 
-                <div className="space-y-4">
+                <div className="space-y-5">
                     {publications.map((publication) => (
-                        <div key={publication._id} className="p-4 border border-gray-300 rounded-lg shadow-sm">
+                        <div key={publication._id} className="rounded-lg shadow-sm">
                             <div className="flex items-center space-x-4 mb-2">
                                 <img
                                     src={publication.user.profilePicture || 'https://metro.co.uk/wp-content/uploads/2018/09/sei_30244558-285d.jpg?quality=90&strip=all'}
@@ -55,10 +54,21 @@ export default function PublicationGetting() { // Cambié el nombre del componen
                                 />
                             )}
 
-                            <div className="flex justify-between items-center mt-4">
-                                <p className="text-sm text-gray-500">👍 {publication.likes} Likes</p>
-                                <p className="text-sm text-gray-500">💬 {publication.comments.length} Comentarios</p>
-                                <p className="text-sm text-gray-500">🔄 {publication.shares} Compartidos</p>
+                            <div className="flex items-center justify-between px-5 py-2">
+                                <div className="flex space-x-4">
+                                    <button className="focus:outline-none">
+                                        <img src="\img\icons\me-gusta.png" alt="Like" className="w-6 h-6 object-cover" />
+                                    </button>
+                                    <button className="focus:outline-none">
+                                        <img src="\img\icons\comentario.png" alt="Comment" className="w-7 h-7 object-cover" />
+                                    </button>
+                                </div>
+                                <button className="focus:outline-none">
+                                    <img src="\img\icons\guardar-instagram.png" alt="Save" className="w-6 h-6" />
+                                </button>
+                            </div>
+                            <div className="px-4 pb-2">
+                                <p className="text-sm font-semibold mb-1">{publication.likes.toLocaleString()} Me gusta</p>
                             </div>
                         </div>
                     ))}
