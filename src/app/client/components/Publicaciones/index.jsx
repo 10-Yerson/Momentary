@@ -27,7 +27,7 @@ export default function SeguidoresPublication() {
 
     // Manejar el "like" y "unlike" de una publicación
     const handleLike = async (publicationId, liked) => {
-        const userId = localStorage.getItem('userId');
+        // const userId = localStorage.getItem('userId');
         if (!userId) {
             console.error("No se encontró el userId en localStorage");
             return;
@@ -102,7 +102,8 @@ export default function SeguidoresPublication() {
 
                         {/* Imagen de la publicación */}
                         <div className="w-full">
-                            <img src={publication.image} alt="Publication" className="w-full object-cover rounded-lg" />
+                            <img onDoubleClick={() => handleLike(publication._id, liked)} // Manejar doble clic para dar "like"
+                            src={publication.image} alt="Publication" className="w-full object-cover rounded-lg" />
                         </div>
 
                         {/* Botones de interacción */}
