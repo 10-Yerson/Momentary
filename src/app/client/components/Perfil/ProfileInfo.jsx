@@ -16,6 +16,7 @@ export default function ProfileInfo() {
   const [data, setdata] = useState([])
   const [isOpen, setIsOpen] = useState(false);
   const [OpenIs, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,6 +49,7 @@ export default function ProfileInfo() {
   };
 
   const handleSaveImage = async () => {
+    setIsLoading(true);
     try {
       const userId = localStorage.getItem('userId');
       if (!userId) {
@@ -72,6 +74,8 @@ export default function ProfileInfo() {
     } catch (error) {
       console.error('Error updating profile picture:', error);
       toast.error('Error actualizando la imagen de perfil');
+    } finally {
+      setIsLoading(false); // Detiene el estado de carga
     }
   };
   const toggleModal = () => {
@@ -156,14 +160,18 @@ export default function ProfileInfo() {
           </div>
         )}
 
-        <div className="flex justify-end space-x-4">
-          <button
-            onClick={handleSaveImage}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition duration-150"
-          >
-            Guardar
-          </button>
-        </div>
+        {isLoading ? (
+          <div className="text-center text-blue-600 mb-4">Cargando...</div> // Mostrar indicador de carga
+        ) : (
+          <div className="flex justify-end space-x-4">
+            <button
+              onClick={handleSaveImage}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition duration-150"
+            >
+              Guardar
+            </button>
+          </div>
+        )}
       </Modal>
     </div>
 

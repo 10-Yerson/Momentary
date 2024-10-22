@@ -46,7 +46,7 @@ export default function Welcome() {
           </div>
           <aside className="px-4 md:px-6 py-4 flex flex-col dark:bg-black dark:text-gray-100 rounded-r-lg overflow-hidden">
             <div className="flex items-center justify-end gap-x-6 md:gap-x-9">
-              <a href="#" className="relative">
+              <a href="/client/notifications" className="relative">
                 <span>
                   <svg
                     className="h-6 w-6 md:h-8 md:w-8 hover:text-red-600 dark:hover:text-red-400"
@@ -61,11 +61,12 @@ export default function Welcome() {
                     <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                   </svg>
                 </span>
-                <div className="absolute w-4 h-4 md:w-5 md:h-5 left-0 mb-4 md:mb-6 ml-1 md:ml-2 bottom-0">
-                  <span className="px-1 py-0.5 md:px-2 md:py-1 bg-red-600 rounded-full text-white text-xs">
-                    7
-                  </span>
-                </div>
+                <Link href="/client/notifications">
+                  <div className="absolute w-4 h-4 md:w-5 md:h-5 left-0 mb-4 md:mb-6 ml-1 md:ml-2 bottom-0">
+                    <span className="px-1 py-0.5 md:px-2 md:py-1 bg-red-600 rounded-full text-white text-xs">
+                    </span>
+                  </div>
+                </Link>
               </a>
               <div className="flex items-center gap-2 md:gap-3">
                 <Link href="/client/profile">

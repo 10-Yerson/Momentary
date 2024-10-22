@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import axios from '../../../../utils/axios'
 import React, { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation'; // Importar useRouter
+
 
 export default function Createpublication({ isOpen, onClose }) {
     const [description, setDescription] = useState('');
@@ -10,8 +10,8 @@ export default function Createpublication({ isOpen, onClose }) {
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
-
-    const router = useRouter(); // Instanciar useRouter
+    const [isLoading, setIsLoading] = useState(false); 
+    
 
     if (!isOpen) return null;
 
@@ -33,7 +33,7 @@ export default function Createpublication({ isOpen, onClose }) {
             setError('Ambos campos, la descripción y la imagen, son obligatorios.');
             return;
         }
-
+        setIsLoading(true);
         try {
             const formData = new FormData();
             formData.append('description', description);
@@ -45,8 +45,7 @@ export default function Createpublication({ isOpen, onClose }) {
                 },
             });
 
-            // Actualizar alguna parte del estado, por ejemplo, profilePicture
-            setData(response.data);
+
 
             setSuccessMessage('¡Publicación creada exitosamente!');
             setDescription('');
@@ -55,8 +54,6 @@ export default function Createpublication({ isOpen, onClose }) {
             setError('');
             onClose();
 
-            // Refrescar la página del perfil
-            router.reload(); // Esta línea recarga la página actual
         } catch (error) {
             console.error('Error creando la publicación:', error);
             setError('No se pudo crear la publicación. Intenta de nuevo.');
@@ -105,7 +102,7 @@ export default function Createpublication({ isOpen, onClose }) {
                     </div>
                     <div className="mt-4">
                         <button type="submit"
-                            className="w-full py-3 bg-gray-300 text-gray-600 rounded-lg cursor-pointer">Publicar</button>
+                            className="w-full py-3 bg-gray-300 text-gray-600 rounded-lg cursor-pointer"> {isLoading ? 'Creando publicación...' : 'Publicar'}</button>
                     </div>
                     {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
                     {successMessage && <p className="text-green-500 text-sm mt-2">{successMessage}</p>}
