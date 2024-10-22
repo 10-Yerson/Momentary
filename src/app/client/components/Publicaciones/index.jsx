@@ -19,7 +19,7 @@ export default function SeguidoresPublication() {
     useEffect(() => {
         const fetchPublications = async () => {
             try {
-                const response = await axios.get('api/publication/following');
+                const response = await axios.get('/api/publication/following');
                 setPublications(response.data);
                 console.log('Data Publication', response.data);
             } catch (err) {
@@ -43,10 +43,10 @@ export default function SeguidoresPublication() {
         try {
             if (liked) {
                 // Si ya ha dado like, eliminar el like
-                await axios.post(`api/publication/${publicationId}/unlike`, { userId });
+                await axios.post(`/api/publication/${publicationId}/unlike`, { userId });
             } else {
                 // Si no ha dado like, agregar el like
-                await axios.post(`api/publication/${publicationId}/like`, { userId });
+                await axios.post(`/api/publication/${publicationId}/like`, { userId });
             }
 
             // Actualizar el estado local después de dar o quitar like
