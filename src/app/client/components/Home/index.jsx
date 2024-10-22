@@ -61,12 +61,12 @@ export default function Welcome() {
                     <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                   </svg>
                 </span>
-                <Link href="/client/notifications">
+                
                   <div className="absolute w-4 h-4 md:w-5 md:h-5 left-0 mb-4 md:mb-6 ml-1 md:ml-2 bottom-0">
                     <span className="px-1 py-0.5 md:px-2 md:py-1 bg-red-600 rounded-full text-white text-xs">
                     </span>
                   </div>
-                </Link>
+                
               </a>
               <div className="flex items-center gap-2 md:gap-3">
                 <Link href="/client/profile">
