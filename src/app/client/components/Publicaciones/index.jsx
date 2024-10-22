@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios'; // Ajusta la ruta según tu estructura 
 import NotFriends from '../../components/Amistades/NotFriends'; // Asegúrate de importar el componente
+import Link from 'next/link';
 
 export default function SeguidoresPublication() {
     const [publications, setPublications] = useState([]);
@@ -88,19 +89,21 @@ export default function SeguidoresPublication() {
                 return (
                     <div key={publication._id} className="bg-white rounded-lg mb-6 p-3">
                         {/* Información del usuario que publicó */}
-                        <div className="flex items-center py-4">
-                            <img
-                                src={publication.user.profilePicture}
-                                alt={publication.user.name}
-                                className="w-12 h-12 rounded-full"
-                            />
-                            <div className="ml-3">
-                                <h2 className="font-semibold text-sm">{publication.user.name}</h2>
-                                <span className="text-xs text-gray-500">
-                                    {new Date(publication.createdAt).toLocaleString()}
-                                </span>
+                        <Link href={`/client/userprofile/${publication.user._id}`}>
+                            <div className="flex items-center py-4">
+                                <img
+                                    src={publication.user.profilePicture}
+                                    alt={publication.user.name}
+                                    className="w-12 h-12 rounded-full"
+                                />
+                                <div className="ml-3">
+                                    <h2 className="font-semibold text-sm">{publication.user.name}</h2>
+                                    <span className="text-xs text-gray-500">
+                                        {new Date(publication.createdAt).toLocaleString()}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+                        </Link>
 
                         {/* Descripción de la publicación */}
                         <div className="pb-2">
@@ -113,7 +116,7 @@ export default function SeguidoresPublication() {
                         {/* Imagen de la publicación */}
                         <div className="w-full">
                             <img onDoubleClick={() => handleLike(publication._id, liked)} // Manejar doble clic para dar "like"
-                            src={publication.image} alt="Publication" className="w-full object-cover rounded-lg" />
+                                src={publication.image} alt="Publication" className="w-full object-cover rounded-lg" />
                         </div>
 
                         {/* Botones de interacción */}
