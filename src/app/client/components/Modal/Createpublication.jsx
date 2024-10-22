@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import axios from '../../../../utils/axios'
 import React, { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation'; // Importar useRouter
 
 export default function Createpublication({ isOpen, onClose }) {
     const [description, setDescription] = useState('');
@@ -9,6 +10,8 @@ export default function Createpublication({ isOpen, onClose }) {
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
+
+    const router = useRouter(); // Instanciar useRouter
 
     if (!isOpen) return null;
 
@@ -42,12 +45,18 @@ export default function Createpublication({ isOpen, onClose }) {
                 },
             });
 
+            // Actualizar alguna parte del estado, por ejemplo, profilePicture
+            setData(response.data);
+
             setSuccessMessage('¡Publicación creada exitosamente!');
             setDescription('');
             setImage(null);
             setSelectedImage(null);
             setError('');
             onClose();
+
+            // Refrescar la página del perfil
+            router.reload(); // Esta línea recarga la página actual
         } catch (error) {
             console.error('Error creando la publicación:', error);
             setError('No se pudo crear la publicación. Intenta de nuevo.');
@@ -90,12 +99,12 @@ export default function Createpublication({ isOpen, onClose }) {
                                 type="file"
                                 accept="image/*"
                                 className="hidden"
-                                onChange={handleImageChange} 
+                                onChange={handleImageChange}
                             />
                         </label>
                     </div>
                     <div className="mt-4">
-                        <button  type="submit" 
+                        <button type="submit"
                             className="w-full py-3 bg-gray-300 text-gray-600 rounded-lg cursor-pointer">Publicar</button>
                     </div>
                     {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
