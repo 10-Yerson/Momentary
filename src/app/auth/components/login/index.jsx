@@ -112,7 +112,7 @@ export default function Login() {
             </div>
 
             <div className="hidden md:flex justify-center items-center md:w-[50%] h-full">
-                <img className="bg-cover bg-center w-[44%]" src="https://res.cloudinary.com/dbgj8dqup/image/upload/v1728571705/uploads/hcdj0ryb9sosdoqcwob7.png" alt="img" />
+                <img className="bg-cover bg-center w-[70%]" src="\img\login-img.svg" alt="img" />
             </div>
 
             <ToastContainer />

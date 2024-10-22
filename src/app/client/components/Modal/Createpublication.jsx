@@ -67,7 +67,7 @@ export default function Createpublication({ isOpen, onClose }) {
                     <div className="flex items-center mb-4">
                         <img src="https://placehold.co/50x50" alt="User profile picture" className="rounded-full w-12 h-12 mr-3" />
                         <div>
-                            <p className="font-semibold">Yerson DG</p>
+                            <p className="font-semibold">Momentary</p>
                             <button className="flex items-center text-sm text-gray-500 hover:text-gray-700">
                                 <i className="fas fa-users mr-1"></i> Amigos <i className="fas fa-caret-down ml-1"></i>
                             </button>

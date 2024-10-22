@@ -2,8 +2,12 @@ import React from 'react';
 
 export default function Jireh() {
   return (
-    <div className="hidden md:block w-full md:w-1/2 p-4 bg-slate-200">
-      Holaa Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur fugit labore iusto delectus voluptatem qui voluptatum libero, porro praesentium architecto animi nemo earum maxime asperiores, nisi possimus incidunt aut optio!
+    <div className="md:flex hidden w-full md:w-1/2 p-4 fixed right-0 top-0 h-screen justify-center items-center">
+      <img
+        src="https://res.cloudinary.com/dbgj8dqup/image/upload/v1728940553/uploads/abbkua5ssb23seqx56bx.png"
+        alt="Imagen fija"
+        className="max-w-full h-auto"
+      />
     </div>
   );
 }

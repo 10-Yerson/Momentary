@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios'; // Ajusta la ruta de tu archivo axios
 import { useContext } from 'react';
-import { MyContext } from '../../context/MyContext';
+import { MyContext } from '../../../../app/context/MyProvider';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 

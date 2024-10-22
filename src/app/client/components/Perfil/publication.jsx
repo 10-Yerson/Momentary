@@ -109,7 +109,7 @@ export default function PublicationGetting() {
                                     onDoubleClick={() => handleLike(publication._id)}
                                     src={publication.image}
                                     alt="Imagen de la publicación"
-                                    className="w-full h-96 object-cover rounded-lg"
+                                    className="w-full h-[70vh] object-cover rounded-lg"
                                 />
                             )}
 

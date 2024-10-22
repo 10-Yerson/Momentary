@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios'; // Ajusta la ruta según tu estructura 
+import NotFriends from '../../components/Amistades/NotFriends'; // Asegúrate de importar el componente
 
 export default function SeguidoresPublication() {
     const [publications, setPublications] = useState([]);
@@ -73,6 +74,11 @@ export default function SeguidoresPublication() {
 
     if (loading) return <p>Cargando publicaciones...</p>;
     if (error) return <p>{error}</p>;
+
+    // Si no hay publicaciones, mostrar el componente NotFriends
+    if (publications.length === 0) {
+        return <NotFriends />;
+    }
 
     return (
         <div className="w-full md:w-1/2 flex justify-center flex-col">

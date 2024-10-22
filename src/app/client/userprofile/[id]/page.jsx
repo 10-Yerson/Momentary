@@ -11,7 +11,7 @@ const UserProfile = () => {
   return (
     <MyProvider>
       <UserPanel />
-      <main className='flex overflow-hidden select-none md:ml-40 ml-0 flex-1 flex-col'>
+      <main className='flex overflow-hidden select-none md:ml-40 ml-0 flex-1 flex-col mb-24 lg:mb-0'>
         <ProfileHeader />
         <ProfileBio />
         <ProfileTabs />
