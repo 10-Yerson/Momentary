@@ -9,7 +9,7 @@ export default function ProfilePage() {
     <>
       <UserPanel />
       <main className='flex overflow-hidden select-none md:ml-40 ml-0 flex-1 mb-24 lg:mb-0'>
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto py-3">
           <ProfileInfo />
           <PostBox />
           <PublicationGetting />

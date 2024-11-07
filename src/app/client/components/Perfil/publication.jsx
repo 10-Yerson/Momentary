@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios';
+import InfoUser from './update';
 
 export default function PublicationGetting() {
     const [publications, setPublications] = useState([]);
@@ -80,14 +81,14 @@ export default function PublicationGetting() {
 
     return (
         <>
-            <div className="mx-auto rounded-lg mt-8">
+            <div className="mx-auto rounded-lg mt-8 flex w-full">
                 {error && <p className="text-red-500">{error}</p>}
 
                 {publications.length === 0 && (
                     <p className="text-gray-500">No has creado ninguna publicación todavía.</p>
                 )}
 
-                <div className="space-y-5">
+                <div className="space-y-5 w-full md:w-1/2">
                     {publications.map((publication) => (
                         <div key={publication._id} className="rounded-lg shadow-sm">
                             <div className="flex items-center space-x-4 mb-2">
@@ -139,6 +140,15 @@ export default function PublicationGetting() {
                             </div>
                         </div>
                     ))}
+                </div>
+                {/* <div className='w-full md:w-1/2 md:flex hidden flex-col'>
+                    <div className='flex-col w-full md:w-[40%] fixed right-0'>
+                        <p>Datos de ti</p>
+                        <h1>{publications.name}</h1>
+                    </div>
+                </div> */}
+                <div>
+                    <InfoUser/>
                 </div>
             </div>
         </>

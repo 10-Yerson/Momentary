@@ -99,9 +99,14 @@ export default function ProfileInfo() {
         </div>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow"
+          className="absolute bottom-0 right-0 p-1 rounded-full bg-white shadow"
         >
-          <FaCamera size={22} className="sm:text-lg md:text-2xl" color="black" />
+          
+          <img
+            src="\img\icons\photo-camera.png"
+            alt="Icono de cámara"
+            className="w-6 h-6 sm:w-8 sm:h-8 md:w-8 md:h-8"
+          />
         </button>
       </div>
 
