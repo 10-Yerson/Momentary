@@ -90,22 +90,22 @@ export default function ProfileInfo() {
   return (
     <div className="flex flex-row items-center justify-around w-full my-6 md:my-10 space-x-4">
       <div className="relative">
-        <div className="rounded-full overflow-hidden w-16 h-16 sm:w-24 sm:h-24 md:w-36 md:h-36">
+        <div className="rounded-full overflow-hidden w-16 h-16 sm:w-24 sm:h-24 md:w-36 md:h-36  border border-gray-200 shadow-lg">
           <img
-            src={data.profilePicture}
+            src={data.profilePicture || 'https://metro.co.uk/wp-content/uploads/2018/09/sei_30244558-285d.jpg?quality=90&strip=all'}
             alt="Profile picture"
             className="object-cover w-full h-full"
           />
         </div>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="absolute bottom-0 right-0 p-1 rounded-full bg-white shadow"
+          className="absolute bottom-0 right-0 p-1 rounded-full bg-white shadow-lg opacity-95"
         >
           
           <img
             src="\img\icons\photo-camera.png"
             alt="Icono de cámara"
-            className="w-6 h-6 sm:w-8 sm:h-8 md:w-8 md:h-8"
+            className="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8"
           />
         </button>
       </div>

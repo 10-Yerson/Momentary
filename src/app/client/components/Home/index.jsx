@@ -38,8 +38,7 @@ export default function Welcome() {
     <>
       <div className="flex overflow-hidden select-none md:ml-40 ml-0 flex-1 flex-col">
         <main className="flex pt-2 pb-2 flex-1 justify-between dark:bg-black rounded-l-lg transition duration-500 ease-in-out overflow-hidden">
-          <div className="flex flex-col capitalize text-2xl md:text-3xl px-3">
-            <span className="font-semibold py-3 text-1xl md:text-3xl">hello,</span>
+          <div className="flex items-center text-2xl md:text-3xl px-2">
             <p className="font-semibold text-gray-800 text-xl md:text-2xl">
               {data.name} <span className="text-gray-600">{data.apellido}</span>
             </p>

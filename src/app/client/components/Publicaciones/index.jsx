@@ -73,7 +73,7 @@ export default function SeguidoresPublication() {
         }
     };
 
-    if (loading) return <p>Cargando publicaciones...</p>;
+    if (loading) return <div className='w-full md:w-1/2 justify- flex items-center px-2'>Cargando publicaciones...</div>;
     if (error) return <p>{error}</p>;
 
     // Si no hay publicaciones, mostrar el componente NotFriends

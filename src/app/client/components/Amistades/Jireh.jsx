@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Jireh() {
   return (
-    <div className="md:flex hidden w-full md:w-1/2 p-4 fixed right-0 top-0 h-screen justify-center items-center">
+    <div className="w-full md:w-1/2 py-4 px-2 md:flex hidden  ">
       <img
         src="https://res.cloudinary.com/dbgj8dqup/image/upload/v1728940553/uploads/abbkua5ssb23seqx56bx.png"
         alt="Imagen fija"
