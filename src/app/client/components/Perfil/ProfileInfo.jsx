@@ -8,6 +8,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Seguidores from './Seguidores';
 import Seguidos from './Seguidos';
+import Link from 'next/link';
 Modal.setAppElement('body');
 
 export default function ProfileInfo() {
@@ -101,7 +102,7 @@ export default function ProfileInfo() {
           onClick={() => setIsModalOpen(true)}
           className="absolute bottom-0 right-0 p-1 rounded-full bg-white shadow-lg opacity-95"
         >
-          
+
           <img
             src="\img\icons\photo-camera.png"
             alt="Icono de cámara"
@@ -115,9 +116,14 @@ export default function ProfileInfo() {
           <h1 className="text-base sm:text-xl md:text-3xl font-semibold">
             {data.name} {data.apellido}
           </h1>
-          <button className="px-3 sm:px-4 py-1 border rounded-md text-xs sm:text-sm md:text-lg">
+          <Link href="/client/edit">
+            <button className="px-3 sm:px-4 py-1 border rounded-md text-xs sm:text-sm md:text-lg">
+              Editar perfil
+            </button>
+          </Link>
+          {/* <button className="px-3 sm:px-4 py-1 border rounded-md text-xs sm:text-sm md:text-lg">
             Editar perfil
-          </button>
+          </button> */}
           <button className="px-3 sm:px-4 py-1 border rounded-md text-xs sm:text-sm md:text-lg">
             Ver archivo
           </button>

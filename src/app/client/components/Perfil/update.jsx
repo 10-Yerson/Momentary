@@ -33,7 +33,7 @@ export default function InfoUser() {
                     <p className="">{user.email}</p>
                 </div>
                 <h1>{user.password}</h1>
-                <h1>{user.role} {user._id}</h1>
+                
 
             </div>
         </div>

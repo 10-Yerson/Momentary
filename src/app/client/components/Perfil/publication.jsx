@@ -141,12 +141,6 @@ export default function PublicationGetting() {
                         </div>
                     ))}
                 </div>
-                {/* <div className='w-full md:w-1/2 md:flex hidden flex-col'>
-                    <div className='flex-col w-full md:w-[40%] fixed right-0'>
-                        <p>Datos de ti</p>
-                        <h1>{publications.name}</h1>
-                    </div>
-                </div> */}
                 <div>
                     <InfoUser/>
                 </div>
