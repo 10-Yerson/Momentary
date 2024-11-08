@@ -85,7 +85,7 @@ export default function PublicationGetting() {
                 {error && <p className="text-red-500">{error}</p>}
 
                 {publications.length === 0 && (
-                    <p className="text-gray-500">No has creado ninguna publicación todavía.</p>
+                    <div className="text-gray-500 text-center w-full md:w-1/2 grid place-content-center">No has creado ninguna publicación todavía.</div>
                 )}
 
                 <div className="space-y-5 w-full md:w-1/2">

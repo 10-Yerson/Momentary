@@ -14,11 +14,11 @@ export default function ProfilePost() {
   //const userId = localStorage.getItem('userId');
   const [userId, setUserId] = useState(null);
 
-      // Obtener el userId de localStorage al montar el componente
-      useEffect(() => {
-        const id = localStorage.getItem('userId');
-        setUserId(id);
-    }, []);
+  // Obtener el userId de localStorage al montar el componente
+  useEffect(() => {
+    const id = localStorage.getItem('userId');
+    setUserId(id);
+  }, []);
 
   useEffect(() => {
     const fetchUserPublications = async () => {
@@ -87,19 +87,17 @@ export default function ProfilePost() {
 
   if (loading) {
     return (
-      <div className="flex flex-row gap-6 justify-center w-1/2">
-        <div className="animate-pulse bg-gray-300 w-32 h-32 rounded-lg"></div>
-        <div className="flex flex-col gap-4">
-          <div className="animate-pulse bg-gray-300 w-48 h-12 rounded-lg"></div>
-          <div className="animate-pulse bg-gray-300 w-64 h-8 rounded-lg"></div>
-          <div className="animate-pulse bg-gray-300 w-64 h-6 rounded-lg"></div>
-        </div>
+      <div className="flex justify-center md:w-1/2 w-full pt-10">
+        <div
+          className="w-16 h-16 border-4 border-t-blue-500 border-gray-300 rounded-full animate-spin"
+        ></div>
+
       </div>
     );
   }
 
   return (
-    <div className="p-4">
+    <div className="">
       {message && <p className="text-center text-gray-500 pt-10 text-1xl">{message}</p>}
       {!message && publications.length > 0 ? (
         publications.map((publication) => {
@@ -107,7 +105,7 @@ export default function ProfilePost() {
 
           //const liked = publication.likes.includes(userId); // Verificar si el usuario ha dado like
           return (
-            <div key={publication._id} className="p-4 rounded-lg my-2">
+            <div key={publication._id} className="px-2 rounded-lg my-2">
               <div className="flex items-center space-x-4 mb-2">
                 <img
                   src={publication.user.profilePicture || 'https://metro.co.uk/wp-content/uploads/2018/09/sei_30244558-285d.jpg?quality=90&strip=all'}
