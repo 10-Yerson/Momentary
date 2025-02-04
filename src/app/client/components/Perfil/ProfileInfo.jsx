@@ -114,8 +114,6 @@ export default function ProfileInfo() {
               <div className="flex-1">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">{data.name} {data.apellido}</h1>
                 <div className="text-base sm:text-lg text-gray-500 mb-3 flex items-center">
-                  <span> <strong>0</strong> Posts</span>
-                  <span className="mx-2">·</span>
                   <span
                     onClick={toggleModal} >{data.followers?.length || 0} seguidores</span>
                   <span className="mx-2">·</span>
