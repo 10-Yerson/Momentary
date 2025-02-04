@@ -92,22 +92,25 @@ export default function ProfileInfo() {
   return (
     <>
       <div className="w-full bg-white flex flex-col md:flex-row justify-between items-center space-y-5 md:space-y-0 md:space-x-5">
-        <div className="w-full md:w-1/2 px-4">
+        <div className="w-full md:w-1/2 px-2">
           <div className="pt-4 pb-4">
             <div className="flex items-end gap-4 mb-4">
-              <div className="relative">
-                <div className="w-40 h-40 rounded-full bg-gray-200 border-4 border-white relative overflow-hidden">
+              <div className="relative flex justify-center">
+                <div className="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full bg-gray-200 border-4 border-white relative overflow-hidden">
                   <img
                     src={data.profilePicture}
                     alt="Profile picture"
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <button className="absolute bottom-2 right-2 bg-gray-200 p-2 rounded-full hover:bg-gray-300 z-10">
-                  <Camera onClick={() => setIsModalOpen(true)}
-                    className="w-5 h-5 text-gray-700" />
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 bg-gray-200 p-2 rounded-full hover:bg-gray-300 z-10"
+                >
+                  <Camera className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
                 </button>
               </div>
+
               <div className="flex-1">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">{data.name} {data.apellido}</h1>
                 <div className="text-base sm:text-lg text-gray-500 mb-3 flex items-center">
@@ -125,21 +128,23 @@ export default function ProfileInfo() {
           </div>
         </div>
 
-        <div className="flex items-center w-full md:w-1/2 gap-4 justify-center">
-          <button className="bg-[#0866FF] text-white px-3 py-2 rounded-md font-semibold flex items-center gap-2">
+        <div className="flex items-center w-full md:w-1/2 gap-2">
+          <button className="bg-[#0866FF] text-white px-3 py-2 rounded-md font-semibold flex items-center gap-2 flex-grow justify-center">
             <span className="text-xl">+</span> Añadir a historia
           </button>
-          <Link href="/client/edit/provide">
-            <button className="bg-gray-200 px-3 py-2 rounded-md font-semibold flex items-center gap-2">
+          <Link href="/client/edit/provide" className="flex-grow">
+            <button className="bg-gray-200 px-3 py-2 rounded-md font-semibold flex items-center gap-2 w-full justify-center">
               <Pencil className="w-4 h-4" /> Editar perfil
             </button>
           </Link>
-          <button className="p-2 hover:bg-gray-100 rounded-md">
+          <button className="p-2 hover:bg-gray-100 rounded-md flex-shrink-0 w-10 flex justify-center">
             <MoreHorizontal className="w-6 h-6" />
           </button>
         </div>
-
       </div>
+
+      <div className="border-t-2 border-gray-300 my-4 rounded-full "></div>
+
       <Modal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}

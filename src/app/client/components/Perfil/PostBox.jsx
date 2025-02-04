@@ -57,14 +57,13 @@ export default function PostBox() {
         </div>
       </div>
 
-      <div className="w-full rounded-lg md:w-1/2 grid place-items-center">
+      {/* <div className="w-full rounded-lg md:w-1/2 grid place-items-center">
 
         <div class="h-[220px] w-[700px] bg-slate-200 flex rounded-xl">
           <div
             className="relative h-full w-[250px] p-7 text-white rounded-l-xl bg-center bg-cover before:absolute before:inset-0 before:bg-black before:opacity-50 before:rounded-l-xl"
             style={{ backgroundImage: `url(${user.profilePicture})` }}
           >
-            {/* Contenido con z-10 para evitar que la opacidad lo afecte */}
             <div className="relative z-10">
               <p className="text-[11px] tracking-widest text-[#cccccc]">PUBLICACIÓN</p>
               <h1 className="text-[25px] pt-5 font-medium tracking-wide leading-[25px]">
@@ -77,17 +76,6 @@ export default function PostBox() {
           </div>
 
           <div class="p-7 bg-white w-full rounded-r-xl relative">
-            {/* <div class="flex justify-between">
-              <h1 class="text-[#949494] text-[13px] tracking-[.5px]">ESTADO</h1>
-              <div class="relative">
-                <div class="h-1.5 w-[200px] bg-slate-200 rounded-xl">
-                  <div class="h-1.5 w-[120px] bg-[#261a6b] rounded-xl"></div>
-                </div>
-                <p class="text-[#a8a8a8] text-[12px] tracking-[.5px] absolute right-0">
-                  6/10 Interacciones
-                </p>
-              </div>
-            </div> */}
             <h1 class="text-[28px] pt-2 font-[500] tracking-wide" onClick={() => setModalOpen(true)}>
               ¿Qué estás pensando?
             </h1>
@@ -99,13 +87,42 @@ export default function PostBox() {
             />
 
           </div>
-          <Createpublication isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
         </div>
+      </div> */}
 
+      <div className="w-full rounded-lg md:w-1/2 grid place-items-center">
+        <div className="h-[220px] w-full md:w-[700px] bg-slate-200 flex flex-col md:flex-row rounded-xl">
 
+          <div
+            className="relative h-[120px] md:h-full w-full md:w-[50%] p-7 text-white rounded-t-xl md:rounded-l-xl bg-center bg-cover before:absolute before:inset-0 before:bg-black before:opacity-50 before:rounded-l-xl"
+            style={{ backgroundImage: `url(${user.profilePicture})` }}
+          >
+            <div className="relative z-10">
+              <p className="text-[11px] tracking-widest text-[#cccccc]">PUBLICACIÓN</p>
+              <h1 className="text-[18px] md:text-[25px] pt-5 font-medium tracking-wide leading-[25px]">
+                Comparte tus pensamientos
+              </h1>
+              <h4 className="text-[12px] pt-[50px] text-[#cccccc] cursor-pointer">
+                Ver todas las publicaciones <i className="fa-solid fa-chevron-right"></i>
+              </h4>
+            </div>
+          </div>
 
+          <div className="p-7 bg-white w-full md:w-[50%] rounded-b-xl md:rounded-r-xl relative">
+            <h1 className="text-[18px] md:text-[28px] pt-2 font-[500] tracking-wide" onClick={() => setModalOpen(true)}>
+              ¿Qué estás pensando?
+            </h1>
+            <input
+              onClick={() => setModalOpen(true)}
+              type="button" readOnly
+              value="Crear publicación"
+              className="px-3 py-2 bg-blue-600 text-white rounded-md tracking-wide absolute right-12 bottom-7 cursor-pointer"
+            />
+          </div>
+        </div>
+      </div> 
 
-      </div>
+      <Createpublication isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
     </div>
   );
 }
