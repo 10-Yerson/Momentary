@@ -8,6 +8,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Seguidores from './Seguidores';
 import Seguidos from './Seguidos';
+import { Camera, MoreHorizontal, Pencil } from "lucide-react";
 import Link from 'next/link';
 Modal.setAppElement('body');
 
@@ -89,53 +90,55 @@ export default function ProfileInfo() {
 
 
   return (
-    <div className="flex flex-row items-center justify-around w-full my-6 md:my-10 space-x-4">
-      <div className="relative">
-        <div className="rounded-full overflow-hidden w-16 h-16 sm:w-24 sm:h-24 md:w-36 md:h-36  border border-gray-200 shadow-lg">
-          <img
-            src={data.profilePicture || 'https://metro.co.uk/wp-content/uploads/2018/09/sei_30244558-285d.jpg?quality=90&strip=all'}
-            alt="Profile picture"
-            className="object-cover w-full h-full"
-          />
+    <>
+      <div className="w-full bg-white flex flex-col md:flex-row justify-between items-center space-y-5 md:space-y-0 md:space-x-5">
+        <div className="w-full md:w-1/2 px-4">
+          <div className="pt-4 pb-4">
+            <div className="flex items-end gap-4 mb-4">
+              <div className="relative">
+                <div className="w-40 h-40 rounded-full bg-gray-200 border-4 border-white relative overflow-hidden">
+                  <img
+                    src={data.profilePicture}
+                    alt="Profile picture"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <button className="absolute bottom-2 right-2 bg-gray-200 p-2 rounded-full hover:bg-gray-300 z-10">
+                  <Camera onClick={() => setIsModalOpen(true)}
+                    className="w-5 h-5 text-gray-700" />
+                </button>
+              </div>
+              <div className="flex-1">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">{data.name} {data.apellido}</h1>
+                <div className="text-base sm:text-lg text-gray-500 mb-3 flex items-center">
+                  <span> <strong>0</strong> Posts</span>
+                  <span className="mx-2">·</span>
+                  <span
+                    onClick={toggleModal} >{data.followers?.length || 0} seguidores</span>
+                  <span className="mx-2">·</span>
+                  <span onClick={Modaltoggle}>
+                    {data.following?.length || 0} siguiendo</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="absolute bottom-0 right-0 p-1 rounded-full bg-white shadow-lg opacity-95"
-        >
 
-          <img
-            src="\img\icons\photo-camera.png"
-            alt="Icono de cámara"
-            className="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8"
-          />
-        </button>
-      </div>
-
-      <div className="flex flex-col items-start">
-        <div className="flex items-center space-x-2 sm:space-x-4">
-          <h1 className="text-base sm:text-xl md:text-3xl font-semibold">
-            {data.name} {data.apellido}
-          </h1>
-          <Link href="/client/edit">
-            <button className="px-3 sm:px-4 py-1 border rounded-md text-xs sm:text-sm md:text-lg">
-              Editar perfil
+        <div className="flex items-center w-full md:w-1/2 gap-4 justify-center">
+          <button className="bg-[#0866FF] text-white px-3 py-2 rounded-md font-semibold flex items-center gap-2">
+            <span className="text-xl">+</span> Añadir a historia
+          </button>
+          <Link href="/client/edit/provide">
+            <button className="bg-gray-200 px-3 py-2 rounded-md font-semibold flex items-center gap-2">
+              <Pencil className="w-4 h-4" /> Editar perfil
             </button>
           </Link>
-          {/* <button className="px-3 sm:px-4 py-1 border rounded-md text-xs sm:text-sm md:text-lg">
-            Editar perfil
-          </button> */}
-          <button className="px-3 sm:px-4 py-1 border rounded-md text-xs sm:text-sm md:text-lg">
-            Ver archivo
+          <button className="p-2 hover:bg-gray-100 rounded-md">
+            <MoreHorizontal className="w-6 h-6" />
           </button>
-          <i className="fas fa-cog text-md sm:text-lg"></i>
         </div>
-        <div className="flex mt-3 text-xs sm:text-sm md:text-lg space-x-4">
-          <span><strong>0</strong> publicaciones</span>
-          <span onClick={toggleModal} ><strong>{data.followers?.length || 0}</strong> seguidores</span>
-          <span onClick={Modaltoggle}><strong>{data.following?.length || 0}</strong> seguidos</span>
-        </div>
-        <Seguidores isOpen={isOpen} toggleModal={toggleModal} />
-        <Seguidos OpenIS={OpenIs} Modaltoggle={Modaltoggle} />
+
       </div>
       <Modal
         isOpen={isModalOpen}
@@ -184,7 +187,8 @@ export default function ProfileInfo() {
           </div>
         )}
       </Modal>
-    </div>
-
+      <Seguidores isOpen={isOpen} toggleModal={toggleModal} />
+      <Seguidos OpenIS={OpenIs} Modaltoggle={Modaltoggle} />
+    </>
   );
 }

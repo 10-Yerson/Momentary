@@ -25,17 +25,20 @@ export default function Adiction() {
     fetchData();
   }, []);
 
+  // Si está cargando, mostramos un spinner
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen w-full">
-        <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-gray-800"></div>
-      </div>
+      <div className="flex items-center justify-center bg-white bg-opacity-50 w-full min-h-screen">
+      <div className="w-16 h-16 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
+    </div>
     );
   }
 
+  // Si hay un error y no hay usuario
   if (!user) {
     return <p className="text-red-500 text-center">Error al cargar los datos.</p>;
   }
+
 
   return (
     <div className="h-full w-full flex items-center justify-center">

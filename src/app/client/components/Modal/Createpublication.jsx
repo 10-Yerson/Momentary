@@ -70,7 +70,7 @@ export default function Createpublication({ isOpen, onClose }) {
                             <i className="fas fa-times text-xl">X</i>
                         </button>
                     </div>
-                    <div className="flex items-center mb-4">
+                    {/* <div className="flex items-center mb-4">
                         <img src="https://placehold.co/50x50" alt="User profile picture" className="rounded-full w-12 h-12 mr-3" />
                         <div>
                             <p className="font-semibold">Momentary</p>
@@ -78,7 +78,7 @@ export default function Createpublication({ isOpen, onClose }) {
                                 <i className="fas fa-users mr-1"></i> Amigos <i className="fas fa-caret-down ml-1"></i>
                             </button>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="mb-4">
                         <textarea value={description} onChange={(e) => setDescription(e.target.value)}
                             className="w-full border-none focus:ring-0 text-lg text-gray-700" rows="3" placeholder="¿Qué estás pensando?"></textarea>

@@ -81,14 +81,14 @@ export default function PublicationGetting() {
 
     return (
         <>
-            <div className="mx-auto rounded-lg mt-8 flex w-full">
+            <div className="rounded-lg mt-8 flex w-full">
                 {error && <p className="text-red-500">{error}</p>}
 
                 {publications.length === 0 && (
                     <div className="text-gray-500 text-center w-full md:w-1/2 grid place-content-center">No has creado ninguna publicación todavía.</div>
                 )}
 
-                <div className="space-y-5 w-full md:w-1/2">
+                <div className="space-y-7 w-full md:w-1/2">
                     {publications.map((publication) => (
                         <div key={publication._id} className="rounded-lg shadow-sm">
                             <div className="flex items-center space-x-4 mb-2">
@@ -141,7 +141,7 @@ export default function PublicationGetting() {
                         </div>
                     ))}
                 </div>
-                <div>
+                <div className='hidden lg:block w-1/2'>
                     <InfoUser/>
                 </div>
             </div>
