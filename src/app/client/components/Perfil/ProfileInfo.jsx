@@ -91,7 +91,7 @@ export default function ProfileInfo() {
 
   return (
     <>
-      <div className="w-full bg-white flex flex-col md:flex-row justify-between items-center space-y-5 md:space-y-0 md:space-x-5">
+      <div className="w-full bg-white flex flex-col md:flex-row justify-between items-center space-y-1 md:space-y-0 md:space-x-5">
         <div className="w-full md:w-1/2 px-2">
           <div className="pt-4 pb-4">
             <div className="flex items-end gap-4 mb-4">
@@ -141,7 +141,7 @@ export default function ProfileInfo() {
         </div>
       </div>
 
-      <div className="border-t-2 border-gray-300 my-4 rounded-full "></div>
+      <div className="border-t-2 border-gray-300 my-4 rounded-full sm:my-5"></div>
 
       <Modal
         isOpen={isModalOpen}
