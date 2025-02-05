@@ -6,6 +6,7 @@ import UserPanel from '../components/Dasboard/siderbar';
 import { useEffect, useState } from 'react';
 import axios from '../../../utils/axios';
 import LoadingProfile from './LoadingProfile'
+import PublicNav from '../components/Perfil/publicNav';
 
 
 export default function ProfilePage() {
@@ -40,7 +41,8 @@ export default function ProfilePage() {
             <>
               <ProfileInfo />
               <PostBox />
-              <PublicationGetting />
+              <PublicNav/>
+              {/* <PublicationGetting /> */}
             </> 
           )}
         </div>

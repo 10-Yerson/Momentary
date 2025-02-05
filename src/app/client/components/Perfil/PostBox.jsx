@@ -121,7 +121,6 @@ export default function PostBox() {
           </div>
         </div>
       </div> 
-
       <Createpublication isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
     </div>
   );
