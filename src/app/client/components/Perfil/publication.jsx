@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios';
 import InfoUser from './guardado.jsx';
+import { FaCamera } from "react-icons/fa";
+import Createpublication from '../Modal/Createpublication';
 
 export default function PublicationGetting() {
     const [publications, setPublications] = useState([]);
@@ -10,6 +12,7 @@ export default function PublicationGetting() {
     const [error, setError] = useState('');
     const [userId, setUserId] = useState(null);
     const [likesState, setLikesState] = useState({}); // Estado para manejar los likes de cada publicación
+    const [isModalOpen, setModalOpen] = useState(false);
 
     // Obtener el userId de localStorage al montar el componente
     useEffect(() => {
@@ -82,69 +85,82 @@ export default function PublicationGetting() {
     return (
         <>
             <div className="rounded-lg mt-8 flex w-full">
-                {error && <p className="text-red-500">{error}</p>}
-
-                {publications.length === 0 && (
-                    <div className="text-gray-500 text-center w-full md:w-1/2 grid place-content-center">No has creado ninguna publicación todavía.</div>
-                )}
-
                 <div className="space-y-7 w-full md:w-1/2">
-                    {publications.map((publication) => (
-                        <div key={publication._id} className="rounded-lg shadow-sm">
-                            <div className="flex items-center space-x-4 mb-2">
-                                <img
-                                    src={publication.user.profilePicture || 'https://metro.co.uk/wp-content/uploads/2018/09/sei_30244558-285d.jpg?quality=90&strip=all'}
-                                    alt="Perfil"
-                                    className="w-10 h-10 rounded-full object-cover"
-                                />
-                                <div>
-                                    <h3 className="text-lg font-semibold">{publication.user.name}</h3>
-                                    <p className="text-sm text-gray-500">{new Date(publication.createdAt).toLocaleString()}</p>
-                                </div>
-                            </div>
-
-                            <p className="mb-4">{publication.description}</p>
-
-                            {publication.image && (
-                                <img
-                                    onDoubleClick={() => handleLike(publication._id)}
-                                    src={publication.image}
-                                    alt="Imagen de la publicación"
-                                    className="w-full  object-cover rounded-lg"
-                                />
-                            )}
-
-                            <div className="flex items-center justify-between px-5 py-2">
-                                <div className="flex space-x-4">
-                                    <button
-                                        className="focus:outline-none"
-                                        onClick={() => handleLike(publication._id)}
-                                        disabled={loading} // Deshabilitar el botón mientras se envía la solicitud
-                                    >
-                                        <img
-                                            src={likesState[publication._id] ? "/img/icons/corazon.png" : "/img/icons/me-gusta.png"}
-                                            alt="Like"
-                                            className="w-6 h-6 object-cover"
-                                        />
-                                    </button>
-                                    <button className="focus:outline-none">
-                                        <img src="/img/icons/comentario.png" alt="Comment" className="w-7 h-7 object-cover" />
-                                    </button>
-                                </div>
-                                <button className="focus:outline-none">
-                                    <img src="/img/icons/guardar-instagram.png" alt="Save" className="w-6 h-6" />
-                                </button>
-                            </div>
-                            <div className="px-4 pb-2">
-                                {Array.isArray(publication.likes) ? publication.likes.length.toLocaleString() : '0'} Me gusta
-                            </div>
+                    {loading ? (
+                        <p className="text-center text-gray-500">Cargando publicaciones...</p>
+                    ) : error ? (
+                        <p className="text-center text-red-500">{error}</p>
+                    ) : publications.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center text-center text-gray-500 mt-10">
+                            <FaCamera className="text-5xl mb-3" />
+                            <h3 className="text-xl font-semibold">Comparte fotos</h3>
+                            <p className="text-sm mb-3">
+                                Cuando compartas fotos, aparecerán en tu perfil.
+                            </p>
+                            <button onClick={() => setModalOpen(true)} className="text-blue-500 font-semibold hover:underline">
+                                Comparte tu primera foto
+                            </button>
                         </div>
-                    ))}
+                    ) : (
+                        publications.map((publication) => (
+                            <div key={publication._id} className="rounded-lg shadow-sm">
+                                <div className="flex items-center space-x-4 mb-2">
+                                    <img
+                                        src={publication.user.profilePicture || 'https://metro.co.uk/wp-content/uploads/2018/09/sei_30244558-285d.jpg?quality=90&strip=all'}
+                                        alt="Perfil"
+                                        className="w-10 h-10 rounded-full object-cover"
+                                    />
+                                    <div>
+                                        <h3 className="text-lg font-semibold">{publication.user.name}</h3>
+                                        <p className="text-sm text-gray-500">{new Date(publication.createdAt).toLocaleString()}</p>
+                                    </div>
+                                </div>
+
+                                <p className="mb-4">{publication.description}</p>
+
+                                {publication.image && (
+                                    <img
+                                        onDoubleClick={() => handleLike(publication._id)}
+                                        src={publication.image}
+                                        alt="Imagen de la publicación"
+                                        className="w-full object-cover rounded-lg"
+                                    />
+                                )}
+
+                                <div className="flex items-center justify-between px-5 py-2">
+                                    <div className="flex space-x-4">
+                                        <button
+                                            className="focus:outline-none"
+                                            onClick={() => handleLike(publication._id)}
+                                            disabled={loading}
+                                        >
+                                            <img
+                                                src={likesState[publication._id] ? "/img/icons/corazon.png" : "/img/icons/me-gusta.png"}
+                                                alt="Like"
+                                                className="w-6 h-6 object-cover"
+                                            />
+                                        </button>
+                                        <button className="focus:outline-none">
+                                            <img src="/img/icons/comentario.png" alt="Comment" className="w-7 h-7 object-cover" />
+                                        </button>
+                                    </div>
+                                    <button className="focus:outline-none">
+                                        <img src="/img/icons/guardar-instagram.png" alt="Save" className="w-6 h-6" />
+                                    </button>
+                                </div>
+                                <div className="px-4 pb-2">
+                                    {Array.isArray(publication.likes) ? publication.likes.length.toLocaleString() : '0'} Me gusta
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
+                <Createpublication isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
                 <div className='hidden lg:block w-1/2'>
-                    <InfoUser/>
+                    <InfoUser />
                 </div>
             </div>
         </>
     );
+
 }
