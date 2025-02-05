@@ -37,7 +37,7 @@ export default function PublicNav() {
                 </button>
             </div>
 
-            <div className="p-4">
+            <div>
                 {activeTab === "posts" && <PublicationGetting />}
                 {activeTab === "saved" && <SavePublication/>}
                 {activeTab === "tagged" && <EtiquetaPublication/>}
