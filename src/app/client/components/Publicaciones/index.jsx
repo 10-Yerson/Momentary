@@ -87,7 +87,7 @@ export default function SeguidoresPublication() {
                 const liked = Array.isArray(publication.likes) && publication.likes.includes(userId); // Verifica si el usuario ya dio "like"
 
                 return (
-                    <div key={publication._id} className="bg-white rounded-lg p-3">
+                    <div key={publication._id} className="bg-white rounded-lg p-2">
                         {/* Información del usuario que publicó */}
                         <Link href={`/client/userprofile/${publication.user._id}`}>
                             <div className="flex items-center py-4">
