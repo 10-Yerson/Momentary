@@ -91,7 +91,7 @@ export default function PostBox() {
       </div> */}
 
       <div className="w-full rounded-lg md:w-1/2 grid place-items-center">
-        <div className="h-[220px] w-full md:w-[700px] bg-slate-200 flex flex-col md:flex-row rounded-xl">
+        <div className="w-full bg-slate-200 flex flex-col md:flex-row rounded-xl">
 
           <div
             className="relative h-[120px] md:h-full w-full md:w-[50%] p-7 text-white rounded-t-xl md:rounded-l-xl bg-center bg-cover before:absolute before:inset-0 before:bg-black before:opacity-50 before:rounded-l-xl"
