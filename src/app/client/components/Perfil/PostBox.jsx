@@ -103,7 +103,7 @@ export default function PostBox() {
                 Comparte tus pensamientos
               </h1>
               <h4 className="text-[12px] pt-[50px] text-[#cccccc] cursor-pointer">
-                Ver todas las publicaciones <i className="fa-solid fa-chevron-right"></i>
+                {user.name}<i className="fa-solid fa-chevron-right"></i>
               </h4>
             </div>
           </div>
@@ -114,13 +114,14 @@ export default function PostBox() {
             </h1>
             <input
               onClick={() => setModalOpen(true)}
-              type="button" readOnly
+              type="button"
+              readOnly
               value="Crear publicación"
-              className="px-3 py-2 bg-blue-600 text-white rounded-md tracking-wide absolute right-12 bottom-7 cursor-pointer"
+              className="hidden md:block px-3 py-2 bg-blue-600 text-white rounded-md tracking-wide cursor-pointer absolute right-12 bottom-7"
             />
           </div>
         </div>
-      </div> 
+      </div>
       <Createpublication isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
     </div>
   );

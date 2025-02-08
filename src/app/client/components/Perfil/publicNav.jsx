@@ -34,7 +34,7 @@ export default function PublicNav() {
                     <span className="hidden sm:inline">Etiquetas</span>
                 </button>
             </div>
-            <div>
+            <div className="pt-4">
                 {activeTab === "posts" && <PublicationGetting />}
                 {activeTab === "saved" && <SavePublication />}
                 {activeTab === "tagged" && <EtiquetaPublication />}
