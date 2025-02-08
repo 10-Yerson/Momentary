@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios';
 import Createpublication from '../Modal/Createpublication';
 import Link from 'next/link';
-import { FaSave, FaPlus, FaCity, FaHeart, FaLink, FaAlignLeft, FaInfoCircle, FaVideo, FaPhotoVideo, FaFilter, FaTh, FaList, FaCog } from 'react-icons/fa';
+import { BsPersonLinesFill, BsHouseDoorFill, BsHeartFill  } from "react-icons/bs";
 
 export default function PostBox() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -28,25 +28,39 @@ export default function PostBox() {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row w-full justify-between rounded-md mt-3 space-y-5">
+    <div className="flex flex-col md:flex-row w-full justify-between rounded-md mt-3 space-y-5 mb-7">
       <div className="w-full md:w-2/5 rounded bg-white">
         <div className=" rounded-lg p-4">
           <h2 className="text-lg font-semibold mb-4">Detalles</h2>
-          <button className="w-full bg-gray-100 text-gray-700 py-2 rounded-md mb-4">Añadir presentación</button>
+          {user?.profile?.descripcion ? (
+            <div className="flex items-center mb-2">
+              <BsPersonLinesFill  className="text-gray-600 text-2xl mr-2 flex-shrink-0" />
+              <span className="break-words">{user.profile.descripcion}</span>
+            </div>
+          ) : (
+            <Link href="/client/edit/profile">
+              <button className="w-full bg-gray-100 text-gray-700 py-2 rounded-md mb-4">
+                Añadir presentación
+              </button>
+            </Link>
+          )}
 
-          <div className="flex items-center mb-2">
-            <FaInfoCircle className="text-gray-600 text-2xl mr-2" />
-            <span>Hola Soy Desarrollador de Software</span>
-          </div>
+          {user?.profile?.origen && (
+            <div className="flex items-center mb-4">
+              <BsHouseDoorFill  className="text-gray-600 text-2xl mr-2" />
+              <span>
+                De <span className="font-semibold">{user.profile.origen}</span>
+              </span>
+            </div>
+          )}
 
-          <div className="flex items-center mb-2">
-            <FaCity className="text-gray-600 text-2xl mr-2" />
-            <span>De <span className="font-semibold" >Popayán</span></span>
-          </div>
-          <div className="flex items-center mb-4">
-            <FaHeart className="text-gray-600 text-2xl mr-2" />
-            <span>Soltero</span>
-          </div>
+          {user?.profile?.estadoCivil && (
+            <div className="flex items-center mb-4">
+              <BsHeartFill className="text-gray-600 text-2xl mr-2" />
+              <span>{user.profile.estadoCivil}</span>
+            </div>
+          )}
+
           <Link href="/client/edit/profile" >
             <button className="w-full bg-gray-100 text-gray-700 py-2 rounded mb-4">Añadir detalles</button>
           </Link>

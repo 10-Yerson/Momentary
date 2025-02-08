@@ -2,13 +2,13 @@ export default function SavePublication() {
     return (
         <div className="w-full grid place-content-center">
 
-            <div class="flex flex-col gap-5 group mx-2 cursor-pointer">
+            <div className="flex flex-col gap-5 group mx-2 cursor-pointer">
                 <div
-                    class="bg-gradient-to-r w-44 sm:w-52 aspect-square items-center justify-center flex from-gray-100 to-gray-300"
+                    className="bg-gradient-to-r w-44 sm:w-52 aspect-square items-center justify-center flex from-gray-100 to-gray-300"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="group-hover:ease-in-out transition duration-700 group-hover:duration-1000 cursor-pointer object-center object-cover group-hover:scale-110 sm:group-hover:scale-150 w-16 sm:w-28 aspect-square rotate-0 group-hover:-rotate-[360deg] group-hover:stroke-lime-600 fill-lime-600 group-hover:-translate-y-12 group-hover:-skew-y-12 group-hover:skew-x-12"
+                        className="group-hover:ease-in-out transition duration-700 group-hover:duration-1000 cursor-pointer object-center object-cover group-hover:scale-110 sm:group-hover:scale-150 w-16 sm:w-28 aspect-square rotate-0 group-hover:-rotate-[360deg] group-hover:stroke-lime-600 fill-lime-600 group-hover:-translate-y-12 group-hover:-skew-y-12 group-hover:skew-x-12"
                         fill="currentColor"
                         viewBox="0 0 16 16"
                     >
@@ -18,16 +18,16 @@ export default function SavePublication() {
                     </svg>
                 </div>
 
-                <div class="flex flex-row place-items-center place-content-between">
-                    <div class="flex flex-col gap-1">
+                <div className="flex flex-row place-items-center place-content-between">
+                    <div className="flex flex-col gap-1">
                         <p
-                            class="font-semibold text-lg sm:text-xl relative after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:absolute after:origin-bottom-left after:transform after:ease-in-out after:duration-500 cursor-pointer w-full after:w-full group-hover:after:scale-x-100 group-hover:after:origin-bottom-left after:bg-lime-600 dark:after:bg-lime-500 text-gray-600 dark:text-lime-500"
+                            className="font-semibold text-lg sm:text-xl relative after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:absolute after:origin-bottom-left after:transform after:ease-in-out after:duration-500 cursor-pointer w-full after:w-full group-hover:after:scale-x-100 group-hover:after:origin-bottom-left after:bg-lime-600 dark:after:bg-lime-500 text-gray-600 dark:text-lime-500"
                         >
                             3D Animation
                         </p>
-                        <p class="text-sm text-gray-500">Design, Dimension</p>
+                        <p className="text-sm text-gray-500">Design, Dimension</p>
                     </div>
-                    <div class="-rotate-45 cursor-pointer">
+                    <div className="-rotate-45 cursor-pointer">
                         <svg
                             clip-rule="evenodd"
                             fill-rule="evenodd"
@@ -35,7 +35,7 @@ export default function SavePublication() {
                             stroke-miterlimit="2"
                             viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg"
-                            class="text-gray-600 font-semibold text-lg sm:text-xl transition-all duration-300 group-hover:transition-all group-hover:duration-300 group-hover:text-gray-200 fill-lime-600 group-hover:bg-lime-600 group-hover:fill-white group-hover:rotate-45 p-px rounded-full w-10 group-hover:rounded-full group-hover:animate-pulse"
+                            className="text-gray-600 font-semibold text-lg sm:text-xl transition-all duration-300 group-hover:transition-all group-hover:duration-300 group-hover:text-gray-200 fill-lime-600 group-hover:bg-lime-600 group-hover:fill-white group-hover:rotate-45 p-px rounded-full w-10 group-hover:rounded-full group-hover:animate-pulse"
                         >
                             <path
                                 d="m12.012 1.995c-5.518 0-9.998 4.48-9.998 9.998s4.48 9.998 9.998 9.998 9.997-4.48 9.997-9.998-4.479-9.998-9.997-9.998zm0 1.5c4.69 0 8.497 3.808 8.497 8.498s-3.807 8.498-8.497 8.498-8.498-3.808-8.498-8.498 3.808-8.498 8.498-8.498zm1.528 4.715s1.502 1.505 3.255 3.259c.146.147.219.339.219.531s-.073.383-.219.53c-1.753 1.754-3.254 3.258-3.254 3.258-.145.145-.336.217-.527.217-.191-.001-.383-.074-.53-.221-.293-.293-.295-.766-.004-1.057l1.978-1.977h-6.694c-.414 0-.75-.336-.75-.75s.336-.75.75-.75h6.694l-1.979-1.979c-.289-.289-.286-.762.006-1.054.147-.147.339-.221.531-.222.19 0 .38.071.524.215z"
