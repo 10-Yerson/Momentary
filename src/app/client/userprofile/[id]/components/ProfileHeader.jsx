@@ -86,38 +86,54 @@ export default function ProfileHeader() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between bg-white p-4 md:p-6 lg:p-8">
-      <div className="flex flex-col md:flex-row items-center text-center md:text-left">
+    <div className="flex flex-col md:flex-row items-center justify-between bg-white py-6 md:pt-8 lg:pt-10 md:pb-5 lg:pb-5 rounded-xl">
+      <div className="flex flex-col md:flex-row items-center text-center md:text-left w-full">
         <img
           alt="Profile picture of user"
-          className="rounded-full border border-gray-200 shadow-lg w-24 h-24 md:w-32 md:h-32 object-cover"
-          src={user.profilePicture || "https://res.cloudinary.com/dbgj8dqup/image/upload/v1725640005/uploads/ktsngfmjvjv094hygwsu.png"}
+          className="rounded-full border border-gray-300 shadow-lg w-32 h-32 md:w-40 md:h-40 object-cover"
+          src={
+            user.profilePicture ||
+            "https://res.cloudinary.com/dbgj8dqup/image/upload/v1725640005/uploads/ktsngfmjvjv094hygwsu.png"
+          }
         />
-        <div className="mt-4 md:mt-0 md:ml-6">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-800">{user.name} {user.apellido}</h2>
-          <div className="flex justify-center md:justify-start space-x-4 mt-2 text-gray-600">
+
+        <div className="mt-4 md:mt-0 md:ml-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
+            {user.name} {user.apellido}
+          </h2>
+
+          <div className="flex justify-center md:justify-start gap-4 md:gap-6 mt-2 text-gray-700 text-sm sm:text-base md:text-lg">
             <div><span className="font-bold">{user.postsCount || 0}</span> publicaciones</div>
-            <div onClick={toggleModal}><span  className="font-bold">{user.followers.length || 0}</span> seguidores</div>
-            <div onClick={Modaltoggle}><span className="font-bold">{user.following.length || 0}</span> seguidos</div>
+            <div onClick={toggleModal} className="cursor-pointer hover:text-gray-800 transition">
+              <span className="font-bold">{user.followers.length || 0}</span> seguidores
+            </div>
+            <div onClick={Modaltoggle} className="cursor-pointer hover:text-gray-800 transition">
+              <span className="font-bold">{user.following.length || 0}</span> seguidos
+            </div>
           </div>
+
           <UserSeguidores isOpen={isOpen} toggleModal={toggleModal} />
           <UserSeguidos OpenIS={OpenIs} Modaltoggle={Modaltoggle} />
-          <div className="mt-4 flex justify-center md:justify-start space-x-2">
+
+          <div className="mt-6 flex flex-wrap justify-center md:justify-start gap-2">
             <button
-              className={`px-4 py-1 rounded ${isFollowing ? 'bg-gray-200 text-gray-800' : 'bg-blue-500 text-white'}`}
+              className={`px-4 py-1 md:px-6 md:py-2 rounded-lg text-sm md:text-md font-semibold transition ${isFollowing
+                ? 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                : 'bg-blue-500 text-white hover:bg-blue-600'
+                }`}
               onClick={handleFollowToggle}
             >
               {followButtonText}
             </button>
-            <button className="px-4 py-1 bg-gray-200 text-gray-800 rounded">Enviar mensaje</button>
-            <button className="px-2 py-1 text-gray-800 rounded">
-              <FaCog size={24} color="#000" />
+            <button className="px-4 py-1 md:px-6 md:py-2 bg-gray-200 text-gray-800 rounded-lg text-sm md:text-md font-semibold hover:bg-gray-300 transition">
+              Enviar mensaje
+            </button>
+            <button className="p-2 text-gray-800 rounded-lg hover:bg-gray-200 transition">
+              <FaCog size={20} />
             </button>
           </div>
+
         </div>
-      </div>
-      <div className="mt-4 md:mt-0 text-2xl md:ml-6">
-        <i className="fas fa-ellipsis-h"></i>
       </div>
       <ToastContainer />
     </div>

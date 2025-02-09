@@ -69,11 +69,11 @@ export default function UpdateProfile() {
   if (loading) return <p className="text-gray-600 text-center">Cargando datos del usuario...</p>;
 
   return (
-    <div className="p-6 flex justify-center w-full">
+    <div className="p-6 flex justify-center w-full mb-24 lg:mb-0">
       <div className="w-full bg-white">
-        <h2 className="text-2xl font-bold text-center text-gray-800 flex items-center justify-center gap-2 mb-6">
+        {/* <h2 className="text-2xl font-bold text-center text-gray-800 flex items-center justify-center gap-2 mb-6">
           <FaUser className="text-blue-500" /> Actualizar Perfil
-        </h2>
+        </h2> */}
 
         {/* Contenedor de los campos */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
