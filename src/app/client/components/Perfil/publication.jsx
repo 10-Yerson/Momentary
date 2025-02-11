@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios';
-import InfoUser from './guardado.jsx';
+import SavePublication from './guardado.jsx';
 import { FaCamera } from "react-icons/fa";
 import Createpublication from '../Modal/Createpublication';
 
@@ -157,7 +157,7 @@ export default function PublicationGetting() {
                 </div>
                 <Createpublication isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
                 <div className='hidden lg:block w-1/2'>
-                    <InfoUser />
+                    <SavePublication />
                 </div>
             </div>
         </>

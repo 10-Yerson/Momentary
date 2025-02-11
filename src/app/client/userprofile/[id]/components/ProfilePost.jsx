@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SavePublication from '@/app/client/components/Perfil/guardado';
 
 export default function ProfilePost() {
   const { id } = useParams(); // Obtiene el ID del usuario de la URL
@@ -97,87 +98,93 @@ export default function ProfilePost() {
   }
 
   return (
-    <div className="">
-      {message && <p className="text-center text-gray-500 pt-10 text-1xl">{message}</p>}
-      {!message && publications.length > 0 ? (
-        publications.map((publication) => {
-          const liked = Array.isArray(publication.likes) && publication.likes.includes(userId);
+    <div div className="rounded-lg mt-8 flex w-full" >
+      <div className="space-y-4 w-full md:w-1/2 px-2">
+        {message && <p className="text-center text-gray-500 pt-10 text-1xl">{message}</p>}
+        {!message && publications.length > 0 ? (
+          publications.map((publication) => {
+            const liked = Array.isArray(publication.likes) && publication.likes.includes(userId);
 
-          //const liked = publication.likes.includes(userId); // Verificar si el usuario ha dado like
-          return (
-            <div key={publication._id} className="px-2 rounded-lg my-2">
-              <div className="flex items-center space-x-4 mb-2">
-                <img
-                  src={publication.user.profilePicture || 'https://metro.co.uk/wp-content/uploads/2018/09/sei_30244558-285d.jpg?quality=90&strip=all'}
-                  alt="Perfil"
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-                <div>
-                  <h3 className="text-lg font-semibold">{publication.user.name}</h3>
-                  <p className="text-sm text-gray-500">{new Date(publication.createdAt).toLocaleString()}</p>
+            //const liked = publication.likes.includes(userId); // Verificar si el usuario ha dado like
+            return (
+              <div key={publication._id} className="px-2 rounded-lg my-2">
+                <div className="flex items-center space-x-4 mb-2">
+                  <img
+                    src={publication.user.profilePicture || 'https://metro.co.uk/wp-content/uploads/2018/09/sei_30244558-285d.jpg?quality=90&strip=all'}
+                    alt="Perfil"
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                  <div>
+                    <h3 className="text-lg font-semibold">{publication.user.name}</h3>
+                    <p className="text-sm text-gray-500">{new Date(publication.createdAt).toLocaleString()}</p>
+                  </div>
                 </div>
-              </div>
 
-              <p className="mb-4">{publication.description}</p>
+                <p className="mb-4">{publication.description}</p>
 
-              {/* {publication.image && (
+                {/* {publication.image && (
                 <img onDoubleClick={() => handleLike(publication._id, liked)}
                   src={publication.image}
                   alt="Imagen de la publicación"
                   className="w-full h-96 object-cover rounded-lg"
                 />
               )} */}
-              <div className="w-full">
-                <img onDoubleClick={() => handleLike(publication._id, liked)} // Manejar doble clic para dar "like"
-                  src={publication.image} alt="Publication" className="w-full object-cover rounded-lg" />
-              </div>
+                <div className="w-full">
+                  <img onDoubleClick={() => handleLike(publication._id, liked)} // Manejar doble clic para dar "like"
+                    src={publication.image} alt="Publication" className="w-full object-cover rounded-lg" />
+                </div>
 
-              <div className="flex items-center justify-between px-5 py-2">
-                <div className="flex space-x-4">
-                  {/* Botón de Like */}
-                  <button
-                    className="focus:outline-none"
-                    onClick={() => handleLike(publication._id, liked)}
-                    disabled={loading} // Deshabilitar el botón mientras se envía la solicitud
-                  >
-                    <img
-                      src={liked ? "/img/icons/corazon.png" : "/img/icons/me-gusta.png"}
-                      alt="Like"
-                      className="w-6 h-6 object-cover"
-                    />
-                  </button>
+                <div className="flex items-center justify-between px-5 py-2">
+                  <div className="flex space-x-4">
+                    {/* Botón de Like */}
+                    <button
+                      className="focus:outline-none"
+                      onClick={() => handleLike(publication._id, liked)}
+                      disabled={loading} // Deshabilitar el botón mientras se envía la solicitud
+                    >
+                      <img
+                        src={liked ? "/img/icons/corazon.png" : "/img/icons/me-gusta.png"}
+                        alt="Like"
+                        className="w-6 h-6 object-cover"
+                      />
+                    </button>
 
-                  {/* Botón de Comentario */}
+                    {/* Botón de Comentario */}
+                    <button className="focus:outline-none">
+                      <img
+                        src="/img/icons/comentario.png"
+                        alt="Comment"
+                        className="w-7 h-7 object-cover"
+                      />
+                    </button>
+                  </div>
+                  {/* Botón de Guardar */}
                   <button className="focus:outline-none">
                     <img
-                      src="/img/icons/comentario.png"
-                      alt="Comment"
-                      className="w-7 h-7 object-cover"
+                      src="/img/icons/guardar-instagram.png"
+                      alt="Save"
+                      className="w-6 h-6"
                     />
                   </button>
                 </div>
-                {/* Botón de Guardar */}
-                <button className="focus:outline-none">
-                  <img
-                    src="/img/icons/guardar-instagram.png"
-                    alt="Save"
-                    className="w-6 h-6"
-                  />
-                </button>
-              </div>
 
-              {/* Contador de likes */}
-              <div className="px-4 pb-2">
-                <p className="text-sm font-semibold mb-1">
-                  {Array.isArray(publication.likes) ? publication.likes.length.toLocaleString() : '0'} Me gusta
-                </p>
+                {/* Contador de likes */}
+                <div className="px-4 pb-2">
+                  <p className="text-sm font-semibold mb-1">
+                    {Array.isArray(publication.likes) ? publication.likes.length.toLocaleString() : '0'} Me gusta
+                  </p>
+                </div>
               </div>
-            </div>
-          );
-        })
-      ) : (
-        !message && <p className="text-center text-gray-500 pt-10 text-1xl">No hay publicaciones de este usuario.</p>
-      )}
+            );
+          })
+        ) : (
+          !message && <p className="text-center text-gray-500 pt-10 text-1xl">No hay publicaciones de este usuario.</p>
+        )}
+
+      </div>
+      <div className='hidden lg:block w-1/2'>
+        <SavePublication />
+      </div>
       <ToastContainer />
     </div>
   );
