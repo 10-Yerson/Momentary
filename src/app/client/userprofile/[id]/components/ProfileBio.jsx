@@ -26,7 +26,7 @@ export default function ProfileBio() {
   }, []);
 
   return (
-    <div className="mt-4 w-4/5 md:w-3/5 lg:w-1/2 md:mx-auto lg:mx-0 mx-auto rounded-md">
+    <div className="mt-4 w-[85%] md:w-4/5 lg:w-1/2 md:mx-0 mx-auto rounded-md">
       <h2 className="text-lg font-semibold mb-4">Detalles</h2>
 
       {data?.profile?.descripcion || data?.profile?.origen || data?.profile?.estadoCivil ? (
@@ -53,9 +53,13 @@ export default function ProfileBio() {
           )}
         </>
       ) : (
-        <div class="flex items-center p-3 w-full bg-white rounded-md">
-          <section class="flex justify-center items-center w-14 h-14 rounded-full shadow-md overflow-hidden">
-            <img src={data.profilePicture} alt="Foto de perfil" class="w-full h-full object-cover rounded-full"/>
+        <div class="flex items-center w-full bg-white rounded-md" >
+          <section className="flex justify-center items-center w-16 h-16 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-full shadow-md overflow-hidden">
+            <img
+              src={data.profilePicture}
+              alt="Foto de perfil"
+              className="w-full h-full object-cover rounded-full"
+            />
           </section>
 
           <section class="block border-l border-gray-300 m-3">
