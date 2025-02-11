@@ -67,12 +67,12 @@ export default function Login() {
                             required
                             type="text"
                             className="ml-2 rounded-lg border-none w-full h-full focus:outline-none"
-                            placeholder="Enter your Email"
+                            placeholder="Ingresa tu correo electrónico"
                         />
                     </div>
 
                     <div className="flex flex-col mt-4">
-                        <label className="text-gray-800 font-semibold">Password</label>
+                        <label className="text-gray-800 font-semibold">Contraseña</label>
                     </div>
                     <div className="flex items-center border border-gray-200 rounded-lg h-12 px-2 transition duration-200 focus-within:border-blue-500">
                         <svg height="20" viewBox="-64 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg">
@@ -85,15 +85,15 @@ export default function Login() {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                             className="ml-2 rounded-lg border-none w-full h-full focus:outline-noe"
-                            placeholder="Enter your Password"
+                            placeholder="Ingresa tu contraseña"
                         />
                     </div>
 
                     <div className="flex items-center justify-between mt-4">
-                        <div className="flex items-center gap-2">
+                        {/* <div className="flex items-center gap-2">
                             <input type="radio" className="form-radio text-blue-600" />
                             <label className="text-gray-800 font-normal text-sm">Remember me</label>
-                        </div>
+                        </div> */}
                         <span className="text-blue-600 text-sm font-medium cursor-pointer">Olvide mi contraseña?</span>
                     </div>
 
@@ -103,9 +103,9 @@ export default function Login() {
                         {loading ? 'Cargando...' : 'Iniciar Sesión'}
                     </button>
 
-                    <p className="text-center text-gray-800 text-sm mt-4">No tienes cuenta?
+                    <p className="text-center text-gray-800 text-sm mt-4">¿No tienes una cuenta?{" "}
                         <Link href="/auth/sign-up">
-                            <span className="ml-1 text-blue-600 font-medium cursor-pointer">Register</span>
+                            <span className="ml-1 text-blue-600 font-medium cursor-pointer">Registrarme</span>
                         </Link>
                     </p>
                 </form>

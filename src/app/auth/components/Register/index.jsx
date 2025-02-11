@@ -80,7 +80,7 @@ export default function Register() {
                 <path d="M12 2c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 12c-4.42 0-8 3.58-8 8h16c0-4.42-3.58-8-8-8z" />
               </svg>
               <input id="name" value={name} onChange={(e) => setName(e.target.value)}
-                placeholder="Enter your Nombre" className="pl-5 pr-2 w-full h-full border-none rounded-lg outline-none" type="text" />
+                placeholder="Ingresa tu nombre" className="pl-5 pr-2 w-full h-full border-none rounded-lg outline-none" type="text" />
             </div>
 
             <div className="flex flex-col mt-3">
@@ -91,7 +91,7 @@ export default function Register() {
                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-3.31 0-6 2.69-6 6v2h12v-2c0-3.31-2.69-6-6-6z" />
               </svg>
               <input id="apellido" value={apellido} onChange={(e) => setApellido(e.target.value)}
-                placeholder="Enter your Apellido" className="pl-5 pr-2 w-full h-full border-none rounded-lg outline-none" type="text" />
+                placeholder="Ingresa tu apellido" className="pl-5 pr-2 w-full h-full border-none rounded-lg outline-none" type="text" />
             </div>
 
             <div className="flex flex-col mt-3">
@@ -102,7 +102,7 @@ export default function Register() {
                 <path d="M6 2v2H4v2h2v2H4v14h16V6h-2V4h-2V2H6zm8 16H10v-2h4v2zm2-4H8v-2h8v2zm-4-4H8V8h4v2z" />
               </svg>
               <input id="fechaNacimiento" value={fechaNacimiento} onChange={(e) => setFechaNacimiento(e.target.value)}
-                placeholder="Select your Date of Birth" className="pl-5 pr-2 w-full h-full border-none rounded-lg outline-none" type="date" />
+                placeholder="Selecciona tu fecha de nacimiento" className="pl-5 pr-2 w-full h-full border-none rounded-lg outline-none" type="date" />
             </div>
 
             <div className="flex flex-col mt-3 mb-1">
@@ -124,8 +124,8 @@ export default function Register() {
 
             <button onClick={nextStep} type="button"
               className="bg-gray-900 text-white text-base font-medium rounded-lg h-12 w-full mt-5 mb-2 cursor-pointer">Siguiente</button>
-            <p className="text-center text-black text-sm my-2">Don't have an account? <span className="text-blue-600 font-medium cursor-pointer">
-              <a href="/auth/sign-in">Sign In</a>
+            <p className="text-center text-black text-sm my-2"> ¿Ya tienes una cuenta?{" "} <span className="text-blue-600 font-medium cursor-pointer">
+              <a href="/auth/sign-in">Iniciar sesión</a>
             </span></p>
           </div>
         )}
@@ -144,14 +144,14 @@ export default function Register() {
               <input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your Email"
+                placeholder="Ingresa tu correo electrónico"
                 className="pl-8 pr-2 w-full h-full border-none rounded-lg outline-none"
                 type="text"
               />
             </div>
 
             <div className="flex flex-col">
-              <label className="text-gray-900 font-semibold">Password</label>
+              <label className="text-gray-900 font-semibold">Contraseña</label>
             </div>
             <div className="relative border border-gray-200 rounded-lg h-12 flex items-center pl-2 transition-all duration-200 ease-in-out focus-within:border-blue-600">
               <svg height="20" viewBox="-64 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg">
@@ -161,14 +161,14 @@ export default function Register() {
               <input
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your Password"
+                placeholder="Ingresa tu contraseña"
                 className="pl-8 pr-2 w-full h-full border-none rounded-lg outline-none"
                 type="password"
               />
             </div>
 
             <div className="flex flex-col">
-              <label className="text-gray-900 font-semibold">Confirm Password</label>
+              <label className="text-gray-900 font-semibold">Confirmar contraseña</label>
             </div>
             <div className="relative border border-gray-200 rounded-lg h-12 flex items-center pl-2 transition-all duration-200 ease-in-out focus-within:border-blue-600">
               <svg height="20" viewBox="-64 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg">
@@ -178,7 +178,7 @@ export default function Register() {
               <input
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm your Password"
+                placeholder="Confirma tu contraseña"
                 className="pl-8 pr-2 w-full h-full border-none rounded-lg outline-none"
                 type="password"
               />
@@ -198,7 +198,7 @@ export default function Register() {
               type="submit"
               className="bg-gray-900 text-white text-base font-medium rounded-lg h-12 w-full mt-5 mb-2 cursor-pointer opacity-95"
             >
-              Registrar
+              Crear cuenta
             </button>
 
             <div className="flex justify-between">
