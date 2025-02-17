@@ -124,7 +124,7 @@ const Messages = () => {
     return (
         <div className="flex justify-around w-full overflow-hidden">
 
-            <div className="w-full lg:w-[55%] bg-white shadow-md rounded-lg p-4">
+            <div className={`w-full lg:w-[55%] bg-white shadow-md rounded-lg p-4 ${selectedUser ? "hidden md:block" : "block"}`}>
                 <div className="flex justify-between items-center mb-4">
                     <h1 className="text-xl font-semibold">Chats</h1>
                     <div className="flex gap-3">
@@ -132,7 +132,6 @@ const Messages = () => {
                         <FaRegEdit className="text-gray-600 text-lg" />
                     </div>
                 </div>
-
 
                 <div className="relative mb-4">
                     <FaSearch className="absolute left-3 top-3 text-gray-500" />
@@ -147,7 +146,6 @@ const Messages = () => {
 
                 <div className="w-full bg-white rounded-lg p-2">
                     <h2 className="text-sm font-semibold text-gray-700 mb-2">Historias</h2>
-
                     <div className="flex gap-4 overflow-x-auto pb-2">
                         {/* Botón para añadir historia */}
                         <div className="text-center">
@@ -184,7 +182,6 @@ const Messages = () => {
                         )}
                     </div>
                 </div>
-
                 <h2 className="text-sm text-gray-600 mt-4 mb-2">Más recientes</h2>
                 <div className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded-lg">
                     <div className="w-12 h-12 rounded-full bg-gray-200 overflow-hidden">
@@ -199,14 +196,14 @@ const Messages = () => {
                 </div>
 
             </div>
-
-            <div className="flex flex-col h-screen w-full lg:w-[45%] shadow-md rounded-2xl py-1">
+s
+            <div className={`flex flex-col h-screen w-full lg:w-[45%] shadow-md rounded-2xl py-1 ${selectedUser ? "block" : "hidden md:block"}`}>
                 {selectedUser ? (
                     <>
                         <div className="flex relative items-center justify-between p-2 bg-white shadow rounded-b-lg">
                             <div className="flex items-center">
-                                <FaArrowLeft onClick={() => setSelectedUser(null)} className="text-blue-500 text-xl" />
-                                <img src={selectedUser?.profilePicture} alt="User profile" className="rounded-full ml-2 h-14 w-14 object-conver" />
+                                <FaArrowLeft onClick={() => setSelectedUser(null)} className="text-blue-500 text-xl " />
+                                <img src={selectedUser?.profilePicture} alt="User profile" className="rounded-full ml-2 h-14 w-14 object-cover" />
                                 <div className="ml-2">
                                     <div className="font-bold">{selectedUser.name} {selectedUser.apellido}</div>
                                     <div className="text-gray-500 text-sm">Activo(a) hace 28 minutos</div>
@@ -288,6 +285,7 @@ const Messages = () => {
             </div>
 
         </div>
+
     );
 };
 
