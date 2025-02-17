@@ -196,7 +196,7 @@ const Messages = () => {
                 </div>
 
             </div>
-s
+
             <div className={`flex flex-col h-screen w-full lg:w-[45%] shadow-md rounded-2xl py-1 ${selectedUser ? "block" : "hidden md:block"}`}>
                 {selectedUser ? (
                     <>
