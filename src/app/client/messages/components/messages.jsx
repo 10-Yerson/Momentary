@@ -15,6 +15,7 @@ const Messages = () => {
 
     const [search, setSearch] = useState("");
     const [selectedMessage, setSelectedMessage] = useState(null);
+    const [userIM, setUser] = useState('');
 
     useEffect(() => {
         const storedUserId = localStorage.getItem("userId");
@@ -120,6 +121,20 @@ const Messages = () => {
         }
     }, [selectedUser]);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const userId = localStorage.getItem('userId');
+                if (!userId) throw new Error('ID del usuario no encontrado en localStorage');
+                const response = await axios.get(`/api/user/${userId}`);
+                setUser(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData();
+    }, []);
+
 
     return (
         <div className="flex justify-around w-full overflow-hidden">
@@ -178,18 +193,18 @@ const Messages = () => {
                                 </div>
                             ))
                         ) : (
-                            <p className="text-sm text-gray-500">No hay historias disponibles.</p>
+                            <p className="text-sm text-gray-500">¡Sigue a alguien y empieza a chatear!</p>
                         )}
                     </div>
                 </div>
                 <h2 className="text-sm text-gray-600 mt-4 mb-2">Más recientes</h2>
                 <div className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded-lg">
                     <div className="w-12 h-12 rounded-full bg-gray-200 overflow-hidden">
-                        <img src="/user5.jpg" alt="Yulieth Serna" className="w-full h-full object-cover" />
+                        <img src={userIM?.profilePicture} alt="Yulieth Serna" className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1">
-                        <h3 className="font-medium">Yulieth Serna</h3>
-                        <p className="text-sm text-gray-500 truncate">Ya te agrego</p>
+                        <h3 className="font-medium">{userIM.name} {userIM.apellido}</h3>
+                        <p className="text-sm text-gray-500 truncate">En desarrollo, próximamente disponible.</p>
                     </div>
                     <div className="text-xs text-gray-400">mié.</div>
                     <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
@@ -279,7 +294,27 @@ const Messages = () => {
                     </>
                 ) : (
                     <div className="flex items-center justify-center h-full text-gray-500">
-                        Selecciona un usuario para chatear
+
+                        <div className="relative flex w-80 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+                            <div className="relative mx-4 -mt-6 h-40 overflow-hidden rounded-xl bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
+                                <img src={userIM?.profilePicture} alt="Imagen de chat" className="w-full h-full object-cover" />
+                            </div>
+                            <div className="p-6">
+                                <h5 className="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
+                                    ¿Sabías que chatear mejora tu ánimo? 😊
+                                </h5>
+                                <p className="block font-sans text-base font-light leading-relaxed text-inherit antialiased">
+                                    Conectar con otros y compartir momentos puede hacerte sentir mejor. ¡Empieza ahora!
+                                </p>
+                            </div>
+                            <div className="p-6 pt-0">
+                                <button data-ripple-light="true" type="button" className="select-none rounded-lg bg-blue-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                                    Empezar a chatear
+                                </button>
+                            </div>
+                        </div>
+
+
                     </div>
                 )}
             </div>
