@@ -124,7 +124,7 @@ const Messages = () => {
     return (
         <div className="flex justify-around w-full overflow-hidden">
 
-            <div className="w-full md:w-2/5  bg-white shadow-md rounded-lg p-4">
+            <div className="w-full lg:w-[55%] bg-white shadow-md rounded-lg p-4">
                 <div className="flex justify-between items-center mb-4">
                     <h1 className="text-xl font-semibold">Chats</h1>
                     <div className="flex gap-3">
@@ -200,13 +200,13 @@ const Messages = () => {
 
             </div>
 
-            <div className="flex flex-col h-screen w-full md:w-2/5 shadow-md rounded-2xl py-1">
+            <div className="flex flex-col h-screen w-full lg:w-[45%] shadow-md rounded-2xl py-1">
                 {selectedUser ? (
                     <>
                         <div className="flex relative items-center justify-between p-2 bg-white shadow rounded-b-lg">
                             <div className="flex items-center">
                                 <FaArrowLeft onClick={() => setSelectedUser(null)} className="text-blue-500 text-xl" />
-                                <img src={selectedUser?.profilePicture} alt="User profile" className="rounded-full ml-2 h-14 w-14 object-contain" />
+                                <img src={selectedUser?.profilePicture} alt="User profile" className="rounded-full ml-2 h-14 w-14 object-conver" />
                                 <div className="ml-2">
                                     <div className="font-bold">{selectedUser.name} {selectedUser.apellido}</div>
                                     <div className="text-gray-500 text-sm">Activo(a) hace 28 minutos</div>
@@ -214,9 +214,9 @@ const Messages = () => {
                             </div>
                         </div>
 
-                        <div className="flex-1 overflow-y-auto bg-slate-50" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+                        <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
                             <div className="flex flex-col items-center p-4">
-                                <img src={selectedUser?.profilePicture} alt="User profile large" className="rounded-xl h-24 w-24 object-contain" />
+                                <img src={selectedUser?.profilePicture} alt="User profile large" className="rounded-xl h-24 w-24 object-cover" />
                                 <div className="font-bold text-xl mt-2">{selectedUser.name} {selectedUser.apellido}</div>
                                 <div className="bg-gray-100 p-2 rounded-xl mt-2 text-center">
                                     Cifrado de extremo a extremo
@@ -233,7 +233,7 @@ const Messages = () => {
                                         className={`flex items-start mb-4 ${msg.sender === userId ? "justify-end" : "justify-start"}`}
                                     >
                                         {msg.sender !== userId && (
-                                            <img src={selectedUser?.profilePicture} alt="User profile" className="rounded-full h-9 w-9 object-contain" />
+                                            <img src={selectedUser?.profilePicture} alt="User profile" className="rounded-full h-9 w-9 object-cover" />
                                         )}
 
                                         <div
@@ -267,7 +267,7 @@ const Messages = () => {
                             </div>
                         </div>
 
-                        <div className="flex items-center p-2 bg-white rounded-md ">
+                        <div className="flex items-center p-2 bg-gray-100 rounded-md shadow rounded-t-lg">
                             <FaImage className="text-blue-500 text-2xl ml-4" />
                             <FaSmile className="text-blue-500 text-2xl ml-4" />
                             <input
