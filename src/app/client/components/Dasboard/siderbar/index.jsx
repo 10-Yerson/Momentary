@@ -57,7 +57,7 @@ export default function UserPanel() {
           </div>
         </nav>
 
-        <nav className="w-full flex justify-around dark:bg-gray-800 p-3 fixed bottom-0 sm:block md:hidden">
+        <nav className="w-full flex justify-around dark:bg-gray-800 p-3 fixed bottom-0 sm:block md:hidden z-50 bg-white">
           <ul className="flex justify-around w-full text-gray-700 dark:text-gray-400 capitalize">
             <NavItems
               href="/client/messages"
