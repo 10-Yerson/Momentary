@@ -9,6 +9,7 @@ import { FaCheckCircle, FaTrash } from "react-icons/fa"; // Icono azul de visto
 const Messages = () => {
     const [activeUsers, setActiveUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
+    const [inbox, setInbox] = useState([]);
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState("");
     const [userId, setUserId] = useState(null);
@@ -36,13 +37,26 @@ const Messages = () => {
             }
         };
 
+        // Obtener la bandeja de entrada
+        const fetchInbox = async () => {
+            try {
+                const response = await axios.get(`/api/messages/inbox`);
+                setInbox(response.data);
+            } catch (error) {
+                console.error("Error al obtener la bandeja de entrada:", error);
+            }
+        };
+
         fetchUsers();
+        fetchInbox();
 
         socket.on("receiveMessage", (newMessage) => {
             if (selectedUser && newMessage.sender === selectedUser._id) {
                 setMessages((prev) => [...prev, newMessage]);
                 markMessageAsSeen(newMessage._id);
             }
+            // Actualizar la bandeja de entrada en tiempo real
+            fetchInbox();
         });
 
         return () => {
@@ -198,18 +212,54 @@ const Messages = () => {
                     </div>
                 </div>
                 <h2 className="text-sm text-gray-600 mt-4 mb-2">Más recientes</h2>
-                <div className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded-lg">
-                    <div className="w-12 h-12 rounded-full bg-gray-200 overflow-hidden">
-                        <img src={userIM?.profilePicture} alt="Yulieth Serna" className="w-full h-full object-cover" />
-                    </div>
-                    <div className="flex-1">
-                        <h3 className="font-medium">{userIM.name} {userIM.apellido}</h3>
-                        <p className="text-sm text-gray-500 truncate">En desarrollo, próximamente disponible.</p>
-                    </div>
-                    <div className="text-xs text-gray-400">mié.</div>
-                    <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
-                </div>
+                {inbox.length === 0 ? (
+                    <p className="text-sm text-gray-500">No hay conversaciones recientes.</p>
+                ) : (
+                    inbox.map((conversation) => (
+                        <div
+                            key={conversation.userId}
+                            onClick={() => selectUser(conversation.user)}
+                            className={`flex items-center gap-3 p-2 hover:bg-gray-100 rounded-lg cursor-pointer 
+                            ${selectedUser?.userId === conversation.userId ? 'bg-gray-200' : ''}`}
+                        >
+                            {/* Imagen de perfil */}
+                            <div className="w-12 h-12 rounded-full bg-gray-200 overflow-hidden">
+                                <img
+                                    src={conversation.user?.profilePicture || "/default-profile.jpg"}
+                                    alt={conversation.user?.name}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
 
+                            {/* Nombre y último mensaje */}
+                            <div className="flex-1">
+                                <h3 className="font-medium">{conversation.user?.name} {conversation.user?.apellido}</h3>
+                                <p className={`text-sm truncate ${conversation.unreadCount > 0 ? 'font-bold text-black' : 'text-gray-500'}`}>
+                                    {conversation.lastMessage}
+                                </p>
+                            </div>
+
+                            {/* Fecha del último mensaje */}
+                            <div className="text-xs text-gray-400">{new Date(conversation.lastMessageTime).toLocaleDateString()}</div>
+
+                            {/* Indicador de no leído */}
+                            {conversation.unreadCount > 0 && (
+                                <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
+                            )}
+
+                            {/* ✅ Indicador de "Visto" SOLO si el usuario es el remitente */}
+                            {conversation.lastMessageSender === userId && conversation.unreadCount === 0 && (
+                                <div className="w-4 h-4">
+                                    <img
+                                        src="/check-double.svg" // Ícono de doble check azul
+                                        alt="Visto"
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    ))
+                )}
             </div>
 
             <div className={`flex flex-col h-screen w-full lg:w-[45%] shadow-md rounded-2xl py-1 ${selectedUser ? "block" : "hidden md:block"}`}>
