@@ -219,7 +219,7 @@ const Messages = () => {
                         <div
                             key={conversation.userId}
                             onClick={() => selectUser(conversation.user)}
-                            className={`flex items-center gap-3 p-2 hover:bg-gray-100 rounded-lg cursor-pointer 
+                            className={`flex items-center gap-3 py-2  rounded-lg cursor-pointer 
                             ${selectedUser?.userId === conversation.userId ? 'bg-gray-200' : ''}`}
                         >
                             {/* Imagen de perfil */}
