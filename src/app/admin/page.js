@@ -1,11 +1,16 @@
+
 import ProtectedRoute from '../../components/protected/ProtectedRoute';
-import Dashboard from '@/app/admin/components/SidebarADM';
+import Dashboard from './components/Dashboard';
+import AdminLayout from "./layouts/AdminLayout";
+
 
 export default function AdminPage() {
 
     return (
         <ProtectedRoute roles={['admin']}>
-            <Dashboard/>
+            <AdminLayout>
+                <Dashboard/>
+            </AdminLayout>
         </ProtectedRoute>
     );
 }
