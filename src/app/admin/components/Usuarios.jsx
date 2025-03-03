@@ -4,15 +4,17 @@ import { useEffect, useState } from 'react';
 import axios from '../../../utils/axios';
 
 export default function Usuarios() {
-    const [userInfo, setUserInfo] = useState([]); 
+    const [userInfo, setUserInfo] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`/api/user/`);
-                setUserInfo(response.data); 
+                setUserInfo(response.data);
             } catch (error) {
                 console.error('Error al obtener usuarios:', error);
                 setError('No se pudo cargar la información de los usuarios.');
@@ -22,6 +24,18 @@ export default function Usuarios() {
         };
         fetchData();
     }, []);
+
+    const openModal = async (userId) => {
+        try {
+            const response = await axios.get(`/api/user/${userId}`);
+            setSelectedUser(response.data);
+            console.log('DATA', response.data);
+
+            setModalOpen(true);
+        } catch (error) {
+            console.error('Error al obtener detalles del usuario:', error);
+        }
+    };
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-5">
@@ -111,17 +125,80 @@ export default function Usuarios() {
                                     {user.email}
                                 </td>
                                 <td className="px-6 py-4">
-                                    <a
-                                        href="#"
-                                        className="font-medium text-blue-500 hover:underline"
-                                    >
+                                    <button onClick={() => openModal(user._id)} className="text-blue-500 hover:underline">
                                         Perfil
-                                    </a>
+                                    </button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+            )}
+            {modalOpen && selectedUser && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-6 rounded-2xl shadow-xl w-96 relative">
+                        <button
+                            onClick={() => setModalOpen(false)}
+                            className="absolute top-3 right-3 text-gray-500 hover:text-red-500 transition duration-300 text-xl"
+                        >
+                            ✖
+                        </button>
+
+                        <div className="absolute top-3 left-3 font-bold">
+                            <div className="relative group">
+                                <button className="text-3xl font-bold hover:text-gray-700">
+                                    ⋮
+                                </button>
+                                <div className="hidden group-hover:block absolute left-0 mt-2 w-32 bg-white shadow-lg rounded-lg border">
+                                    <button
+                                        onClick={() => console.log('Editar usuario', selectedUser.name)}
+                                        className="block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 text-left"
+                                    >
+                                        ✏ Editar
+                                    </button>
+                                    <button
+                                        onClick={() => console.log('Eliminar usuario', selectedUser.name)}
+                                        className="block w-full px-4 py-2 text-red-600 hover:bg-gray-100 text-left"
+                                    >
+                                        🗑 Eliminar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col items-center">
+                            <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-blue-500 shadow-md">
+                                <img
+                                    src={selectedUser.profilePicture || "/default-avatar.png"}
+                                    className="w-full h-full object-cover"
+                                    alt={selectedUser.name}
+                                />
+                            </div>
+                            <h2 className="text-2xl font-bold text-gray-800 mt-3">
+                                {selectedUser.name} {selectedUser.apellido}
+                            </h2>
+                            <p className="text-gray-500 text-sm">{selectedUser.email}</p>
+                        </div>
+
+                        <div className="mt-4 space-y-2 text-gray-700">
+                            <p><strong>📌 Género:</strong> {selectedUser.profile.genero}</p>
+                            <p><strong>🎂 Fecha de Nacimiento:</strong> {new Date(selectedUser.profile.fechaNacimiento).toLocaleDateString()}</p>
+                            <p><strong>🎨 Hobbies:</strong> {selectedUser.profile.hobbies?.length > 0 ? selectedUser.profile.hobbies.join(", ") : "Sin hobbies"}</p>
+                        </div>
+
+                        {/* Seguidores y Seguidos */}
+                        <div className="mt-4 flex justify-between text-center">
+                            <div className="flex flex-col">
+                                <span className="text-xl font-bold">{selectedUser.followers.length}</span>
+                                <span className="text-gray-500 text-sm">Seguidores</span>
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-xl font-bold">{selectedUser.following.length}</span>
+                                <span className="text-gray-500 text-sm">Seguidos</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );
