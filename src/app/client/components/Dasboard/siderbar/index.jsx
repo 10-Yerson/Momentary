@@ -58,11 +58,20 @@ export default function UserPanel() {
     );
   };
 
-  const NavItems = ({ href, Icon, isActive }) => {
+  const NavItems = ({ href, Icon, isActive, hasNotification }) => {
     return (
       <li className="p-2 text-black">
-        <a href={href} className={`flex flex-col items-center pb-3 ${isActive ? "border-b-2 border-black" : ""}`}>
-          <Icon className="h-5 w-5 text-black" />
+        <a
+          href={href}
+          className={`relative flex flex-col items-center pb-3 ${isActive ? "border-b-2 border-black" : ""
+            }`}
+        >
+          <div className="relative">
+            <Icon className="h-5 w-5 text-black" />
+            {hasNotification && !isActive && (
+              <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 border-2 border-white dark:border-gray-800 rounded-full"></span>
+            )}
+          </div>
         </a>
       </li>
     );
@@ -89,7 +98,7 @@ export default function UserPanel() {
 
         <nav className="w-full flex justify-around dark:bg-gray-800 p-3 fixed bottom-0 sm:block md:hidden z-50 bg-white">
           <ul className="flex justify-around w-full text-gray-700 dark:text-gray-400 capitalize">
-            <NavItems href="/client/messages" Icon={RiMessage3Fill} isActive={usePathname() === "/client/messages"} />
+            <NavItems href="/client/messages" Icon={RiMessage3Fill} isActive={usePathname() === "/client/messages"} hasNotification={hasNewMessage} />
             <NavItems href="/client/search" Icon={RiSearchFill} isActive={usePathname() === "/client/search"} />
             <NavItems href="/client" Icon={HiHome} isActive={usePathname() === "/client"} />
             {/* <NavItems href="/client/videos" Icon={MdVideoLibrary} isActive={usePathname() === "/client/videos"} /> */}
