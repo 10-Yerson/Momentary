@@ -10,10 +10,35 @@ import { IoNotifications } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
 
+import { io } from "socket.io-client";
+const socket = io(process.env.NEXT_PUBLIC_BASE_URL);
+
 export default function UserPanel() {
 
-  const NavItem = ({ href, Icon, label }) => {
-    const pathname = usePathname();
+  const pathname = usePathname();
+  const isMessagesPage = pathname === "/client/messages";
+  const [hasNewMessage, setHasNewMessage] = useState(false);
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+
+    if (userId) {
+      socket.emit("join", userId);
+
+      socket.on("receiveMessage", (message) => {
+        console.log("📩 Nuevo mensaje recibido:", message);
+        if (!isMessagesPage) {
+          setHasNewMessage(true);
+        }
+      });
+    }
+
+    return () => {
+      socket.off("receiveMessage");
+    };
+  }, [isMessagesPage]);
+
+  const NavItem = ({ href, Icon, label, hasNotification }) => {
     const isActive = pathname === href;
 
     return (
@@ -24,6 +49,10 @@ export default function UserPanel() {
         >
           <Icon className="h-5 w-5" />
           <span className="text-xs mt-2 tracking-wide">{label}</span>
+
+          {hasNotification && !isActive && (
+            <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full"></span>
+          )}
         </a>
       </li>
     );
@@ -46,7 +75,7 @@ export default function UserPanel() {
 
           <ul className="flex md:flex-col md:mt-2 text-black capitalize space-x-4 md:space-x-0">
             <NavItem href="/client" Icon={HiHome} label="Home" />
-            <NavItem href="/client/messages" Icon={RiMessage3Fill} label="Mensajes" />
+            <NavItem href="/client/messages" Icon={RiMessage3Fill} label="Mensajes" hasNotification={hasNewMessage} />
             <NavItem href="/client/search" Icon={RiSearchFill} label="Buscar" />
             <NavItem href="/client/videos" Icon={MdVideoLibrary} label="Videos" />
             <NavItem href="/client/notifications" Icon={IoNotifications} label="Notificaciones" />
