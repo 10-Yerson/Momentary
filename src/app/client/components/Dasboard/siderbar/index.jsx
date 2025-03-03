@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 import { HiHome } from "react-icons/hi";
 import { RiMessage3Fill, RiSearchFill } from "react-icons/ri";
-import { MdVideoLibrary } from "react-icons/md"; 
+import { MdVideoLibrary } from "react-icons/md";
 import { IoNotifications } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
@@ -26,7 +26,6 @@ export default function UserPanel() {
       socket.emit("join", userId);
 
       socket.on("receiveMessage", (message) => {
-        console.log("📩 Nuevo mensaje recibido:", message);
         if (!isMessagesPage) {
           setHasNewMessage(true);
         }
@@ -45,14 +44,15 @@ export default function UserPanel() {
       <li className="mt-3 p-2 rounded-lg">
         <a
           href={href}
-          className={`flex flex-col items-center pb-1 transition-all duration-300 ${isActive ? "border-b-2 border-black" : "hover:text-blue-600 dark:hover:text-blue-300"}`}
+          className={`relative flex flex-col items-center pb-1 transition-all duration-300 ${isActive ? "border-b-2 border-black" : "hover:text-blue-600 dark:hover:text-blue-300"}`}
         >
-          <Icon className="h-5 w-5" />
+          <div className="relative">
+            <Icon className="h-5 w-5" />
+            {hasNotification && !isActive && (
+              <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 border-2 border-white dark:border-gray-800 rounded-full"></span>
+            )}
+          </div>
           <span className="text-xs mt-2 tracking-wide">{label}</span>
-
-          {hasNotification && !isActive && (
-            <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full"></span>
-          )}
         </a>
       </li>
     );
