@@ -2,7 +2,7 @@
 
 import axios from '../../../../../utils/axios';
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaCog } from 'react-icons/fa';
@@ -11,6 +11,7 @@ import UserSeguidos from './UserSeguidos';
 
 export default function ProfileHeader() {
   const { id } = useParams();
+  const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isFollowing, setIsFollowing] = useState(false);
@@ -55,6 +56,22 @@ export default function ProfileHeader() {
     } catch (error) {
       console.error(error);
       toast.error('Error al actualizar el estado de seguimiento');
+    }
+  };
+
+  // Función para navegar al chat con la información del usuario
+  const navigateToChat = () => {
+    if (user) {
+      // Guardamos la información del usuario en localStorage para recuperarla en la página de mensajes
+      localStorage.setItem('chatWithUser', JSON.stringify({
+        _id: id,
+        name: user.name,
+        apellido: user.apellido,
+        profilePicture: user.profilePicture || "https://res.cloudinary.com/dbgj8dqup/image/upload/v1725640005/uploads/ktsngfmjvjv094hygwsu.png"
+      }));
+      
+      // Navegamos a la página de mensajes
+      router.push('/client/messages');
     }
   };
 
@@ -125,7 +142,10 @@ export default function ProfileHeader() {
             >
               {followButtonText}
             </button>
-            <button className="px-4 py-1 md:px-6 md:py-2 bg-gray-200 text-gray-800 rounded-lg text-sm md:text-md font-semibold hover:bg-gray-300 transition">
+            <button 
+              className="px-4 py-1 md:px-6 md:py-2 bg-gray-200 text-gray-800 rounded-lg text-sm md:text-md font-semibold hover:bg-gray-300 transition"
+              onClick={navigateToChat}
+            >
               Enviar mensaje
             </button>
             <button className="p-2 text-gray-800 rounded-lg hover:bg-gray-200 transition">

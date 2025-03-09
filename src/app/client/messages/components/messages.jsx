@@ -50,6 +50,27 @@ const Messages = () => {
         fetchUsers();
         fetchInbox();
 
+        // Verificar si hay un usuario de chat guardado en localStorage
+        const chatWithUser = localStorage.getItem('chatWithUser');
+        if (chatWithUser) {
+            const userToChat = JSON.parse(chatWithUser);
+            console.log("Abriendo chat con usuario:", userToChat);
+            
+            // Buscar en activeUsers si existe el usuario
+            const foundUser = activeUsers.find(user => user._id === userToChat._id);
+            
+            if (foundUser) {
+                // Si está en la lista de usuarios activos, seleccionamos ese
+                selectUser(foundUser);
+            } else {
+                // Si no está en la lista, usamos la información guardada
+                selectUser(userToChat);
+            }
+            
+            // Limpiamos el localStorage después de usarlo
+            localStorage.removeItem('chatWithUser');
+        }
+
         socket.on("receiveMessage", (newMessage) => {
             if (selectedUser && newMessage.sender === selectedUser._id) {
                 setMessages((prev) => [...prev, newMessage]);
@@ -62,7 +83,7 @@ const Messages = () => {
         return () => {
             socket.off("receiveMessage");
         };
-    }, [selectedUser]);
+    }, [selectedUser, activeUsers]);
 
     const selectUser = async (user) => {
         setSelectedUser(user);
@@ -149,6 +170,12 @@ const Messages = () => {
         fetchData();
     }, []);
 
+    // Manejar envío del mensaje con la tecla Enter
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    };
 
     return (
         <div className="flex justify-around w-full overflow-hidden">
@@ -335,11 +362,12 @@ const Messages = () => {
                             <input
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
+                                onKeyDown={handleKeyDown}
                                 type="text"
                                 placeholder="Mensaje"
                                 className="flex-1 mx-4 p-2 border rounded-full"
                             />
-                            <FaPaperPlane onClick={sendMessage} className="text-blue-500 text-2xl " />
+                            <FaPaperPlane onClick={sendMessage} className="text-blue-500 text-2xl cursor-pointer" />
                         </div>
                     </>
                 ) : (
