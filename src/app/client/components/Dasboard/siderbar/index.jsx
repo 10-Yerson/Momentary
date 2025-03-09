@@ -30,10 +30,16 @@ export default function UserPanel() {
           setHasNewMessage(true);
         }
       });
+  
+      // Add this new listener for pending messages
+      socket.on("pendingMessages", (message) => {
+        setHasNewMessage(true);
+      });
     }
 
     return () => {
       socket.off("receiveMessage");
+      socket.off("pendingMessages"); // Clean up the new listener
     };
   }, [isMessagesPage]);
 
