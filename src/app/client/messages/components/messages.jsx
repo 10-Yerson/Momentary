@@ -4,8 +4,8 @@ import { io } from "socket.io-client";
 import axios from "../../../../utils/axios";
 
 const socket = io(process.env.NEXT_PUBLIC_BASE_URL);
-import { FaCheck, FaCheckDouble, FaPaperPlane, FaSearch, FaRegEdit, FaCog, FaArrowLeft, FaPhone, FaVideo, FaLock, FaCamera, FaImage, FaMicrophone, FaSmile, FaThumbsUp, FaRegCheckCircle } from "react-icons/fa";
-import { FaCheckCircle, FaTrash } from "react-icons/fa"; // Icono azul de visto
+import { FaPaperPlane, FaSmile, FaSearch, FaRegEdit, FaCog, FaArrowLeft, FaImage, FaCheckCircle, FaTrash, FaRegCheckCircle } from "react-icons/fa";
+
 const Messages = () => {
     const [activeUsers, setActiveUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
@@ -17,6 +17,7 @@ const Messages = () => {
     const [search, setSearch] = useState("");
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [userIM, setUser] = useState('');
+    const [suggestedUsers, setSuggestedUsers] = useState([]);
 
     useEffect(() => {
         const storedUserId = localStorage.getItem("userId");
@@ -31,7 +32,6 @@ const Messages = () => {
             try {
                 const response = await axios.get(`/api/followers/seguidos/${storedUserId}`);
                 setActiveUsers(response.data);
-                console.log(JSON.stringify(response.data, null, 2) + " msg");
             } catch (error) {
                 console.error("Error al obtener usuarios seguidos:", error);
             }
@@ -54,20 +54,14 @@ const Messages = () => {
         const chatWithUser = localStorage.getItem('chatWithUser');
         if (chatWithUser) {
             const userToChat = JSON.parse(chatWithUser);
-            console.log("Abriendo chat con usuario:", userToChat);
             
-            // Buscar en activeUsers si existe el usuario
             const foundUser = activeUsers.find(user => user._id === userToChat._id);
             
             if (foundUser) {
-                // Si está en la lista de usuarios activos, seleccionamos ese
                 selectUser(foundUser);
             } else {
-                // Si no está en la lista, usamos la información guardada
                 selectUser(userToChat);
             }
-            
-            // Limpiamos el localStorage después de usarlo
             localStorage.removeItem('chatWithUser');
         }
 
@@ -76,7 +70,6 @@ const Messages = () => {
                 setMessages((prev) => [...prev, newMessage]);
                 markMessageAsSeen(newMessage._id);
             }
-            // Actualizar la bandeja de entrada en tiempo real
             fetchInbox();
         });
 
@@ -120,7 +113,7 @@ const Messages = () => {
     };
 
     const markMessageAsSeen = async (msgId) => {
-        console.log("Marcando mensaje como visto, ID:", msgId); // Debug
+        console.log("Marcando mensaje como visto, ID:", msgId);
         if (!msgId) {
             console.error("Error: msgId es undefined");
             return;
@@ -133,7 +126,6 @@ const Messages = () => {
         }
     };
 
-
     const deleteMessage = async (msgId) => {
         try {
             await axios.delete(`/api/messages/${msgId}`);
@@ -142,13 +134,14 @@ const Messages = () => {
             console.error("Error al eliminar mensaje:", error);
         }
     };
-    const messagesEndRef = useRef(null);
+
     // Efecto para hacer scroll automático al último mensaje
+    const messagesEndRef = useRef(null);
     useEffect(() => {
         if (messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
-    }, [messages]); // Se ejecuta cada vez que los mensajes cambian
+    }, [messages]); 
 
     useEffect(() => {
         if (selectedUser) {
@@ -168,6 +161,19 @@ const Messages = () => {
             }
         };
         fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchSuggestions = async () => {
+            try {
+                const response = await axios.get('/api/followers/sugerencias');
+                setSuggestedUsers(response.data);
+                console.log("Sugerencias de usuarios:", response.data);
+            } catch (error) {
+                console.error("Error al obtener sugerencias:", error);
+            }
+        };
+        fetchSuggestions();
     }, []);
 
     // Manejar envío del mensaje con la tecla Enter
@@ -203,7 +209,6 @@ const Messages = () => {
                 <div className="w-full bg-white rounded-lg p-2">
                     <h2 className="text-sm font-semibold text-gray-700 mb-2">Historias</h2>
                     <div className="flex gap-4 overflow-x-auto pb-2">
-                        {/* Botón para añadir historia */}
                         <div className="text-center">
                             <div className="relative w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden border-2 border-blue-500">
                                 <button className="w-full h-full flex items-center justify-center text-blue-500 text-3xl font-bold">
@@ -213,7 +218,6 @@ const Messages = () => {
                             <p className="text-xs mt-1">Añadir</p>
                         </div>
 
-                        {/* Mostrar historias de usuarios */}
                         {activeUsers.length > 0 ? (
                             activeUsers.map((user, index) => (
                                 <div key={index} className="text-center">
@@ -233,11 +237,29 @@ const Messages = () => {
                                     <p className="text-xs mt-1">{user.name}</p>
                                 </div>
                             ))
+                        ) : suggestedUsers.length > 0 ? (
+                            suggestedUsers.map((user, index) => (
+                                <div key={index} className="text-center">
+                                    <div className="relative w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden border-2 border-gray-300">
+                                        {user.profilePicture ? (
+                                            <img
+                                                src={user.profilePicture}
+                                                alt={`${user.name} ${user.apellido}`}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center text-gray-500">?</div>
+                                        )}
+                                    </div>
+                                    <p className="text-xs mt-1">{user.name}</p>
+                                </div>
+                            ))
                         ) : (
-                            <p className="text-sm text-gray-500">¡Sigue a alguien y empieza a chatear!</p>
+                            <p className="text-sm text-gray-500 self-center">¡No hay usuarios sugeridos disponibles!</p>
                         )}
                     </div>
                 </div>
+
                 <h2 className="text-sm text-gray-600 mt-4 mb-2">Más recientes</h2>
                 {inbox.length === 0 ? (
                     <p className="text-sm text-gray-500">No hay conversaciones recientes.</p>
