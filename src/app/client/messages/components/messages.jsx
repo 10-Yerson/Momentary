@@ -2,6 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import axios from "../../../../utils/axios";
+import Loading from "./loading"; 
 
 const socket = io(process.env.NEXT_PUBLIC_BASE_URL);
 import { FaPaperPlane, FaSmile, FaSearch, FaRegEdit, FaCog, FaArrowLeft, FaImage, FaCheckCircle, FaTrash, FaRegCheckCircle } from "react-icons/fa";
@@ -18,67 +19,78 @@ const Messages = () => {
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [userIM, setUser] = useState('');
     const [suggestedUsers, setSuggestedUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const storedUserId = localStorage.getItem("userId");
         if (!storedUserId) {
             console.error("ID del usuario no encontrado");
+            setLoading(false);
             return;
         }
         setUserId(storedUserId);
         socket.emit("join", storedUserId);
 
-        const fetchUsers = async () => {
+        const fetchData = async () => {
+            setLoading(true);
             try {
-                const response = await axios.get(`/api/followers/seguidos/${storedUserId}`);
-                setActiveUsers(response.data);
+                // Obtener usuarios seguidos
+                const usersResponse = await axios.get(`/api/followers/seguidos/${storedUserId}`);
+                setActiveUsers(usersResponse.data);
+
+                // Obtener la bandeja de entrada
+                const inboxResponse = await axios.get(`/api/messages/inbox`);
+                setInbox(inboxResponse.data);
+
+                // Obtener datos del usuario actual
+                const userResponse = await axios.get(`/api/user/${storedUserId}`);
+                setUser(userResponse.data);
+
+                // Obtener sugerencias de usuarios
+                const suggestionsResponse = await axios.get('/api/followers/sugerencias');
+                setSuggestedUsers(suggestionsResponse.data);
+                
+                // Verificar si hay un usuario de chat guardado en localStorage
+                const chatWithUser = localStorage.getItem('chatWithUser');
+                if (chatWithUser) {
+                    const userToChat = JSON.parse(chatWithUser);
+                    
+                    const foundUser = usersResponse.data.find(user => user._id === userToChat._id);
+                    
+                    if (foundUser) {
+                        selectUser(foundUser);
+                    } else {
+                        selectUser(userToChat);
+                    }
+                    localStorage.removeItem('chatWithUser');
+                }
             } catch (error) {
-                console.error("Error al obtener usuarios seguidos:", error);
+                console.error("Error al cargar datos:", error);
+            } finally {
+                setLoading(false);
             }
         };
 
-        // Obtener la bandeja de entrada
-        const fetchInbox = async () => {
-            try {
-                const response = await axios.get(`/api/messages/inbox`);
-                setInbox(response.data);
-            } catch (error) {
-                console.error("Error al obtener la bandeja de entrada:", error);
-            }
-        };
-
-        fetchUsers();
-        fetchInbox();
-
-        // Verificar si hay un usuario de chat guardado en localStorage
-        const chatWithUser = localStorage.getItem('chatWithUser');
-        if (chatWithUser) {
-            const userToChat = JSON.parse(chatWithUser);
-            
-            const foundUser = activeUsers.find(user => user._id === userToChat._id);
-            
-            if (foundUser) {
-                selectUser(foundUser);
-            } else {
-                selectUser(userToChat);
-            }
-            localStorage.removeItem('chatWithUser');
-        }
+        fetchData();
 
         socket.on("receiveMessage", (newMessage) => {
             if (selectedUser && newMessage.sender === selectedUser._id) {
                 setMessages((prev) => [...prev, newMessage]);
                 markMessageAsSeen(newMessage._id);
             }
-            fetchInbox();
+            // Actualizar bandeja de entrada después de recibir un mensaje
+            axios.get(`/api/messages/inbox`)
+                .then(response => setInbox(response.data))
+                .catch(error => console.error("Error al actualizar bandeja:", error));
         });
 
         return () => {
             socket.off("receiveMessage");
         };
-    }, [selectedUser, activeUsers]);
+    }, [selectedUser]);
 
     const selectUser = async (user) => {
+        setLoading(true);
         setSelectedUser(user);
         try {
             const res = await axios.get(`/api/messages/${user._id}`);
@@ -91,6 +103,8 @@ const Messages = () => {
             });
         } catch (err) {
             console.error("Error al obtener mensajes:", err);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -143,45 +157,17 @@ const Messages = () => {
         }
     }, [messages]); 
 
-    useEffect(() => {
-        if (selectedUser) {
-            console.log("Usuario seleccionado:", selectedUser);
-        }
-    }, [selectedUser]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const userId = localStorage.getItem('userId');
-                if (!userId) throw new Error('ID del usuario no encontrado en localStorage');
-                const response = await axios.get(`/api/user/${userId}`);
-                setUser(response.data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        const fetchSuggestions = async () => {
-            try {
-                const response = await axios.get('/api/followers/sugerencias');
-                setSuggestedUsers(response.data);
-                console.log("Sugerencias de usuarios:", response.data);
-            } catch (error) {
-                console.error("Error al obtener sugerencias:", error);
-            }
-        };
-        fetchSuggestions();
-    }, []);
-
     // Manejar envío del mensaje con la tecla Enter
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             sendMessage();
         }
     };
+
+    // Mostrar el loading mientras se cargan los datos
+    if (loading) {
+        return <Loading />;
+    }
 
     return (
         <div className="flex justify-around w-full overflow-hidden">
@@ -246,6 +232,7 @@ const Messages = () => {
                                                 src={user.profilePicture}
                                                 alt={`${user.name} ${user.apellido}`}
                                                 className="w-full h-full object-cover"
+                                                onClick={() => selectUser(user)}
                                             />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center text-gray-500">?</div>
