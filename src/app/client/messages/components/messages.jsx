@@ -164,7 +164,6 @@ const Messages = () => {
         }
     };
 
-    // Mostrar el loading mientras se cargan los datos
     if (loading) {
         return <Loading />;
     }
