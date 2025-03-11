@@ -5,22 +5,22 @@ import { useRouter } from 'next/navigation';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
     const router = useRouter();
-    const [loading, setLoading] = useState(true);
+    const [authorized, setAuthorized] = useState(false); // Estado para controlar el acceso
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         const role = localStorage.getItem('role');
 
         if (!token) {
-            router.push('/auth/sign-in'); 
+            router.push('/auth/sign-in');
         } else if (allowedRoles && !allowedRoles.includes(role)) {
-            router.push('/auth/sign-in'); 
+            router.push('/auth/sign-in');
         } else {
-            setLoading(false); 
+            setAuthorized(true); 
         }
     }, [router, allowedRoles]);
 
-    if (loading) return <p className="text-center mt-10">Cargando...</p>;
+    if (!authorized) return null;
 
     return <>{children}</>;
 };
