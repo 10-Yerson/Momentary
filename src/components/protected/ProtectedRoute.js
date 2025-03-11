@@ -1,22 +1,26 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children, allowedRoles }) => {
     const router = useRouter();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const checkAccess = () => {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                router.push('/auth/login');
-                return;
-            }
-        };
+        const token = localStorage.getItem('token');
+        const role = localStorage.getItem('role');
 
-        checkAccess();
-    }, [router]);
+        if (!token) {
+            router.push('/auth/sign-in'); 
+        } else if (allowedRoles && !allowedRoles.includes(role)) {
+            router.push('/auth/sign-in'); 
+        } else {
+            setLoading(false); 
+        }
+    }, [router, allowedRoles]);
+
+    if (loading) return <p className="text-center mt-10">Cargando...</p>;
 
     return <>{children}</>;
 };

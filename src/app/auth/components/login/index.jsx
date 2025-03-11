@@ -14,6 +14,15 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
+     // Evitar que el usuario vuelva al login si ya está autenticado
+     useEffect(() => {
+        const token = localStorage.getItem('token');
+        const role = localStorage.getItem('role');
+        if (token && role) {
+            router.push(role === 'admin' ? '/admin' : '/client');
+        }
+    }, [router]);
+
     const handleLogin = async (e) => {
         e.preventDefault();
         setLoading(true); // Inicia el loading
@@ -25,23 +34,20 @@ export default function Login() {
 
         try {
             const response = await axios.post('/api/auth/login', dataForm);
-            toast.success('Login exitoso. Bienvenido');
-            const { token, role, userId } = response.data;  // Incluye `userId` en la desestructuración
+            const { token, role, userId } = response.data;  
+
             localStorage.setItem('token', token);
-            localStorage.setItem('userId', userId); // Guardamos el ID del usuario en sessionStorage
-            console.log('Datos de la respuesta:', response.data);
+            localStorage.setItem('role', role);
+            localStorage.setItem('userId', userId); 
 
             // Redirige al usuario según su rol
-            if (role === 'admin') {
-                router.push('/admin');
-            } else if (role === 'user') {
-                router.push('/client');
-            }
+            router.push(role === 'admin' ? '/admin' : '/client');
+
         } catch (error) {
             console.log('Error:', error.response?.data?.msg || error.message);
             toast.error(error.response?.data?.msg || 'Verifica tus datos');
         } finally {
-            setLoading(false); // Finaliza el loading
+            setLoading(false); 
         }
     };
 

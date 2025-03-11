@@ -6,7 +6,7 @@ import Welcome from './components/Home';
 
 export default function UserPage() {
     return (
-        <ProtectedRoute roles={['user', 'admin']}>
+        <ProtectedRoute roles={['user']}>
            <UserPanel/>
           <Welcome/> 
         </ProtectedRoute>
