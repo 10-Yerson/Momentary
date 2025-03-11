@@ -1,15 +1,15 @@
 import UserPanel from '../components/Dasboard/siderbar'
 import AddNotifications from '../components/Notificaciones/add'
 import Notification from '../components/Notificaciones/notificaciones'
+import Layout from '../layout/Layout'
 
 export default function Notificaciones() {
   return (
-    <div>
-      <UserPanel/>
-        <main className="flex overflow-hidden select-none md:ml-40 ml-0 flex-1 md:flex-row">
+    <Layout>
+        <main className="mb-24 lg:mb-0">
            <Notification/>
            <AddNotifications/>
         </main>
-    </div>
+    </Layout>
   )
 }

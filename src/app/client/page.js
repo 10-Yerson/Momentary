@@ -1,14 +1,12 @@
 'use client';
 
-import ProtectedRoute from '../../components/protected/ProtectedRoute';
-import UserPanel from './components/Dasboard/siderbar';
 import Welcome from './components/Home';
+import Layout from './layout/Layout';
 
 export default function UserPage() {
     return (
-        <ProtectedRoute roles={['user']}>
-           <UserPanel/>
-          <Welcome/> 
-        </ProtectedRoute>
+        <Layout>
+            <Welcome />
+        </Layout>
     );
 }

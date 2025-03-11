@@ -1,10 +1,13 @@
 import UserPanel from "../components/Dasboard/siderbar/index";
+import ProtectedRoute from "@/components/protected/ProtectedRoute";
 
 export default function Layout({ children }) {
   return (
-    <div className="flex">
-      <UserPanel />
-      <div className="w-full md:ml-48 lg:ml-52 sm:px-0 md:px-3 lg:px-3">{children}</div>
-    </div>
+    <ProtectedRoute allowedRoles={['user']}>
+      <div className="flex">
+        <UserPanel />
+        <div className="w-full md:ml-40 ml-0 overflow-hidden">{children}</div>
+      </div>
+    </ProtectedRoute>
   );
 }
