@@ -1,6 +1,6 @@
 import React from 'react'
 import Provider from '../../components/Perfil/provide'
-import Layout from '../layout/Layout'
+import Layout from '../../layout/Layout'
 
 
 

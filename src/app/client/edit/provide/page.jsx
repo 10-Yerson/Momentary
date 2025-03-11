@@ -1,6 +1,5 @@
-import UserPanel from '../../components/Dasboard/siderbar'
 import EditPerfil from '../../components/Perfil/EditPerfil'
-import Layout from '../layout/Layout'
+import Layout from '../../layout/Layout'
 
 export default function page() {
     return (
