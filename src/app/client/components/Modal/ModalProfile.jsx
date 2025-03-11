@@ -1,9 +1,20 @@
-'use client'
+'use client';
 
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useRouter } from "next/navigation";
 
 export default function ModalProfile({ isOpen, onClose }) {
+    const router = useRouter();
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('role');
+        router.push('/');
+    };
+
     if (!isOpen) return null;
+
     return (
         <div className="absolute right-6 top-16 w-80 bg-white shadow-lg rounded-lg z-50">
             <div className="px-3 py-3 absolute right-0">
@@ -24,8 +35,11 @@ export default function ModalProfile({ isOpen, onClose }) {
                 <button className="w-full text-left py-2">
                     Enviar comentarios
                 </button>
-                <button className="w-full text-left py-2">
-                    <a href="/">Cerrar sesión</a>
+                <button
+                    onClick={handleLogout}
+                    className="w-full text-left py-2"
+                >
+                    Cerrar sesión
                 </button>
             </div>
 
