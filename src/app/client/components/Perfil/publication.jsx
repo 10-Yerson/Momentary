@@ -5,14 +5,17 @@ import axios from '../../../../utils/axios';
 import SavePublication from './guardado.jsx';
 import { FaCamera } from "react-icons/fa";
 import Createpublication from '../Modal/Createpublication';
+import CommentModal from './comentario';
 
 export default function PublicationGetting() {
     const [publications, setPublications] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [userId, setUserId] = useState(null);
-    const [likesState, setLikesState] = useState({}); // Estado para manejar los likes de cada publicación
+    const [likesState, setLikesState] = useState({});
     const [isModalOpen, setModalOpen] = useState(false);
+    const [commentModalOpen, setCommentModalOpen] = useState(false);
+    const [selectedPublication, setSelectedPublication] = useState(null);
 
     // Obtener el userId de localStorage al montar el componente
     useEffect(() => {
@@ -82,6 +85,28 @@ export default function PublicationGetting() {
         }
     };
 
+    // Abrir el modal de comentarios
+    const openCommentModal = (publicationId) => {
+        setSelectedPublication(publicationId);
+        setCommentModalOpen(true);
+    };
+
+    // Cerrar el modal de comentarios
+    const closeCommentModal = () => {
+        setCommentModalOpen(false);
+        setSelectedPublication(null);
+    };
+
+    // Refrescar las publicaciones después de agregar un comentario
+    const refreshPublications = async () => {
+        try {
+            const response = await axios.get('/api/publication/user');
+            setPublications(response.data);
+        } catch (error) {
+            console.error('Error al actualizar las publicaciones:', error);
+        }
+    };
+
     return (
         <>
             <div className="rounded-lg mt-8 flex w-full">
@@ -140,7 +165,10 @@ export default function PublicationGetting() {
                                                 className="w-6 h-6 object-cover"
                                             />
                                         </button>
-                                        <button className="focus:outline-none">
+                                        <button
+                                            className="focus:outline-none"
+                                            onClick={() => openCommentModal(publication._id)}
+                                        >
                                             <img src="/img/icons/comentario.png" alt="Comment" className="w-7 h-7 object-cover" />
                                         </button>
                                     </div>
@@ -156,6 +184,12 @@ export default function PublicationGetting() {
                     )}
                 </div>
                 <Createpublication isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
+                <CommentModal
+                    isOpen={commentModalOpen}
+                    onClose={closeCommentModal}
+                    publicationId={selectedPublication}
+                    refreshComments={refreshPublications}
+                />
                 <div className='hidden lg:block w-1/2'>
                     <SavePublication />
                 </div>
