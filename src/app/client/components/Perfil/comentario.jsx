@@ -13,23 +13,30 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
     useEffect(() => {
         if (isOpen && publicationId) {
             fetchPublicationData();
+            fetchComments();
         }
     }, [isOpen, publicationId]);
 
     const fetchPublicationData = async () => {
         try {
-            const response = await axios.get(`/api/publication/${publicationId}`);
+            const response = await axios.get(`/api/publication/public/${publicationId}`);
             setPublicationData(response.data);
-            // Obtener comentarios
-            if (response.data.comments) {
-                setComments(response.data.comments);
-            } else {
-                setComments([]);
-            }
         } catch (error) {
             console.error('Error al obtener los datos de la publicación:', error);
         }
     };
+
+    const fetchComments = async () => {
+        try {
+            const response = await axios.get(`/api/comentario/publication/${publicationId}`); // Asegúrate que la ruta sea correcta
+            console.log("Comentarios:", response.data);
+            setComments(response.data); // ✅ Así está correcto, porque el array está directo
+            // Asumiendo que la respuesta es { comments: [...] }
+        } catch (error) {
+            console.error('Error al obtener los comentarios:', error);
+        }
+    };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -37,7 +44,7 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
 
         setLoading(true);
         try {
-            await axios.post(`/api/publication/${publicationId}/comment`, {
+            await axios.post(`/api/comentario/publication/${publicationId}`, {
                 content: comment
             });
             setComment('');
@@ -66,7 +73,6 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
     return (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
             <div className="bg-white w-full max-w-4xl h-[90vh] rounded-lg overflow-hidden flex">
-                {/* Sección de la imagen (lado izquierdo) */}
                 {publicationData && publicationData.image && (
                     <div className="w-1/2 bg-black flex items-center justify-center">
                         <img
@@ -112,63 +118,20 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
 
                     {/* Lista de comentarios */}
                     <div className="flex-1 overflow-y-auto py-2">
-                        {publicationData && (
-                            <div className="flex p-4">
-                                <img
-                                    src={publicationData.user?.profilePicture || 'https://metro.co.uk/wp-content/uploads/2018/09/sei_30244558-285d.jpg?quality=90&strip=all'}
-                                    alt="Perfil"
-                                    className="w-8 h-8 rounded-full object-cover mr-3 self-start"
-                                />
-                                <div>
-                                    <p>
-                                        <span className="font-semibold">{publicationData.user?.name || 'Usuario'}</span> {publicationData.description}
-                                    </p>
-                                    <p className="text-gray-500 text-xs mt-1">
-                                        {new Date(publicationData.createdAt).toLocaleDateString()}
-                                        <span className="ml-2 cursor-pointer">Ver traducción</span>
-                                    </p>
-                                </div>
-                            </div>
-                        )}
-
+                       
                         {/* Comentarios */}
-                        {comments.length > 0 ? (
+                        {Array.isArray(comments) && comments.length > 0 ? (
                             comments.map((comment) => (
                                 <div key={comment._id} className="flex p-4">
                                     <img
-                                        src={comment.user?.profilePicture || 'https://metro.co.uk/wp-content/uploads/2018/09/sei_30244558-285d.jpg?quality=90&strip=all'}
+                                        src={comment.user.profilePicture}
                                         alt="Perfil"
-                                        className="w-8 h-8 rounded-full object-cover mr-3 self-start"
+                                        className="w-8 h-8 rounded-full"
                                     />
-                                    <div className="flex-1">
-                                        <p>
-                                            <span className="font-semibold">{comment.user?.name || 'Usuario'}</span> {comment.content}
-                                        </p>
-                                        <div className="flex items-center mt-1 text-xs text-gray-500">
-                                            <span>{new Date(comment.createdAt).toLocaleDateString()}</span>
-                                            <span className="mx-2">{comment.likes?.length || 0} Me gusta</span>
-                                            <span className="cursor-pointer">Responder</span>
-                                        </div>
-
-                                        {/* Respuestas a este comentario (si las hay) */}
-                                        {comment.replies && comment.replies.length > 0 && (
-                                            <div className="ml-8 mt-2">
-                                                <p className="text-gray-500 text-xs mb-2 cursor-pointer">
-                                                    Ver respuestas ({comment.replies.length})
-                                                </p>
-                                            </div>
-                                        )}
+                                    <div className="ml-3">
+                                        <p className="font-semibold">{comment.user.name}</p>
+                                        <p>{comment.text}</p>
                                     </div>
-                                    <button
-                                        onClick={() => handleLikeComment(comment._id)}
-                                        className="text-gray-500 hover:text-gray-700 ml-2"
-                                    >
-                                        {comment.isLiked ? (
-                                            <FaHeart className="text-red-500" />
-                                        ) : (
-                                            <FaRegHeart />
-                                        )}
-                                    </button>
                                 </div>
                             ))
                         ) : (
@@ -176,6 +139,8 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                                 <p className="text-gray-500 text-sm">No hay comentarios aún</p>
                             </div>
                         )}
+
+
                     </div>
 
                     {/* Sección inferior: Likes y fecha */}

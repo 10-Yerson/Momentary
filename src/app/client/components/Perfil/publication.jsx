@@ -43,7 +43,7 @@ export default function PublicationGetting() {
         };
 
         fetchUserPublications();
-    }, [userId]); // Agregar dependencia del userId
+    }, [userId]); // Agregar dependencia del userIdo
 
     // Manejar el "like" y "unlike" de una publicación
     const handleLike = async (publicationId) => {

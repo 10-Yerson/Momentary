@@ -19,7 +19,6 @@ export default function PostBox() {
         }
         const response = await axios.get(`/api/user/${userId}`);
         setUser(response.data);
-        console.log(response.data)
       } catch (error) {
         console.error(error);
       }

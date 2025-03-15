@@ -29,7 +29,6 @@ export default function ProfileInfo() {
         }
         const response = await axios.get(`/api/user/${userId}`);
         setdata(response.data);
-        console.log('Data ', response.data)
       } catch (error) {
         console.error('Error fetching data:', error);
         toast.error('Error cargando datos del usuario');
