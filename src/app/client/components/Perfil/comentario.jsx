@@ -24,6 +24,7 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
         try {
             const response = await axios.get(`/api/publication/public/${publicationId}`);
             setPublicationData(response.data);
+            console.log(response.data)
         } catch (error) {
             console.error('Error al obtener los datos de la publicación:', error);
         }
@@ -123,13 +124,47 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
         }));
     };
 
+    const timeAgo = (date) => {
+        const now = new Date();
+        const seconds = Math.floor((now - new Date(date)) / 1000);
+
+        let interval = Math.floor(seconds / 31536000);
+        if (interval >= 1) return `hace ${interval} año${interval > 1 ? 's' : ''}`;
+
+        interval = Math.floor(seconds / 2592000);
+        if (interval >= 1) return `hace ${interval} mes${interval > 1 ? 'es' : ''}`;
+
+        interval = Math.floor(seconds / 86400);
+        if (interval >= 1) return `hace ${interval} día${interval > 1 ? 's' : ''}`;
+
+        interval = Math.floor(seconds / 3600);
+        if (interval >= 1) return `hace ${interval} hora${interval > 1 ? 's' : ''}`;
+
+        interval = Math.floor(seconds / 60);
+        if (interval >= 1) return `hace ${interval} minuto${interval > 1 ? 's' : ''}`;
+
+        return 'hace unos segundos';
+    };
+
+
     if (!isOpen) return null;
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
             <div className="bg-white w-full md:w-[75%] h-[90vh] rounded-lg overflow-hidden flex">
+
+                <button
+                    onClick={onClose}
+                    className="absolute top-6 right-6 text-white z-10"
+                >
+                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+
+                </button>
+
                 {publicationData && publicationData.image && (
-                    <div className="w-1/2 bg-black flex items-center justify-center">
+                    <div className="hidden md:flex md:w-1/2 bg-black items-center justify-center">
                         <img
                             src={publicationData.image}
                             alt="Publicación"
@@ -138,16 +173,8 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                     </div>
                 )}
 
-                {/* Sección de comentarios (lado derecho) */}
-                <div className={`${publicationData && publicationData.image ? 'w-1/2' : 'w-full'} flex flex-col h-full`}>
-                    {/* Cabecera con el perfil */}
-                    <div className="flex items-center p-4 border-b">
-                        <button onClick={onClose} className="ml-auto text-gray-500 hover:text-gray-700">
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                        </button>
-                    </div>
+                <div className={`${publicationData && publicationData.image ? 'md:w-1/2 w-full' : 'w-full'} flex flex-col h-full`}>
+
 
                     {publicationData && (
                         <>
@@ -159,7 +186,7 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                                     className="w-8 h-8 rounded-full object-cover mr-3"
                                 />
                                 <div>
-                                    <span className="font-semibold">{publicationData.user?.name || 'Usuario'}</span>
+                                    <span className="font-semibold">{publicationData.user?.name}</span>
                                     <span className="text-blue-500 ml-2">•</span>
                                 </div>
                                 <div className="ml-auto">
@@ -177,8 +204,8 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                         {/* Comentarios */}
                         {Array.isArray(comments) && comments.length > 0 ? (
                             comments.map((comment) => (
+
                                 <div key={comment._id} className="p-4 border-b">
-                                    {/* Comentario principal */}
                                     <div className="flex">
                                         <img
                                             src={comment.user.profilePicture || 'https://metro.co.uk/wp-content/uploads/2018/09/sei_30244558-285d.jpg?quality=90&strip=all'}
@@ -189,6 +216,7 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                                             <p className="font-semibold">{comment.user.name}</p>
                                             <p>{comment.text}</p>
                                             <div className="flex items-center mt-2 text-xs text-gray-500">
+                                                <span className="mr-3">{timeAgo(comment.createdAt)}</span>
                                                 <button
                                                     onClick={() => comment.likedByUser ? handleUnlikeComment(comment._id) : handleLikeComment(comment._id)}
                                                     className="mr-3 flex items-center"
@@ -200,29 +228,33 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                                                     )}
                                                     {comment.likes?.length || 0}
                                                 </button>
+
                                                 <button
                                                     className="mr-3 flex items-center"
                                                     onClick={() => toggleReply(comment._id)}
                                                 >
-                                                    <FaReply className="mr-1" />
                                                     Responder
                                                 </button>
-                                                <span className="text-xs">{new Date(comment.createdAt).toLocaleDateString()}</span>
 
                                                 {/* Botón para mostrar respuestas solo si hay respuestas */}
                                                 {comment.replies && comment.replies.length > 0 && (
                                                     <button
-                                                        className="ml-auto flex items-center text-blue-500"
+                                                        className="ml-auto flex items-center"
                                                         onClick={() => toggleReplies(comment._id)}
                                                     >
                                                         {expandedComments[comment._id] ? (
-                                                            <>Ocultar respuestas <FaChevronUp className="ml-1" /></>
+                                                            <>Ocultar respuestas</>
                                                         ) : (
-                                                            <>Ver {comment.replies.length} respuesta{comment.replies.length !== 1 ? 's' : ''} <FaChevronDown className="ml-1" /></>
+                                                            <>
+                                                                Ver respuesta{comment.replies.length !== 1 ? 's' : ''} ({comment.replies.length})
+                                                            </>
                                                         )}
                                                     </button>
                                                 )}
+
                                             </div>
+
+
 
                                             {/* Campo para responder */}
                                             {replyingTo === comment._id && (
@@ -260,7 +292,8 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                                                         <div className="ml-2 flex-1">
                                                             <p className="font-semibold text-sm">{reply.user.name}</p>
                                                             <p className="text-sm">{reply.text}</p>
-                                                            <div className="flex items-center mt-1 text-xs text-gray-500">
+                                                            <div className="flex items-center mt-1 text-xs text-gray-500 space-x-3">
+                                                                <span className="text-xs">{timeAgo(reply.createdAt)}</span>
                                                                 <button
                                                                     onClick={() => reply.likedByUser ? handleUnlikeComment(reply._id) : handleLikeComment(reply._id)}
                                                                     className="mr-3 flex items-center"
@@ -272,7 +305,6 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                                                                     )}
                                                                     {reply.likes?.length || 0}
                                                                 </button>
-                                                                <span className="text-xs">{new Date(reply.createdAt).toLocaleDateString()}</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -303,8 +335,8 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                                 <button>
                                     <img
                                         src="/img/icons/comentario.png"
-                                        alt="Comment"
                                         className="w-6 h-6 object-cover"
+                                        alt="Comment"
                                     />
                                 </button>
                                 <button className="ml-auto">
@@ -318,8 +350,8 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                             <p className="font-semibold">
                                 {publicationData.likes?.length.toLocaleString() || 0} Me gusta
                             </p>
-                            <p className="text-gray-500 text-xs">
-                                {new Date(publicationData.createdAt).toLocaleDateString()}
+                            <p className="text-gray-500 text-xs pt-1">
+                            {timeAgo(publicationData.createdAt)}
                             </p>
                         </div>
                     )}
@@ -341,7 +373,7 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                             <button
                                 type="submit"
                                 disabled={loading || !comment.trim()}
-                                className={`text-blue-500 font-semibold ${loading || !comment.trim() ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                className={`text-blue-500 font-semibold ${loading || !comment.trim() ? 'opacity-70 cursor-not-allowed' : ''}`}
                             >
                                 Publicar
                             </button>
