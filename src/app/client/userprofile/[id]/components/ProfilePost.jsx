@@ -6,16 +6,17 @@ import { useParams } from 'next/navigation';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SavePublication from '@/app/client/components/Perfil/guardado';
+import ModalComment from './comentario';
 
 export default function ProfilePost() {
-  const { id } = useParams(); // Obtiene el ID del usuario de la URL
+  const { id } = useParams();
   const [publications, setPublications] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState(''); // Estado para el mensaje
-  //const userId = localStorage.getItem('userId');
+  const [message, setMessage] = useState('');
   const [userId, setUserId] = useState(null);
+  const [commentModalOpen, setCommentModalOpen] = useState(false);
+  const [selectedPublication, setSelectedPublication] = useState(null);
 
-  // Obtener el userId de localStorage al montar el componente
   useEffect(() => {
     const id = localStorage.getItem('userId');
     setUserId(id);
@@ -24,19 +25,18 @@ export default function ProfilePost() {
   useEffect(() => {
     const fetchUserPublications = async () => {
       try {
-        const response = await axios.get(`/api/publication/user/${id}`); // Cambia la URL según tu ruta de publicaciones
-        setPublications(response.data); // Actualiza el estado con las publicaciones
+        const response = await axios.get(`/api/publication/user/${id}`);
+        setPublications(response.data);
 
-        // Si hay un mensaje indicando que no sigue al usuario, actualiza el estado del mensaje
         if (response.data.msg) {
           setMessage(response.data.msg);
         } else {
-          setMessage(''); // Restablecer el mensaje si hay publicaciones
+          setMessage(''); 
         }
 
         setLoading(false);
       } catch (error) {
-        setMessage('Error al cargar las publicaciones del usuario'); // Muestra un mensaje de error
+        setMessage('Error al cargar las publicaciones del usuario'); 
         setLoading(false);
       }
     };
@@ -44,9 +44,7 @@ export default function ProfilePost() {
     fetchUserPublications();
   }, [id]);
 
-  // Manejar el "like" y "unlike" de una publicación
   const handleLike = async (publicationId, liked) => {
-    // Obtener el userId desde localStorage
     const userId = localStorage.getItem('userId');
 
     if (!userId) {
@@ -56,22 +54,19 @@ export default function ProfilePost() {
 
     try {
       if (liked) {
-        // Eliminar el like
         await axios.post(`/api/publication/${publicationId}/unlike`, { userId });
       } else {
-        // Agregar el like
         await axios.post(`/api/publication/${publicationId}/like`, { userId });
       }
 
-      // Actualizar el estado local después de dar o quitar like
       setPublications((prevPublications) =>
         prevPublications.map((publication) =>
           publication._id === publicationId
             ? {
               ...publication,
               likes: liked
-                ? publication.likes.filter((id) => id !== userId) // Eliminar like
-                : [...(Array.isArray(publication.likes) ? publication.likes : []), userId] // Agregar like
+                ? publication.likes.filter((id) => id !== userId) 
+                : [...(Array.isArray(publication.likes) ? publication.likes : []), userId] 
             }
             : publication
         )
@@ -97,6 +92,23 @@ export default function ProfilePost() {
     );
   }
 
+  const openCommentModal = (publicationId) => {
+    setSelectedPublication(publicationId);
+    setCommentModalOpen(true);
+  };
+  const closeCommentModal = () => {
+    setCommentModalOpen(false);
+    setSelectedPublication(null);
+  };
+  // const refreshPublications = async () => {
+  //   try {
+  //     const response = await axios.get('/api/publication/user');
+  //     setPublications(response.data);
+  //   } catch (error) {
+  //     console.error('Error al actualizar las publicaciones:', error);
+  //   }
+  // };
+
   return (
     <div div className="rounded-lg mt-8 flex w-full" >
       <div className="space-y-4 w-full md:w-1/2 px-2">
@@ -105,7 +117,6 @@ export default function ProfilePost() {
           publications.map((publication) => {
             const liked = Array.isArray(publication.likes) && publication.likes.includes(userId);
 
-            //const liked = publication.likes.includes(userId); // Verificar si el usuario ha dado like
             return (
               <div key={publication._id} className="px-2 rounded-lg my-2">
                 <div className="flex items-center space-x-4 mb-2">
@@ -121,14 +132,6 @@ export default function ProfilePost() {
                 </div>
 
                 <p className="mb-4">{publication.description}</p>
-
-                {/* {publication.image && (
-                <img onDoubleClick={() => handleLike(publication._id, liked)}
-                  src={publication.image}
-                  alt="Imagen de la publicación"
-                  className="w-full h-96 object-cover rounded-lg"
-                />
-              )} */}
                 <div className="w-full">
                   <img onDoubleClick={() => handleLike(publication._id, liked)} // Manejar doble clic para dar "like"
                     src={publication.image} alt="Publication" className="w-full object-cover rounded-lg" />
@@ -136,7 +139,6 @@ export default function ProfilePost() {
 
                 <div className="flex items-center justify-between px-5 py-2">
                   <div className="flex space-x-4">
-                    {/* Botón de Like */}
                     <button
                       className="focus:outline-none"
                       onClick={() => handleLike(publication._id, liked)}
@@ -149,8 +151,8 @@ export default function ProfilePost() {
                       />
                     </button>
 
-                    {/* Botón de Comentario */}
-                    <button className="focus:outline-none">
+                    <button onClick={() => openCommentModal(publication._id)}
+                      className="focus:outline-none">
                       <img
                         src="/img/icons/comentario.png"
                         alt="Comment"
@@ -158,7 +160,6 @@ export default function ProfilePost() {
                       />
                     </button>
                   </div>
-                  {/* Botón de Guardar */}
                   <button className="focus:outline-none">
                     <img
                       src="/img/icons/guardar-instagram.png"
@@ -168,7 +169,6 @@ export default function ProfilePost() {
                   </button>
                 </div>
 
-                {/* Contador de likes */}
                 <div className="px-4 pb-2">
                   <p className="text-sm font-semibold mb-1">
                     {Array.isArray(publication.likes) ? publication.likes.length.toLocaleString() : '0'} Me gusta
@@ -185,6 +185,12 @@ export default function ProfilePost() {
       <div className='hidden lg:block w-1/2'>
         <SavePublication />
       </div>
+      <ModalComment
+        isOpen={commentModalOpen}
+        onClose={closeCommentModal}
+        publicationId={selectedPublication}
+        refreshComments={refreshPublications}
+      />
       <ToastContainer />
     </div>
   );

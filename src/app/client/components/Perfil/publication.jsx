@@ -17,7 +17,6 @@ export default function PublicationGetting() {
     const [commentModalOpen, setCommentModalOpen] = useState(false);
     const [selectedPublication, setSelectedPublication] = useState(null);
 
-    // Obtener el userId de localStorage al montar el componente
     useEffect(() => {
         const id = localStorage.getItem('userId');
         setUserId(id);
@@ -29,7 +28,6 @@ export default function PublicationGetting() {
                 const response = await axios.get('/api/publication/user');
                 setPublications(response.data);
 
-                // Inicializa el estado de "likes" para cada publicación
                 const initialLikesState = {};
                 response.data.forEach((publication) => {
                     initialLikesState[publication._id] = publication.likes.includes(userId);
@@ -43,30 +41,25 @@ export default function PublicationGetting() {
         };
 
         fetchUserPublications();
-    }, [userId]); // Agregar dependencia del userIdo
+    }, [userId]); 
 
-    // Manejar el "like" y "unlike" de una publicación
     const handleLike = async (publicationId) => {
         if (!userId) {
             console.error("No se encontró el userId en localStorage");
             return;
         }
 
-        const liked = likesState[publicationId]; // Verifica si el usuario ya ha dado "like"
-
+        const liked = likesState[publicationId]; 
         try {
             if (liked) {
-                // Si ya ha dado like, eliminar el like
                 await axios.post(`/api/publication/${publicationId}/unlike`, { userId });
             } else {
-                // Si no ha dado like, agregar el like
                 await axios.post(`/api/publication/${publicationId}/like`, { userId });
             }
 
-            // Actualizar el estado local después de dar o quitar like
             setLikesState((prevLikesState) => ({
                 ...prevLikesState,
-                [publicationId]: !liked, // Alterna el estado del "like"
+                [publicationId]: !liked, 
             }));
             setPublications((prevPublications) =>
                 prevPublications.map((publication) =>
@@ -74,8 +67,8 @@ export default function PublicationGetting() {
                         ? {
                             ...publication,
                             likes: liked
-                                ? publication.likes.filter((id) => id !== userId) // Eliminar like
-                                : [...publication.likes, userId] // Agregar like
+                                ? publication.likes.filter((id) => id !== userId) 
+                                : [...publication.likes, userId] 
                         }
                         : publication
                 )
@@ -85,19 +78,16 @@ export default function PublicationGetting() {
         }
     };
 
-    // Abrir el modal de comentarios
     const openCommentModal = (publicationId) => {
         setSelectedPublication(publicationId);
         setCommentModalOpen(true);
     };
 
-    // Cerrar el modal de comentarios
     const closeCommentModal = () => {
         setCommentModalOpen(false);
         setSelectedPublication(null);
     };
 
-    // Refrescar las publicaciones después de agregar un comentario
     const refreshPublications = async () => {
         try {
             const response = await axios.get('/api/publication/user');

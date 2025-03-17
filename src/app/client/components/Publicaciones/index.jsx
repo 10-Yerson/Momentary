@@ -1,23 +1,26 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import axios from '../../../../utils/axios'; // Ajusta la ruta según tu estructura 
-import NotFriends from '../../components/Amistades/NotFriends'; // Asegúrate de importar el componente
+import axios from '../../../../utils/axios'; 
+import NotFriends from '../../components/Amistades/NotFriends'; 
 import Link from 'next/link';
+import ModalComment from '../../userprofile/[id]/components/comentario';
+
 
 export default function SeguidoresPublication() {
     const [publications, setPublications] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [userId, setUserId] = useState(null); // Estado para almacenar el userId
+    const [userId, setUserId] = useState(null); 
 
-    // Obtener el userId de localStorage al montar el componente
+    const [commentModalOpen, setCommentModalOpen] = useState(false);
+    const [selectedPublication, setSelectedPublication] = useState(null);
+
     useEffect(() => {
         const id = localStorage.getItem('userId');
         setUserId(id);
     }, []);
 
-    // Obtener publicaciones de la API
     useEffect(() => {
         const fetchPublications = async () => {
             try {
@@ -35,7 +38,6 @@ export default function SeguidoresPublication() {
         fetchPublications();
     }, []);
 
-    // Manejar el "like" y "unlike" de una publicación
     const handleLike = async (publicationId, liked) => {
         if (!userId) {
             console.error("No se encontró el userId en localStorage");
@@ -44,14 +46,11 @@ export default function SeguidoresPublication() {
 
         try {
             if (liked) {
-                // Si ya ha dado like, eliminar el like
                 await axios.post(`/api/publication/${publicationId}/unlike`, { userId });
             } else {
-                // Si no ha dado like, agregar el like
                 await axios.post(`/api/publication/${publicationId}/like`, { userId });
             }
 
-            // Actualizar el estado local después de dar o quitar like
             setPublications((prevPublications) =>
                 prevPublications.map((publication) =>
                     publication._id === publicationId
@@ -76,10 +75,28 @@ export default function SeguidoresPublication() {
     if (loading) return <div className='w-full md:w-1/2 justify- flex items-center px-2'>Cargando publicaciones...</div>;
     if (error) return <p>{error}</p>;
 
-    // Si no hay publicaciones, mostrar el componente NotFriends
     if (publications.length === 0) {
         return <NotFriends />;
     }
+
+    const openCommentModal = (publicationId) => {
+        setSelectedPublication(publicationId);
+        setCommentModalOpen(true);
+    };
+
+    const closeCommentModal = () => {
+        setCommentModalOpen(false);
+        setSelectedPublication(null);
+    };
+
+    // const refreshPublications = async () => {
+    //     try {
+    //         const response = await axios.get('/api/publication/user');
+    //         setPublications(response.data);
+    //     } catch (error) {
+    //         console.error('Error al actualizar las publicaciones:', error);
+    //     }
+    // };
 
     return (
         <div className="w-full md:w-1/2 flex justify-center flex-col">
@@ -88,7 +105,6 @@ export default function SeguidoresPublication() {
 
                 return (
                     <div key={publication._id} className="bg-white rounded-lg p-2">
-                        {/* Información del usuario que publicó */}
                         <Link href={`/client/userprofile/${publication.user._id}`}>
                             <div className="flex items-center py-4">
                                 <img
@@ -105,7 +121,6 @@ export default function SeguidoresPublication() {
                             </div>
                         </Link>
 
-                        {/* Descripción de la publicación */}
                         <div className="pb-2">
                             <p className="mt-2 text-sm">
                                 <span className="font-semibold mr-2">{publication.user.name}</span>
@@ -136,7 +151,8 @@ export default function SeguidoresPublication() {
                                 </button>
 
                                 {/* Botón de Comentario */}
-                                <button className="focus:outline-none">
+                                <button onClick={() => openCommentModal(publication._id)}
+                                    className="focus:outline-none">
                                     <img
                                         src="/img/icons/comentario.png"
                                         alt="Comment"
@@ -163,6 +179,12 @@ export default function SeguidoresPublication() {
                     </div>
                 );
             })}
+            <ModalComment
+                isOpen={commentModalOpen}
+                onClose={closeCommentModal}
+                publicationId={selectedPublication}
+                refreshComments={refreshPublications}
+            />
         </div>
     );
 }
