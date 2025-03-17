@@ -155,12 +155,11 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
 
                 <button
                     onClick={onClose}
-                    className="absolute top-6 right-6 text-white z-10"
+                    className="absolute top-6 right-6 text-white z-10 hidden lg:block"
                 >
                     <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
-
                 </button>
 
                 {publicationData && publicationData.image && (
@@ -189,9 +188,37 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                                     <span className="font-semibold">{publicationData.user?.name}</span>
                                     <span className="text-blue-500 ml-2">•</span>
                                 </div>
-                                <div className="ml-auto">
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+                                <div className="ml-auto flex items-center">
+                                    {/* Ícono de 3 puntos SOLO en pantallas grandes */}
+                                    <svg
+                                        className="w-6 h-6 hidden lg:block"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
+                                        ></path>
+                                    </svg>
+
+                                    {/* Ícono de X SOLO en pantallas pequeñas */}
+                                    <svg
+                                        className="w-6 h-6 block lg:hidden"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="3"
+                                            d="M6 18L18 6M6 6l12 12"
+                                        ></path>
                                     </svg>
                                 </div>
                             </div>
@@ -351,7 +378,7 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                                 {publicationData.likes?.length.toLocaleString() || 0} Me gusta
                             </p>
                             <p className="text-gray-500 text-xs pt-1">
-                            {timeAgo(publicationData.createdAt)}
+                                {timeAgo(publicationData.createdAt)}
                             </p>
                         </div>
                     )}
