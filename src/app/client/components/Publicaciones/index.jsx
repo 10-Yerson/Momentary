@@ -183,7 +183,7 @@ export default function SeguidoresPublication() {
                 isOpen={commentModalOpen}
                 onClose={closeCommentModal}
                 publicationId={selectedPublication}
-                refreshComments={refreshPublications}
+                // refreshComments={refreshPublications}
             />
         </div>
     );
