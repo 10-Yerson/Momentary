@@ -24,7 +24,6 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
         try {
             const response = await axios.get(`/api/publication/public/${publicationId}`);
             setPublicationData(response.data);
-            console.log(response.data)
         } catch (error) {
             console.error('Error al obtener los datos de la publicación:', error);
         }
@@ -33,7 +32,6 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
     const fetchComments = async () => {
         try {
             const response = await axios.get(`/api/comentario/publication/${publicationId}`);
-            console.log("Comentarios:", response.data);
             setComments(response.data);
         } catch (error) {
             console.error('Error al obtener los comentarios:', error);
@@ -189,8 +187,7 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                                     <span className="text-blue-500 ml-2">•</span>
                                 </div>
                                 <div className="ml-auto flex items-center">
-                                    {/* Ícono de 3 puntos SOLO en pantallas grandes */}
-                                    <svg
+                                    <svg 
                                         className="w-6 h-6 hidden lg:block"
                                         fill="none"
                                         stroke="currentColor"
@@ -205,8 +202,8 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                                         ></path>
                                     </svg>
 
-                                    {/* Ícono de X SOLO en pantallas pequeñas */}
                                     <svg
+                                        onClick={onClose}
                                         className="w-6 h-6 block lg:hidden"
                                         fill="none"
                                         stroke="currentColor"
@@ -228,7 +225,6 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                     {/* Lista de comentarios */}
                     <div className="flex-1 overflow-y-auto py-2">
 
-                        {/* Comentarios */}
                         {Array.isArray(comments) && comments.length > 0 ? (
                             comments.map((comment) => (
 
@@ -263,7 +259,6 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                                                     Responder
                                                 </button>
 
-                                                {/* Botón para mostrar respuestas solo si hay respuestas */}
                                                 {comment.replies && comment.replies.length > 0 && (
                                                     <button
                                                         className="ml-auto flex items-center"
@@ -283,7 +278,6 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
 
 
 
-                                            {/* Campo para responder */}
                                             {replyingTo === comment._id && (
                                                 <form onSubmit={handleReplySubmit} className="mt-3 flex">
                                                     <input
@@ -305,7 +299,6 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                                         </div>
                                     </div>
 
-                                    {/* Respuestas (solo si hay respuestas y están expandidas) */}
                                     {comment.replies && comment.replies.length > 0 && expandedComments[comment._id] && (
                                         <div className="ml-8 mt-2">
                                             {comment.replies.map(reply => (
@@ -348,7 +341,6 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                         )}
                     </div>
 
-                    {/* Sección inferior: Likes y fecha */}
                     {publicationData && (
                         <div className="border-t px-4 py-2">
                             <div className="flex space-x-4 my-2">
@@ -382,7 +374,6 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                             </p>
                         </div>
                     )}
-                    {/* Input para comentar */}
                     <div className="border-t p-4">
                         <form onSubmit={handleSubmit} className="flex">
                             <span className="mr-2">
