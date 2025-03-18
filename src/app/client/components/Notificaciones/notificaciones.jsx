@@ -10,11 +10,10 @@ export default function Notification() {
   const [isLoading, setIsLoading] = useState(true);
   const [socket, setSocket] = useState(null);
 
-  // URL del servidor Socket.io - ajusta según tu configuración
+  // URL del servidor Socket.io - ajusta según tu configuraciónzzz
   const SOCKET_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   useEffect(() => {
-    // Cargar notificaciones iniciales
     const fetchNotifications = async () => {
       try {
         const response = await axios.get('/api/notifications');
@@ -32,7 +31,6 @@ export default function Notification() {
     // Inicializar socket para notificaciones en tiempo real
     const initSocket = () => {
       try {
-        // Obtener el ID del usuario
         const userId = localStorage.getItem("userId");
 
         if (!userId) {
@@ -40,39 +38,26 @@ export default function Notification() {
           return;
         }
 
-        // Conectar al servidor socket
         const socketInstance = io(SOCKET_URL);
         setSocket(socketInstance);
 
-        // Registrar al usuario en el sistema de socket
         socketInstance.emit('join', userId);
-        console.log('Usuario conectado al socket:', userId);
 
-        // Escuchar nuevas notificaciones con mejor manejo de errores
         socketInstance.on('newNotification', (notification) => {
-          console.log('Nueva notificación recibida:', notification);
-          console.log('Tipo de notificación:', notification.type);
-
-          // Verificar que la notificación es válida
           if (!notification || !notification._id) {
             console.error('Notificación recibida sin ID válido:', notification);
             return;
           }
 
-          // Actualizar el estado con la nueva notificación
           setNotifications(prevNotifications => {
-            // Comprobar si ya existe esta notificación por ID
             const exists = prevNotifications.some(
               notif => notif._id === notification._id
             );
 
-            // Si no existe, añadirla al principio de la lista
             if (!exists) {
-              console.log('Añadiendo nueva notificación al estado:', notification);
               return [notification, ...prevNotifications];
             }
 
-            // Si ya existe, no modificar el estado
             return prevNotifications;
           });
 
@@ -82,9 +67,7 @@ export default function Notification() {
               `${notification.sender.name} ha dado like a tu publicación` :
               notification.message || 'Tienes una nueva notificación';
 
-            new Notification('Nueva notificación', {
-              body: notificationText
-            });
+            new Notification('Nueva notificación', { body: notificationText });
           }
         });
 
@@ -95,7 +78,6 @@ export default function Notification() {
 
         // Verificar reconexión
         socketInstance.on('reconnect', () => {
-          console.log('Reconectado al servidor socket');
           socketInstance.emit('join', userId);
         });
 
@@ -109,18 +91,16 @@ export default function Notification() {
     // Limpiar socket al desmontar el componente
     return () => {
       if (socket) {
-        console.log('Desconectando socket');
         socket.disconnect();
       }
     };
+
   }, []);
 
-  // Función para marcar una notificación como leída
   const markAsRead = async (id) => {
     try {
       await axios.put(`/api/notifications/${id}`);
 
-      // Actualizar estado local
       setNotifications(prevNotifications =>
         prevNotifications.map(notif =>
           notif._id === id ? { ...notif, read: true } : notif
