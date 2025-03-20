@@ -44,6 +44,7 @@ export default function Notification() {
         socketInstance.emit('join', userId);
 
         socketInstance.on('newNotification', (notification) => {
+          console.log('Nueva notificación recibida:', notification);
           if (!notification || !notification._id) {
             console.error('Notificación recibida sin ID válido:', notification);
             return;
@@ -114,13 +115,13 @@ export default function Notification() {
       case 'follow':
         return `/client/userprofile/${notification.sender._id}`;
       case 'like':
-        if (notification.referenceModel === 'Comment') {
+        if (notification.refModel === 'Comment') {  // CAMBIAR AQUÍ
           return `/client/publication/${notification.reference}`; // Esto debería llevar a la publicación que contiene el comentario
         } else {
           return `/client/publication/${notification.reference}`;
         }
       case 'comment':
-        if (notification.referenceModel === 'Comment') {
+        if (notification.refModel === 'Comment') {  // CAMBIAR AQUÍ
           return `/client/publication/${notification.reference}`; // Esto debería llevar a la publicación que contiene el comentario
         } else {
           return `/client/publication/${notification.reference}`;
@@ -133,20 +134,20 @@ export default function Notification() {
   // Función para obtener el texto de la notificación
   const getNotificationText = (notification) => {
     if (!notification.sender) return notification.message || 'Nueva notificación';
-    
+
     const senderName = `${notification.sender.name} ${notification.sender.apellido || ''}`.trim();
-    
+
     switch (notification.type) {
       case 'follow':
         return `${senderName} te ha seguido.`;
       case 'like':
-        if (notification.referenceModel === 'Comment') {
+        if (notification.refModel === 'Comment') {  // CAMBIAR AQUÍ
           return `A ${senderName} le ha gustado tu comentario.`;
         } else {
           return `A ${senderName} le ha gustado tu publicación.`;
         }
       case 'comment':
-        if (notification.referenceModel === 'Comment') {
+        if (notification.refModel === 'Comment') {  // CAMBIAR AQUÍ
           return `${senderName} ha respondido a tu comentario.`;
         } else {
           return `${senderName} ha comentado tu publicación.`;
@@ -223,9 +224,9 @@ export default function Notification() {
   };
 
   return (
-    <div className="w-full md:w-1/2 mx-auto p-4">
+    <div className="w-full md:w-1/2 p-4">
       <h2 className="text-xl font-bold mb-6 border-b pb-2">Notificaciones</h2>
-      
+
       <div className="space-y-3">
         {isLoading ? (
           <div className="flex justify-center items-center py-8">
@@ -240,7 +241,7 @@ export default function Notification() {
           </div>
         ) : (
           notifications.map((notification) => (
-            <Link 
+            <Link
               href={getNotificationLink(notification)}
               key={notification._id}
               onClick={() => !notification.read && markAsRead(notification._id)}
@@ -256,37 +257,37 @@ export default function Notification() {
                     />
                     {getNotificationBadge(notification.type)}
                   </div>
-                  
+
                   {/* Contenido de notificación */}
                   <div className="flex-1">
                     <div className="flex justify-between items-start">
                       <div>
                         <p className="font-medium text-gray-900">{getNotificationText(notification)}</p>
                         <p className="text-xs text-gray-500 mt-1">
-                          {new Date(notification.createdAt).toLocaleString('es-ES', { 
-                            day: 'numeric', 
-                            month: 'short', 
-                            hour: '2-digit', 
-                            minute: '2-digit' 
+                          {new Date(notification.createdAt).toLocaleString('es-ES', {
+                            day: 'numeric',
+                            month: 'short',
+                            hour: '2-digit',
+                            minute: '2-digit'
                           })}
                         </p>
                       </div>
-                      
+
                       {/* Indicador de no leído */}
                       {!notification.read && (
                         <span className="h-2 w-2 bg-blue-600 rounded-full"></span>
                       )}
                     </div>
-                    
+
                     {/* Etiqueta de tipo */}
                     <div className="mt-2">
                       <span className={`inline-block text-xs font-medium px-2 py-1 rounded-full ${getTagColor(notification.type)}`}>
                         {notification.type === 'follow' ? 'Seguimiento' :
-                         notification.type === 'like' ? 'Me gusta' :
-                         notification.type === 'comment' ? 'Comentario' :
-                         'Notificación'}
+                          notification.type === 'like' ? 'Me gusta' :
+                            notification.type === 'comment' ? 'Comentario' :
+                              'Notificación'}
                       </span>
-                      
+
                       {/* Opcional: información de referencia */}
                       {notification.referenceModel && (
                         <span className="text-xs text-gray-500 ml-2">

@@ -1,9 +1,13 @@
-import React from 'react'
+import React from 'react';
 
 export default function AddNotifications() {
   return (
-    <div className='hidden md:block w-full md:w-1/2 p-4'>
-      <img src="https://res.cloudinary.com/dbgj8dqup/image/upload/v1728940553/uploads/abbkua5ssb23seqx56bx.png" alt="" />
+    <div className="hidden md:flex justify-center items-center w-full md:w-1/2 h-[90vh] p-4">
+      <img
+        className="object-cover w-full h-full rounded-md"
+        src="https://res.cloudinary.com/dbgj8dqup/image/upload/v1742430051/uploads/ig8fv3xa9f7hop429akr.jpg"
+        alt="Notificación"
+      />
     </div>
-  )
+  );
 }
