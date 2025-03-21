@@ -7,6 +7,7 @@ import io from 'socket.io-client';
 
 export default function Notification() {
   const [notifications, setNotifications] = useState([]);
+  const [groupedNotifications, setGroupedNotifications] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [socket, setSocket] = useState(null);
 
@@ -95,17 +96,104 @@ export default function Notification() {
 
   }, []);
 
-  const markAsRead = async (id) => {
-    try {
-      await axios.put(`/api/notifications/${id}`);
+  // Efecto para agrupar notificaciones cuando cambia el array de notificaciones
+  useEffect(() => {
+    groupNotifications(notifications);
+  }, [notifications]);
 
+  // Función para agrupar notificaciones por tipo y referencia
+  const groupNotifications = (notifs) => {
+    if (!notifs || notifs.length === 0) {
+      setGroupedNotifications([]);
+      return;
+    }
+
+    // Crear mapa para agrupar por tipo y referencia
+    const groupsMap = new Map();
+
+    notifs.forEach(notif => {
+      if (notif.type === 'like' || notif.type === 'comment') {
+        // Clave para agrupar: tipo + referencia
+        const key = `${notif.type}_${notif.reference}`;
+        
+        if (!groupsMap.has(key)) {
+          // Iniciar un nuevo grupo
+          groupsMap.set(key, {
+            _id: key,
+            type: notif.type,
+            reference: notif.reference,
+            refModel: notif.refModel,
+            createdAt: notif.createdAt,
+            read: notif.read,
+            senders: [notif.sender],
+            // Guardar el último remitente (el más reciente) para mostrar su foto
+            latestSender: notif.sender,
+            originalNotifications: [notif],
+            latestNotificationId: notif._id
+          });
+        } else {
+          // Actualizar grupo existente
+          const group = groupsMap.get(key);
+          
+          // Verificar que el remitente no esté ya en la lista
+          if (!group.senders.some(sender => sender._id === notif.sender._id)) {
+            group.senders.push(notif.sender);
+          }
+          
+          group.originalNotifications.push(notif);
+          
+          // Actualizar fecha y último remitente si esta notificación es más reciente
+          if (new Date(notif.createdAt) > new Date(group.createdAt)) {
+            group.createdAt = notif.createdAt;
+            group.latestNotificationId = notif._id;
+            group.latestSender = notif.sender; // Actualizamos el último remitente
+          }
+          
+          // Marcar como no leído si alguna notificación del grupo no está leída
+          if (!notif.read) {
+            group.read = false;
+          }
+        }
+      } else {
+        // Para otros tipos como 'follow', mantener la notificación individual
+        groupsMap.set(notif._id, {
+          ...notif,
+          senders: [notif.sender],
+          latestSender: notif.sender,
+          originalNotifications: [notif],
+          latestNotificationId: notif._id
+        });
+      }
+    });
+
+    // Convertir el mapa en array y ordenar por fecha (más reciente primero)
+    const groupedArray = Array.from(groupsMap.values()).sort((a, b) => 
+      new Date(b.createdAt) - new Date(a.createdAt)
+    );
+    
+    setGroupedNotifications(groupedArray);
+  };
+
+  const markAsRead = async (groupedNotification) => {
+    try {
+      // Marcar todas las notificaciones originales del grupo como leídas
+      const promises = groupedNotification.originalNotifications
+        .filter(notif => !notif.read)
+        .map(notif => axios.put(`/api/notifications/${notif._id}`));
+      
+      await Promise.all(promises);
+
+      // Actualizar estado local
       setNotifications(prevNotifications =>
-        prevNotifications.map(notif =>
-          notif._id === id ? { ...notif, read: true } : notif
-        )
+        prevNotifications.map(notif => {
+          if (groupedNotification.originalNotifications.some(original => original._id === notif._id)) {
+            return { ...notif, read: true };
+          }
+          return notif;
+        })
       );
     } catch (error) {
-      console.error('Error al marcar notificación como leída:', error);
+      console.error('Error al marcar notificaciones como leídas:', error);
     }
   };
 
@@ -113,44 +201,40 @@ export default function Notification() {
   const getNotificationLink = (notification) => {
     switch (notification.type) {
       case 'follow':
-        return `/client/userprofile/${notification.sender._id}`;
+        return `/client/userprofile/${notification.senders[0]._id}`;
       case 'like':
-        if (notification.refModel === 'Comment') {  // CAMBIAR AQUÍ
-          return `/client/publication/${notification.reference}`; // Esto debería llevar a la publicación que contiene el comentario
-        } else {
-          return `/client/publication/${notification.reference}`;
-        }
       case 'comment':
-        if (notification.refModel === 'Comment') {  // CAMBIAR AQUÍ
-          return `/client/publication/${notification.reference}`; // Esto debería llevar a la publicación que contiene el comentario
-        } else {
-          return `/client/publication/${notification.reference}`;
-        }
+        return `/client/publication/${notification.reference}`;
       default:
-        return `/client/userprofile/${notification.sender._id}`;
+        return `/client/userprofile/${notification.senders[0]._id}`;
     }
   };
 
-  // Función para obtener el texto de la notificación
-  const getNotificationText = (notification) => {
-    if (!notification.sender) return notification.message || 'Nueva notificación';
+  // Función para obtener el texto de la notificación agrupada
+  const getGroupedNotificationText = (notification) => {
+    if (!notification.senders || notification.senders.length === 0) {
+      return 'Nueva notificación';
+    }
 
-    const senderName = `${notification.sender.name} ${notification.sender.apellido || ''}`.trim();
+    // Usamos el último remitente como el principal
+    const latestSender = notification.latestSender;
+    const latestSenderName = `${latestSender.name} ${latestSender.apellido || ''}`.trim();
+    const otherSendersCount = notification.senders.length - 1;
 
     switch (notification.type) {
       case 'follow':
-        return `${senderName} te ha seguido.`;
+        return `${latestSenderName} te ha seguido.`;
       case 'like':
-        if (notification.refModel === 'Comment') {  // CAMBIAR AQUÍ
-          return `A ${senderName} le ha gustado tu comentario.`;
+        if (otherSendersCount === 0) {
+          return `${latestSenderName} reaccionó a tu publicación.`;
         } else {
-          return `A ${senderName} le ha gustado tu publicación.`;
+          return `${latestSenderName} y ${otherSendersCount} ${otherSendersCount === 1 ? 'persona más' : 'personas más'} reaccionaron a tu publicación.`;
         }
       case 'comment':
-        if (notification.refModel === 'Comment') {  // CAMBIAR AQUÍ
-          return `${senderName} ha respondido a tu comentario.`;
+        if (otherSendersCount === 0) {
+          return `${latestSenderName} comentó tu publicación.`;
         } else {
-          return `${senderName} ha comentado tu publicación.`;
+          return `${latestSenderName} y ${otherSendersCount} ${otherSendersCount === 1 ? 'persona más' : 'personas más'} comentaron tu publicación.`;
         }
       default:
         return notification.message || 'Tienes una nueva notificación';
@@ -232,7 +316,7 @@ export default function Notification() {
           <div className="flex justify-center items-center py-8">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
           </div>
-        ) : notifications.length === 0 ? (
+        ) : groupedNotifications.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto mb-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
@@ -240,11 +324,11 @@ export default function Notification() {
             <p>No tienes notificaciones.</p>
           </div>
         ) : (
-          notifications.map((notification) => (
+          groupedNotifications.map((notification) => (
             <Link
               href={getNotificationLink(notification)}
               key={notification._id}
-              onClick={() => !notification.read && markAsRead(notification._id)}
+              onClick={() => !notification.read && markAsRead(notification)}
             >
               <div className={`bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow duration-200 border ${!notification.read ? `border-l-4 ${getBorderColor(notification.type)}` : 'border-gray-200'}`}>
                 <div className="flex items-start space-x-3">
@@ -252,8 +336,8 @@ export default function Notification() {
                   <div className="relative">
                     <img
                       className="h-12 w-12 rounded-full object-cover border-2 border-white shadow-sm"
-                      src={notification.sender?.profilePicture || "https://via.placeholder.com/48"}
-                      alt={`${notification.sender?.name || 'Usuario'}`}
+                      src={notification.latestSender?.profilePicture || "https://via.placeholder.com/48"}
+                      alt={`${notification.latestSender?.name || 'Usuario'}`}
                     />
                     {getNotificationBadge(notification.type)}
                   </div>
@@ -262,7 +346,7 @@ export default function Notification() {
                   <div className="flex-1">
                     <div className="flex justify-between items-start">
                       <div>
-                        <p className="font-medium text-gray-900">{getNotificationText(notification)}</p>
+                        <p className="font-medium text-gray-900">{getGroupedNotificationText(notification)}</p>
                         <p className="text-xs text-gray-500 mt-1">
                           {new Date(notification.createdAt).toLocaleString('es-ES', {
                             day: 'numeric',
