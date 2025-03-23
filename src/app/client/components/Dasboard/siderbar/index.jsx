@@ -17,7 +17,10 @@ export default function UserPanel() {
 
   const pathname = usePathname();
   const isMessagesPage = pathname === "/client/messages";
+  const isNotificationsPage = pathname === "/client/notifications";
+
   const [hasNewMessage, setHasNewMessage] = useState(false);
+  const [hasNewNotification, setHasNewNotification] = useState(false);
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -25,23 +28,43 @@ export default function UserPanel() {
     if (userId) {
       socket.emit("join", userId);
 
+      // Listener para mensajes nuevos
       socket.on("receiveMessage", (message) => {
         if (!isMessagesPage) {
           setHasNewMessage(true);
         }
       });
-  
-      // Add this new listener for pending messages
+
+      // Listener para mensajes pendientes
       socket.on("pendingMessages", (message) => {
-        setHasNewMessage(true);
+        if (!isMessagesPage) {
+          setHasNewMessage(true);
+        }
       });
+
+      // Listener para notificaciones nuevas
+      socket.on("newNotification", (notification) => {
+        if (!isNotificationsPage) {
+          setHasNewNotification(true);
+        }
+      });
+    }
+
+    // Resetear el indicador cuando el usuario visita la página correspondiente
+    if (isMessagesPage) {
+      setHasNewMessage(false);
+    }
+
+    if (isNotificationsPage) {
+      setHasNewNotification(false);
     }
 
     return () => {
       socket.off("receiveMessage");
-      socket.off("pendingMessages"); // Clean up the new listener
+      socket.off("pendingMessages");
+      socket.off("newNotification");
     };
-  }, [isMessagesPage]);
+  }, [isMessagesPage, isNotificationsPage]);
 
   const NavItem = ({ href, Icon, label, hasNotification }) => {
     const isActive = pathname === href;
@@ -93,7 +116,7 @@ export default function UserPanel() {
             <NavItem href="/client/messages" Icon={RiMessage3Fill} label="Mensajes" hasNotification={hasNewMessage} />
             <NavItem href="/client/search" Icon={RiSearchFill} label="Buscar" />
             <NavItem href="/client/videos" Icon={MdVideoLibrary} label="Videos" />
-            <NavItem href="/client/notifications" Icon={IoNotifications} label="Notificaciones" />
+            <NavItem href="/client/notifications" Icon={IoNotifications} label="Notificaciones" hasNotification={hasNewNotification} />
             <NavItem href="/client/profile" Icon={FaUserCircle} label="Perfil" />
           </ul>
 
@@ -104,12 +127,12 @@ export default function UserPanel() {
 
         <nav className="w-full flex justify-around dark:bg-gray-800 p-3 fixed bottom-0 sm:block md:hidden z-50 bg-white">
           <ul className="flex justify-around w-full text-gray-700 dark:text-gray-400 capitalize">
-            <NavItems href="/client/messages" Icon={RiMessage3Fill} isActive={usePathname() === "/client/messages"} hasNotification={hasNewMessage} />
-            <NavItems href="/client/search" Icon={RiSearchFill} isActive={usePathname() === "/client/search"} />
-            <NavItems href="/client" Icon={HiHome} isActive={usePathname() === "/client"} />
-            {/* <NavItems href="/client/videos" Icon={MdVideoLibrary} isActive={usePathname() === "/client/videos"} /> */}
-            <NavItems href="/client/notifications" Icon={IoNotifications} isActive={usePathname() === "/client/notifications"} />
-            <NavItems href="/client/profile" Icon={FaUserCircle} isActive={usePathname() === "/client/profile"} />
+            <NavItems href="/client/messages" Icon={RiMessage3Fill} isActive={isMessagesPage} hasNotification={hasNewMessage} />
+            <NavItems href="/client/search" Icon={RiSearchFill} isActive={pathname === "/client/search"} />
+            <NavItems href="/client" Icon={HiHome} isActive={pathname === "/client"} />
+            {/* <NavItems href="/client/videos" Icon={MdVideoLibrary} isActive={pathname === "/client/videos"} /> */}
+            <NavItems href="/client/notifications" Icon={IoNotifications} isActive={isNotificationsPage} hasNotification={hasNewNotification} />
+            <NavItems href="/client/profile" Icon={FaUserCircle} isActive={pathname === "/client/profile"} />
           </ul>
         </nav>
       </div>
