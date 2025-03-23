@@ -1,17 +1,19 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios';
 import Link from 'next/link';
 import io from 'socket.io-client';
+import PublicationModal from './PublicationModal'; 
 
 export default function Notification() {
   const [notifications, setNotifications] = useState([]);
-  const [groupedNotifications, setGroupedNotifications] = useState([]);
+  const [groupedNotifications, setGroupedNotifications] = useState([]); 
   const [isLoading, setIsLoading] = useState(true);
   const [socket, setSocket] = useState(null);
+  const [selectedPublicationId, setSelectedPublicationId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // URL del servidor Socket.io
   const SOCKET_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   useEffect(() => {
@@ -29,7 +31,6 @@ export default function Notification() {
 
     fetchNotifications();
 
-    // Inicializar socket para notificaciones en tiempo real
     const initSocket = () => {
       try {
         const userId = localStorage.getItem("userId");
@@ -134,21 +135,21 @@ export default function Notification() {
         } else {
           // Actualizar grupo existente
           const group = groupsMap.get(key);
-          
+
           // Verificar que el remitente no esté ya en la lista
           if (!group.senders.some(sender => sender._id === notif.sender._id)) {
             group.senders.push(notif.sender);
           }
-          
+
           group.originalNotifications.push(notif);
-          
+
           // Actualizar fecha y último remitente si esta notificación es más reciente
           if (new Date(notif.createdAt) > new Date(group.createdAt)) {
             group.createdAt = notif.createdAt;
             group.latestNotificationId = notif._id;
             group.latestSender = notif.sender; // Actualizamos el último remitente
           }
-          
+
           // Marcar como no leído si alguna notificación del grupo no está leída
           if (!notif.read) {
             group.read = false;
@@ -167,10 +168,10 @@ export default function Notification() {
     });
 
     // Convertir el mapa en array y ordenar por fecha (más reciente primero)
-    const groupedArray = Array.from(groupsMap.values()).sort((a, b) => 
+    const groupedArray = Array.from(groupsMap.values()).sort((a, b) =>
       new Date(b.createdAt) - new Date(a.createdAt)
     );
-    
+
     setGroupedNotifications(groupedArray);
   };
 
@@ -180,7 +181,7 @@ export default function Notification() {
       const promises = groupedNotification.originalNotifications
         .filter(notif => !notif.read)
         .map(notif => axios.put(`/api/notifications/${notif._id}`));
-      
+
       await Promise.all(promises);
 
       // Actualizar estado local
@@ -307,6 +308,21 @@ export default function Notification() {
     }
   };
 
+  // En Notification.jsx, modifica la función handleNotificationClick
+  const handleNotificationClick = (notification) => {
+    if (!notification.read) {
+      markAsRead(notification);
+    }
+
+    // Si es tipo like o comment, abrir modal de publicación
+    if (notification.type === 'like' || notification.type === 'comment') {
+       setSelectedPublicationId(notification.reference);
+      setIsModalOpen(true);
+    } else {
+      window.location.href = getNotificationLink(notification);
+    }
+  };
+  
   return (
     <div className="w-full md:w-1/2 p-4">
       <h2 className="text-xl font-bold mb-6 border-b pb-2">Notificaciones</h2>
@@ -325,67 +341,73 @@ export default function Notification() {
           </div>
         ) : (
           groupedNotifications.map((notification) => (
-            <Link
-              href={getNotificationLink(notification)}
+            <div
               key={notification._id}
-              onClick={() => !notification.read && markAsRead(notification)}
+              className={`bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow duration-200 border ${!notification.read ? `border-l-4 ${getBorderColor(notification.type)}` : 'border-gray-200'} cursor-pointer`}
+              onClick={() => handleNotificationClick(notification)}
             >
-              <div className={`bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow duration-200 border ${!notification.read ? `border-l-4 ${getBorderColor(notification.type)}` : 'border-gray-200'}`}>
-                <div className="flex items-start space-x-3">
-                  {/* Foto de perfil con indicador del tipo */}
-                  <div className="relative">
-                    <img
-                      className="h-12 w-12 rounded-full object-cover border-2 border-white shadow-sm"
-                      src={notification.latestSender?.profilePicture || "https://via.placeholder.com/48"}
-                      alt={`${notification.latestSender?.name || 'Usuario'}`}
-                    />
-                    {getNotificationBadge(notification.type)}
+              <div className="flex items-start space-x-3">
+                {/* Foto de perfil con indicador del tipo */}
+                <div className="relative">
+                  <img
+                    className="h-12 w-12 rounded-full object-cover border-2 border-white shadow-sm"
+                    src={notification.latestSender?.profilePicture || "https://via.placeholder.com/48"}
+                    alt={`${notification.latestSender?.name || 'Usuario'}`}
+                  />
+                  {getNotificationBadge(notification.type)}
+                </div>
+
+                {/* Contenido de notificación */}
+                <div className="flex-1">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="font-medium text-gray-900">{getGroupedNotificationText(notification)}</p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {new Date(notification.createdAt).toLocaleString('es-ES', {
+                          day: 'numeric',
+                          month: 'short',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </p>
+                    </div>
+
+                    {/* Indicador de no leído */}
+                    {!notification.read && (
+                      <span className="h-2 w-2 bg-blue-600 rounded-full"></span>
+                    )}
                   </div>
 
-                  {/* Contenido de notificación */}
-                  <div className="flex-1">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <p className="font-medium text-gray-900">{getGroupedNotificationText(notification)}</p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {new Date(notification.createdAt).toLocaleString('es-ES', {
-                            day: 'numeric',
-                            month: 'short',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          })}
-                        </p>
-                      </div>
+                  {/* Etiqueta de tipo */}
+                  <div className="mt-2">
+                    <span className={`inline-block text-xs font-medium px-2 py-1 rounded-full ${getTagColor(notification.type)}`}>
+                      {notification.type === 'follow' ? 'Seguimiento' :
+                        notification.type === 'like' ? 'Me gusta' :
+                          notification.type === 'comment' ? 'Comentario' :
+                            'Notificación'}
+                    </span>
 
-                      {/* Indicador de no leído */}
-                      {!notification.read && (
-                        <span className="h-2 w-2 bg-blue-600 rounded-full"></span>
-                      )}
-                    </div>
-
-                    {/* Etiqueta de tipo */}
-                    <div className="mt-2">
-                      <span className={`inline-block text-xs font-medium px-2 py-1 rounded-full ${getTagColor(notification.type)}`}>
-                        {notification.type === 'follow' ? 'Seguimiento' :
-                          notification.type === 'like' ? 'Me gusta' :
-                            notification.type === 'comment' ? 'Comentario' :
-                              'Notificación'}
+                    {/* Opcional: información de referencia */}
+                    {notification.referenceModel && (
+                      <span className="text-xs text-gray-500 ml-2">
+                        {notification.referenceModel === 'Comment' ? 'en comentario' : 'en publicación'}
                       </span>
-
-                      {/* Opcional: información de referencia */}
-                      {notification.referenceModel && (
-                        <span className="text-xs text-gray-500 ml-2">
-                          {notification.referenceModel === 'Comment' ? 'en comentario' : 'en publicación'}
-                        </span>
-                      )}
-                    </div>
+                    )}
                   </div>
                 </div>
               </div>
-            </Link>
+            </div>
           ))
         )}
       </div>
+
+      <PublicationModal
+        isOpen={isModalOpen}
+        publicationId={selectedPublicationId}
+        onClose={() => {
+          setIsModalOpen(false);
+        }}
+      />
     </div>
   );
 }

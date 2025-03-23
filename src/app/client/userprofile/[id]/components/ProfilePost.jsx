@@ -111,7 +111,7 @@ export default function ProfilePost() {
 
   return (
     <div div className="rounded-lg mt-8 flex w-full" >
-      <div className="space-y-4 w-full md:w-1/2 px-2">
+      <div className="space-y-4 w-full md:w-1/2">
         {message && <p className="text-center text-gray-500 pt-10 text-1xl">{message}</p>}
         {!message && publications.length > 0 ? (
           publications.map((publication) => {
