@@ -22,6 +22,21 @@ export default function UserPanel() {
   const [hasNewMessage, setHasNewMessage] = useState(false);
   const [hasNewNotification, setHasNewNotification] = useState(false);
 
+  const playNotificationSound = () => {
+    try {
+      const sound = new Audio('/sounds/notification.mp3');
+      sound.volume = 0.5; 
+      const playPromise = sound.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.error("Error reproduciendo el sonido:", error);
+        });
+      }
+    } catch (error) {
+      console.error("Error al crear el objeto de audio:", error);
+    }
+  };
+
   useEffect(() => {
     const userId = localStorage.getItem("userId");
 
@@ -32,6 +47,10 @@ export default function UserPanel() {
       socket.on("receiveMessage", (message) => {
         if (!isMessagesPage) {
           setHasNewMessage(true);
+          // Reproducir sonido cuando llega un mensaje nuevo
+          if (typeof window !== 'undefined') {
+            playNotificationSound();
+          }
         }
       });
 
@@ -39,6 +58,10 @@ export default function UserPanel() {
       socket.on("pendingMessages", (message) => {
         if (!isMessagesPage) {
           setHasNewMessage(true);
+          // Reproducir sonido cuando hay mensajes pendientes
+          if (typeof window !== 'undefined') {
+            playNotificationSound();
+          }
         }
       });
 
@@ -46,6 +69,11 @@ export default function UserPanel() {
       socket.on("newNotification", (notification) => {
         if (!isNotificationsPage) {
           setHasNewNotification(true);
+
+          // Reproducir sonido cuando llega una notificación nueva
+          if (typeof window !== 'undefined') {
+            playNotificationSound();
+          }
         }
       });
     }
