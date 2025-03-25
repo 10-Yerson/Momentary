@@ -66,8 +66,9 @@ export default function Register() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[url('/img/fondoo.jpg')] bg-cover bg-center opacity-85">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2 bg-white px-7 py-6 rounded-2xl font-sans w-[91vw] sm:w-[40vw] opacity-95">
+    <div className="relative flex items-center justify-center min-h-screen bg-[url('https://res.cloudinary.com/dbgj8dqup/image/upload/v1742924665/uploads/a6xvyp50w4ihpnfvieo3.jpg')] bg-cover bg-center ">
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2 bg-white px-7 py-6 rounded-2xl font-sans w-[90vw] md:w-[70vw] lg:w-[45vw] z-50">
         {step === 1 && (
           <div>
             <h2 className="text-2xl font-semibold text-gray-800 mb-8">Datos Personales</h2>
@@ -131,8 +132,8 @@ export default function Register() {
         )}
 
         {step === 2 && (
-          <div className="flex flex-col gap-2 sm:h-[80%] lg:h-full">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-3 text-center">Credenciales de Inicio de Sesión</h2>
+          <div className="flex flex-col gap-4 sm:h-[80%] lg:h-full">
+            {/* <h2 className="text-2xl font-semibold text-gray-800 mb-3 text-center sm:text-xl">Credenciales de Inicio de Sesión</h2> */}
 
             <div className="flex flex-col">
               <label className="text-gray-900 font-semibold">Email</label>
