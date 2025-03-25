@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className="relative min-h-screen bg-white">
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-5 md:px-10 py-5">
-        <div className="w-20 h-20 p-0">
+        <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 p-0">
           <img src="https://res.cloudinary.com/dbgj8dqup/image/upload/v1742924929/uploads/zlcd4yniy0jjuco86crr.png" alt="Momentary Connect"
             className="h-full w-full object-cover"
           />
