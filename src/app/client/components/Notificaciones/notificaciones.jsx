@@ -21,7 +21,7 @@ export default function Notification() {
       try {
         const response = await axios.get('/api/notifications');
         setNotifications(response.data);
-        console.log('Respuesta Data inicial:', response.data);
+        // console.log('Respuesta Data inicial:', response.data);
       } catch (error) {
         console.error('Error al obtener notificaciones:', error);
       } finally {

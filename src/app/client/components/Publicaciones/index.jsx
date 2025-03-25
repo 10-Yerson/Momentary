@@ -26,7 +26,6 @@ export default function SeguidoresPublication() {
             try {
                 const response = await axios.get('/api/publication/following');
                 setPublications(response.data);
-                console.log('Data Publication', response.data);
             } catch (err) {
                 setError('Error fetching publications');
                 console.error('Error:', err);

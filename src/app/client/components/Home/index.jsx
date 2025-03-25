@@ -24,7 +24,6 @@ export default function Welcome() {
         }
         const response = await axios.get(`/api/user/${userId}`);
         setdata(response.data);
-        console.log('Datos Usuario', response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
         toast.error('Error cargando datos del usuario');

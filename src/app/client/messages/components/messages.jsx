@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import axios from "../../../../utils/axios";
-import Loading from "./loading"; 
+import Loading from "./loading";
 
 const socket = io(process.env.NEXT_PUBLIC_BASE_URL);
 import { FaPaperPlane, FaSmile, FaSearch, FaRegEdit, FaCog, FaArrowLeft, FaImage, FaCheckCircle, FaTrash, FaRegCheckCircle } from "react-icons/fa";
@@ -49,14 +49,14 @@ const Messages = () => {
                 // Obtener sugerencias de usuarios
                 const suggestionsResponse = await axios.get('/api/followers/sugerencias');
                 setSuggestedUsers(suggestionsResponse.data);
-                
+
                 // Verificar si hay un usuario de chat guardado en localStorage
                 const chatWithUser = localStorage.getItem('chatWithUser');
                 if (chatWithUser) {
                     const userToChat = JSON.parse(chatWithUser);
-                    
+
                     const foundUser = usersResponse.data.find(user => user._id === userToChat._id);
-                    
+
                     if (foundUser) {
                         selectUser(foundUser);
                     } else {
@@ -127,7 +127,6 @@ const Messages = () => {
     };
 
     const markMessageAsSeen = async (msgId) => {
-        console.log("Marcando mensaje como visto, ID:", msgId);
         if (!msgId) {
             console.error("Error: msgId es undefined");
             return;
@@ -155,7 +154,7 @@ const Messages = () => {
         if (messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
-    }, [messages]); 
+    }, [messages]);
 
     // Manejar envío del mensaje con la tecla Enter
     const handleKeyDown = (e) => {

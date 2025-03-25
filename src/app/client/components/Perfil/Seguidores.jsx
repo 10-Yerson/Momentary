@@ -19,7 +19,6 @@ export default function Seguidores({ isOpen, toggleModal }) {
         }
         const response = await axios.get(`/api/followers/seguidores/${userId}`);
         setData(response.data);
-        console.log('Seguidores ', response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
         toast.error('Error cargando datos del usuario');

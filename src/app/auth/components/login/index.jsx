@@ -14,8 +14,8 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
-     // Evitar que el usuario vuelva al login si ya está autenticado
-     useEffect(() => {
+    // Evitar que el usuario vuelva al login si ya está autenticado
+    useEffect(() => {
         const token = localStorage.getItem('token');
         const role = localStorage.getItem('role');
         if (token && role) {
@@ -34,11 +34,11 @@ export default function Login() {
 
         try {
             const response = await axios.post('/api/auth/login', dataForm);
-            const { token, role, userId } = response.data;  
+            const { token, role, userId } = response.data;
 
             localStorage.setItem('token', token);
             localStorage.setItem('role', role);
-            localStorage.setItem('userId', userId); 
+            localStorage.setItem('userId', userId);
 
             // Redirige al usuario según su rol
             router.push(role === 'admin' ? '/admin' : '/client');
@@ -47,7 +47,7 @@ export default function Login() {
             console.log('Error:', error.response?.data?.msg || error.message);
             toast.error(error.response?.data?.msg || 'Verifica tus datos');
         } finally {
-            setLoading(false); 
+            setLoading(false);
         }
     };
 
@@ -74,6 +74,7 @@ export default function Login() {
                             type="text"
                             className="ml-2 rounded-lg border-none w-full h-full focus:outline-none"
                             placeholder="Ingresa tu correo electrónico"
+                            autoComplete="username"
                         />
                     </div>
 
@@ -86,20 +87,17 @@ export default function Login() {
                             <path d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0" />
                         </svg>
                         <input
-                            type="password"
+                            required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            required
                             className="ml-2 rounded-lg border-none w-full h-full focus:outline-noe"
                             placeholder="Ingresa tu contraseña"
+                            type="password"
+                            autoComplete="current-password"
                         />
                     </div>
 
                     <div className="flex items-center justify-between mt-4">
-                        {/* <div className="flex items-center gap-2">
-                            <input type="radio" className="form-radio text-blue-600" />
-                            <label className="text-gray-800 font-normal text-sm">Remember me</label>
-                        </div> */}
                         <span className="text-blue-600 text-sm font-medium cursor-pointer">Olvide mi contraseña?</span>
                     </div>
 
