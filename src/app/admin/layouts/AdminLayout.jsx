@@ -1,5 +1,5 @@
 import Sidebar from "../components/Sidebar";
-import ProtectedRoute from "@/components/protected/ProtectedRoute";
+import ProtectedRoute from "@/protected/ProtectedRoute";
 
 export default function AdminLayout({ children }) {
   return (

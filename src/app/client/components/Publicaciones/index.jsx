@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import axios from '../../../../utils/axios'; 
-import NotFriends from '../../components/Amistades/NotFriends'; 
+import axios from '../../../../utils/axios';
+import NotFriends from '../../components/Amistades/NotFriends';
 import Link from 'next/link';
 import ModalComment from '../../userprofile/[id]/components/comentario';
 
@@ -11,7 +11,7 @@ export default function SeguidoresPublication() {
     const [publications, setPublications] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [userId, setUserId] = useState(null); 
+    const [userId, setUserId] = useState(null);
 
     const [commentModalOpen, setCommentModalOpen] = useState(false);
     const [selectedPublication, setSelectedPublication] = useState(null);
@@ -129,8 +129,23 @@ export default function SeguidoresPublication() {
 
                         {/* Imagen de la publicación */}
                         <div className="w-full">
-                            <img onDoubleClick={() => handleLike(publication._id, liked)} // Manejar doble clic para dar "like"
-                                src={publication.image} alt="Publication" className="w-full object-cover rounded-lg" />
+                            {publication.video ? (
+                                <video
+                                    controls
+                                    className="w-full object-cover rounded-lg"
+                                >
+                                    <source src={publication.video} type="video/mp4" />
+                                    Tu navegador no soporta la reproducción de videos.
+                                </video>
+                            ) : publication.image ? (
+                                <img
+                                    onDoubleClick={() => handleLike(publication._id)}
+                                    src={publication.image}
+                                    alt="Imagen de la publicación"
+                                    className="w-full object-cover rounded-lg"
+                                />
+                            ) : null}
+
                         </div>
 
                         {/* Botones de interacción */}
@@ -182,7 +197,7 @@ export default function SeguidoresPublication() {
                 isOpen={commentModalOpen}
                 onClose={closeCommentModal}
                 publicationId={selectedPublication}
-                // refreshComments={refreshPublications}
+            // refreshComments={refreshPublications}
             />
         </div>
     );

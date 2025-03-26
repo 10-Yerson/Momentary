@@ -1,5 +1,5 @@
 import UserPanel from "../components/Dasboard/siderbar/index";
-import ProtectedRoute from "@/components/protected/ProtectedRoute";
+import ProtectedRoute from "@/protected/ProtectedRoute";
 
 export default function Layout({ children }) {
   return (

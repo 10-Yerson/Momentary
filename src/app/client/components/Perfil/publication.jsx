@@ -41,7 +41,7 @@ export default function PublicationGetting() {
         };
 
         fetchUserPublications();
-    }, [userId]); 
+    }, [userId]);
 
     const handleLike = async (publicationId) => {
         if (!userId) {
@@ -49,7 +49,7 @@ export default function PublicationGetting() {
             return;
         }
 
-        const liked = likesState[publicationId]; 
+        const liked = likesState[publicationId];
         try {
             if (liked) {
                 await axios.post(`/api/publication/${publicationId}/unlike`, { userId });
@@ -59,7 +59,7 @@ export default function PublicationGetting() {
 
             setLikesState((prevLikesState) => ({
                 ...prevLikesState,
-                [publicationId]: !liked, 
+                [publicationId]: !liked,
             }));
             setPublications((prevPublications) =>
                 prevPublications.map((publication) =>
@@ -67,8 +67,8 @@ export default function PublicationGetting() {
                         ? {
                             ...publication,
                             likes: liked
-                                ? publication.likes.filter((id) => id !== userId) 
-                                : [...publication.likes, userId] 
+                                ? publication.likes.filter((id) => id !== userId)
+                                : [...publication.likes, userId]
                         }
                         : publication
                 )
@@ -133,14 +133,23 @@ export default function PublicationGetting() {
 
                                 <p className="mb-4">{publication.description}</p>
 
-                                {publication.image && (
+                                {publication.video ? (
+                                    <video
+                                        controls
+                                        className="w-full object-cover rounded-lg"
+                                    >
+                                        <source src={publication.video} type="video/mp4" />
+                                        Tu navegador no soporta la reproducción de videos.
+                                    </video>
+                                ) : publication.image ? (
                                     <img
                                         onDoubleClick={() => handleLike(publication._id)}
                                         src={publication.image}
                                         alt="Imagen de la publicación"
                                         className="w-full object-cover rounded-lg"
                                     />
-                                )}
+                                ) : null}
+
 
                                 <div className="flex items-center justify-between px-5 py-2">
                                     <div className="flex space-x-4">

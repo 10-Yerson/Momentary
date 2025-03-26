@@ -31,12 +31,12 @@ export default function ProfilePost() {
         if (response.data.msg) {
           setMessage(response.data.msg);
         } else {
-          setMessage(''); 
+          setMessage('');
         }
 
         setLoading(false);
       } catch (error) {
-        setMessage('Error al cargar las publicaciones del usuario'); 
+        setMessage('Error al cargar las publicaciones del usuario');
         setLoading(false);
       }
     };
@@ -65,8 +65,8 @@ export default function ProfilePost() {
             ? {
               ...publication,
               likes: liked
-                ? publication.likes.filter((id) => id !== userId) 
-                : [...(Array.isArray(publication.likes) ? publication.likes : []), userId] 
+                ? publication.likes.filter((id) => id !== userId)
+                : [...(Array.isArray(publication.likes) ? publication.likes : []), userId]
             }
             : publication
         )
@@ -132,10 +132,27 @@ export default function ProfilePost() {
                 </div>
 
                 <p className="mb-4">{publication.description}</p>
+
                 <div className="w-full">
-                  <img onDoubleClick={() => handleLike(publication._id, liked)} // Manejar doble clic para dar "like"
-                    src={publication.image} alt="Publication" className="w-full object-cover rounded-lg" />
+                  {publication.video ? (
+                    <video
+                      controls
+                      className="w-full object-cover rounded-lg"
+                    >
+                      <source src={publication.video} type="video/mp4" />
+                      Tu navegador no soporta la reproducción de videos.
+                    </video>
+                  ) : publication.image ? (
+                    <img
+                      onDoubleClick={() => handleLike(publication._id)}
+                      src={publication.image}
+                      alt="Imagen de la publicación"
+                      className="w-full object-cover rounded-lg"
+                    />
+                  ) : null}
+
                 </div>
+
 
                 <div className="flex items-center justify-between px-5 py-2">
                   <div className="flex space-x-4">
@@ -189,7 +206,7 @@ export default function ProfilePost() {
         isOpen={commentModalOpen}
         onClose={closeCommentModal}
         publicationId={selectedPublication}
-        // refreshComments={refreshPublications}
+      // refreshComments={refreshPublications}
       />
       <ToastContainer />
     </div>
