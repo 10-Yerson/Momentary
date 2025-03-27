@@ -1,8 +1,6 @@
 'use client'
 
 import React, { useEffect, useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import axios from '../../../../utils/axios'
 import ModalProfile from "../Modal/ModalProfile";
 import Link from 'next/link';
@@ -26,7 +24,6 @@ export default function Welcome() {
         setdata(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
-        toast.error('Error cargando datos del usuario');
       }
     };
 
