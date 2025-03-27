@@ -138,7 +138,7 @@ export default function PublicationGetting() {
                                         <div className="relative w-full">
                                             <video
                                                 controls
-                                                className="w-full h-auto object-contain rounded-sm p-1 sm:p-2"
+                                                className="w-full h-auto object-contain rounded-md p-1 sm:p-2"
                                             >
                                                 <source src={publication.video} type="video/mp4" />
                                                 Tu navegador no soporta la reproducción de videos.

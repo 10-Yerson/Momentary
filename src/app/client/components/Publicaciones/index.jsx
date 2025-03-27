@@ -131,7 +131,7 @@ export default function SeguidoresPublication() {
                                 <div className="relative w-full p-1 sm:p-2"> {/* Se elimina padding en sm */}
                                     <video
                                         controls
-                                        className="w-full h-auto object-contain rounded-sm"
+                                        className="w-full h-auto object-contain rounded-md"
                                     >
                                         <source src={publication.video} type="video/mp4" />
                                         Tu navegador no soporta la reproducción de videos.
