@@ -103,16 +103,16 @@ export default function SeguidoresPublication() {
                 const liked = Array.isArray(publication.likes) && publication.likes.includes(userId); // Verifica si el usuario ya dio "like"
 
                 return (
-                    <div key={publication._id} className="bg-white rounded-lg p-2">
+                    <div key={publication._id} className="bg-white rounded-lg">
                         <Link href={`/client/userprofile/${publication.user._id}`}>
-                            <div className="flex items-center py-4">
+                            <div className="flex items-center py-4 px-2">
                                 <img
                                     src={publication.user.profilePicture}
                                     alt={publication.user.name}
                                     className="w-12 h-12 rounded-full"
                                 />
                                 <div className="ml-3">
-                                    <h2 className="font-semibold text-sm">{publication.user.name}</h2>
+                                    <h2 className="font-semibold text-sm">{publication.user.name} {publication.user.apellido}</h2>
                                     <span className="text-xs text-gray-500">
                                         {new Date(publication.createdAt).toLocaleString()}
                                     </span>
@@ -120,19 +120,18 @@ export default function SeguidoresPublication() {
                             </div>
                         </Link>
 
-                        <div className="pb-2">
+                        <div className="pb-2 px-2">
                             <p className="mt-2 text-sm">
-                                <span className="font-semibold mr-2">{publication.user.name}</span>
                                 {publication.description}
                             </p>
                         </div>
 
                         <div className="w-full">
                             {publication.video ? (
-                                <div className="relative w-full">
+                                <div className="relative w-full p-0 sm:p-2"> {/* Se elimina padding en sm */}
                                     <video
                                         controls
-                                        className="w-full h-auto object-contain rounded-lg"
+                                        className="w-full h-auto object-contain rounded-md"
                                     >
                                         <source src={publication.video} type="video/mp4" />
                                         Tu navegador no soporta la reproducción de videos.
@@ -143,10 +142,11 @@ export default function SeguidoresPublication() {
                                     onDoubleClick={() => handleLike(publication._id)}
                                     src={publication.image}
                                     alt="Imagen de la publicación"
-                                    className="w-full object-cover rounded-lg"
+                                    className="w-full object-cover rounded-lg p-0 sm:p-2"
                                 />
                             ) : null}
                         </div>
+
 
                         {/* Botones de interacción */}
                         <div className="flex items-center justify-between px-5 py-2">

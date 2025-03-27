@@ -90,7 +90,7 @@ export default function ProfileInfo() {
 
   return (
     <>
-      <div className="w-full bg-white flex flex-col md:flex-row justify-between items-center space-y-1 md:space-y-0 md:space-x-5">
+      <div className="w-full bg-white flex flex-col md:flex-row justify-between items-center space-y-1 md:space-y-0 md:space-x-5 px-2">
         <div className="w-full md:w-1/2 px-2">
           <div className="pt-4 pb-4">
             <div className="flex items-end gap-4 mb-4">

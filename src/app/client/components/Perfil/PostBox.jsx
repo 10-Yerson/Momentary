@@ -103,7 +103,7 @@ export default function PostBox() {
         </div>
       </div> */}
 
-      <div className="w-full rounded-lg md:w-1/2 grid place-items-center">
+      <div className="w-full rounded-lg md:w-1/2 grid place-items-center px-2">
         <div className="w-full bg-slate-200 flex flex-col md:flex-row rounded-xl">
 
           <div

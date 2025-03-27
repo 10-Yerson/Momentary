@@ -79,7 +79,7 @@ export default function CreatePublication({ isOpen, onClose }) {
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             className="w-full border-none focus:ring-0 text-lg text-gray-700"
-                            rows="3"
+                            rows="2"
                             placeholder="¿Qué estás pensando?"
                         ></textarea>
                     </div>

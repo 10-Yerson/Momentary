@@ -118,27 +118,27 @@ export default function ProfilePost() {
             const liked = Array.isArray(publication.likes) && publication.likes.includes(userId);
 
             return (
-              <div key={publication._id} className="px-2 rounded-lg my-2">
-                <div className="flex items-center space-x-4 mb-2">
+              <div key={publication._id} className="rounded-lg my-2 bg-slate-300">
+                <div className="flex items-center space-x-4 mb-2 px-2">
                   <img
                     src={publication.user.profilePicture || 'https://metro.co.uk/wp-content/uploads/2018/09/sei_30244558-285d.jpg?quality=90&strip=all'}
                     alt="Perfil"
                     className="w-10 h-10 rounded-full object-cover"
                   />
                   <div>
-                    <h3 className="text-lg font-semibold">{publication.user.name}</h3>
+                    <h3 className="text-lg font-semibold">{publication.user.name} {publication.user.apellido}</h3>
                     <p className="text-sm text-gray-500">{new Date(publication.createdAt).toLocaleString()}</p>
                   </div>
                 </div>
 
-                <p className="mb-4">{publication.description}</p>
+                <p className="mb-4 px-2">{publication.description}</p>
 
                 <div className="w-full">
                   {publication.video ? (
                     <div className="relative w-full">
                       <video
                         controls
-                        className="w-full h-auto object-contain rounded-lg"
+                        className="w-full h-auto object-contain rounded-lg p-0 sm:p-2"
                       >
                         <source src={publication.video} type="video/mp4" />
                         Tu navegador no soporta la reproducción de videos.
@@ -149,7 +149,7 @@ export default function ProfilePost() {
                       onDoubleClick={() => handleLike(publication._id)}
                       src={publication.image}
                       alt="Imagen de la publicación"
-                      className="w-full object-cover rounded-lg"
+                      className="w-full object-cover rounded-lg p-0 sm:p-2"
                     />
                   ) : null}
                 </div>

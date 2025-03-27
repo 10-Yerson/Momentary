@@ -33,7 +33,7 @@ export default function ProfilePage() {
 
   return (
     <Layout>
-      <main className="mb-24 lg:mb-0 px-2">
+      <main className="mb-24 lg:mb-0">
         <div className="container mx-auto py-2">
           {loading ? <LoadingProfile /> : (
             <>
