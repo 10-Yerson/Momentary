@@ -128,10 +128,10 @@ export default function SeguidoresPublication() {
 
                         <div className="w-full">
                             {publication.video ? (
-                                <div className="relative w-full p-0 sm:p-2"> {/* Se elimina padding en sm */}
+                                <div className="relative w-full p-1 sm:p-2"> {/* Se elimina padding en sm */}
                                     <video
                                         controls
-                                        className="w-full h-auto object-contain rounded-md"
+                                        className="w-full h-auto object-contain rounded-sm"
                                     >
                                         <source src={publication.video} type="video/mp4" />
                                         Tu navegador no soporta la reproducción de videos.
@@ -142,7 +142,7 @@ export default function SeguidoresPublication() {
                                     onDoubleClick={() => handleLike(publication._id)}
                                     src={publication.image}
                                     alt="Imagen de la publicación"
-                                    className="w-full object-cover rounded-lg p-0 sm:p-2"
+                                    className="w-full object-cover rounded-lg p-1 sm:p-2"
                                 />
                             ) : null}
                         </div>
