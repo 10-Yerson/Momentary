@@ -133,23 +133,26 @@ export default function PublicationGetting() {
 
                                 <p className="mb-4">{publication.description}</p>
 
-                                {publication.video ? (
-                                    <video
-                                        controls
-                                        className="w-full h-auto aspect-video object-cover rounded-lg"
-                                    >
-                                        <source src={publication.video} type="video/mp4" />
-                                        Tu navegador no soporta la reproducción de videos.
-                                    </video>
-                                ) : publication.image ? (
-                                    <img
-                                        onDoubleClick={() => handleLike(publication._id)}
-                                        src={publication.image}
-                                        alt="Imagen de la publicación"
-                                        className="w-full object-cover rounded-lg"
-                                    />
-                                ) : null}
-
+                                <div className="w-full">
+                                    {publication.video ? (
+                                        <div className="relative w-full">
+                                            <video
+                                                controls
+                                                className="w-full h-auto object-contain rounded-lg"
+                                            >
+                                                <source src={publication.video} type="video/mp4" />
+                                                Tu navegador no soporta la reproducción de videos.
+                                            </video>
+                                        </div>
+                                    ) : publication.image ? (
+                                        <img
+                                            onDoubleClick={() => handleLike(publication._id)}
+                                            src={publication.image}
+                                            alt="Imagen de la publicación"
+                                            className="w-full object-cover rounded-lg"
+                                        />
+                                    ) : null}
+                                </div>
 
                                 <div className="flex items-center justify-between px-5 py-2">
                                     <div className="flex space-x-4">

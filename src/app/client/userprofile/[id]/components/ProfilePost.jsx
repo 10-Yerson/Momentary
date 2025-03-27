@@ -135,13 +135,15 @@ export default function ProfilePost() {
 
                 <div className="w-full">
                   {publication.video ? (
-                    <video
-                      controls
-                      className="w-full h-auto aspect-video object-cover rounded-lg"
-                    >
-                      <source src={publication.video} type="video/mp4" />
-                      Tu navegador no soporta la reproducción de videos.
-                    </video>
+                    <div className="relative w-full">
+                      <video
+                        controls
+                        className="w-full h-auto object-contain rounded-lg"
+                      >
+                        <source src={publication.video} type="video/mp4" />
+                        Tu navegador no soporta la reproducción de videos.
+                      </video>
+                    </div>
                   ) : publication.image ? (
                     <img
                       onDoubleClick={() => handleLike(publication._id)}
@@ -150,9 +152,7 @@ export default function ProfilePost() {
                       className="w-full object-cover rounded-lg"
                     />
                   ) : null}
-
                 </div>
-
 
                 <div className="flex items-center justify-between px-5 py-2">
                   <div className="flex space-x-4">

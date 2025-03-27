@@ -127,16 +127,17 @@ export default function SeguidoresPublication() {
                             </p>
                         </div>
 
-                        {/* Imagen de la publicación */}
                         <div className="w-full">
                             {publication.video ? (
-                                <video
-                                    controls
-                                    className="w-full h-auto aspect-video object-cover rounded-lg"
-                                >
-                                    <source src={publication.video} type="video/mp4" />
-                                    Tu navegador no soporta la reproducción de videos.
-                                </video>
+                                <div className="relative w-full">
+                                    <video
+                                        controls
+                                        className="w-full h-auto object-contain rounded-lg"
+                                    >
+                                        <source src={publication.video} type="video/mp4" />
+                                        Tu navegador no soporta la reproducción de videos.
+                                    </video>
+                                </div>
                             ) : publication.image ? (
                                 <img
                                     onDoubleClick={() => handleLike(publication._id)}
@@ -145,7 +146,6 @@ export default function SeguidoresPublication() {
                                     className="w-full object-cover rounded-lg"
                                 />
                             ) : null}
-
                         </div>
 
                         {/* Botones de interacción */}
