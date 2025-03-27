@@ -136,7 +136,7 @@ export default function PublicationGetting() {
                                 {publication.video ? (
                                     <video
                                         controls
-                                        className="w-full object-cover rounded-lg"
+                                        className="w-full h-auto aspect-video object-cover rounded-lg"
                                     >
                                         <source src={publication.video} type="video/mp4" />
                                         Tu navegador no soporta la reproducción de videos.
