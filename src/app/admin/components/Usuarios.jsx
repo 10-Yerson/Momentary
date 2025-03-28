@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import axios from '../../../utils/axios';
 
 export default function Usuarios() {
@@ -9,6 +9,22 @@ export default function Usuarios() {
     const [error, setError] = useState(null);
     const [selectedUser, setSelectedUser] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
+
+    const [optionsMenuOpen, setOptionsMenuOpen] = useState(false);
+    const optionsMenuRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (optionsMenuRef.current && !optionsMenuRef.current.contains(event.target)) {
+                setOptionsMenuOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,6 +52,24 @@ export default function Usuarios() {
             console.error('Error al obtener detalles del usuario:', error);
         }
     };
+
+    const handleDeleteUser = async () => {
+        if (!selectedUser) return;
+
+        try {
+            await axios.delete(`/api/user/${selectedUser._id}`);
+
+            setUserInfo(userInfo.filter(user => user._id !== selectedUser._id));
+
+            setModalOpen(false);
+
+            alert(`Usuario ${selectedUser.name} ${selectedUser.apellido} ha sido eliminado.`);
+        } catch (error) {
+            console.error('Error al eliminar usuario:', error);
+            alert('No se pudo eliminar el usuario. Intente nuevamente.');
+        }
+    };
+
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-5">
@@ -144,25 +178,24 @@ export default function Usuarios() {
                             ✖
                         </button>
 
-                        <div className="absolute top-3 left-3 font-bold">
-                            <div className="relative group">
-                                <button className="text-3xl font-bold hover:text-gray-700">
+                        <div className="absolute top-3 left-3 font-bold" ref={optionsMenuRef}>
+                            <div className="relative">
+                                <button
+                                    onClick={() => setOptionsMenuOpen(!optionsMenuOpen)}
+                                    className="text-3xl font-bold hover:text-gray-700"
+                                >
                                     ⋮
                                 </button>
-                                <div className="hidden group-hover:block absolute left-0 mt-2 w-32 bg-white shadow-lg rounded-lg border">
-                                    <button
-                                        onClick={() => console.log('Editar usuario', selectedUser.name)}
-                                        className="block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 text-left"
-                                    >
-                                        ✏ Editar
-                                    </button>
-                                    <button
-                                        onClick={() => console.log('Eliminar usuario', selectedUser.name)}
-                                        className="block w-full px-4 py-2 text-red-600 hover:bg-gray-100 text-left"
-                                    >
-                                        🗑 Eliminar
-                                    </button>
-                                </div>
+                                {optionsMenuOpen && (
+                                    <div className="absolute left-0 mt-2 w-32 bg-white shadow-lg rounded-lg border z-10">
+                                        <button
+                                            onClick={handleDeleteUser}
+                                            className="block w-full px-4 py-2 text-red-600 hover:bg-gray-100 text-left"
+                                        >
+                                            🗑 Eliminar
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
