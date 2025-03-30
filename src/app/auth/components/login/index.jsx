@@ -6,7 +6,7 @@ import axios from '../../../../utils/axios';
 import { ToastContainer, toast } from 'react-toastify'; // Asegúrate de importar 'toast'
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
+
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -15,11 +15,17 @@ export default function Login() {
     const router = useRouter();
 
     useEffect(() => {
-        const token = Cookies.get('token');
-        const role = Cookies.get('role');
-        if (token && role) {
-            router.push(role === 'admin' ? '/admin' : '/client');
-        }
+        const checkAuthStatus = async () => {
+            try {
+                const response = await axios.get('/api/auth/check-auth', { withCredentials: true });
+                const { role } = response.data;
+                router.push(role === 'admin' ? '/admin' : '/client');
+            } catch (error) {
+                console.log('No autenticado, permanece en login');
+            }
+        };
+
+        checkAuthStatus();
     }, [router]);
 
     const handleLogin = async (e) => {
@@ -30,12 +36,7 @@ export default function Login() {
 
         try {
             const response = await axios.post('/api/auth/login', dataForm, { withCredentials: true });
-            const { token, role, userId } = response.data;
-
-            // Guardar en cookies en lugar de localStorage
-            Cookies.set('role', role, { expires: 7 });
-            Cookies.set('userId', userId, { expires: 7 });
-
+            const { role } = response.data;
             router.push(role === 'admin' ? '/admin' : '/client');
         } catch (error) {
             console.error('Error:', error.response?.data?.msg || error.message);
@@ -44,6 +45,7 @@ export default function Login() {
             setLoading(false);
         }
     };
+
 
     return (
         <div className="flex flex-col md:flex-row justify-center items-center h-screen">
@@ -119,3 +121,4 @@ export default function Login() {
 
     );
 }
+
