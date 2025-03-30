@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const response = await axios.get('/api/auth/check-auth'); // Ruta en el backend para verificar sesión
+                const response = await axios.get('/api/auth/check-auth',{ withCredentials: true }); // Ruta en el backend para verificar sesión
                 const { role } = response.data;
 
                 if (allowedRoles && !allowedRoles.includes(role)) {
