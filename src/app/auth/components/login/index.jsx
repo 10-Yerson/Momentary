@@ -6,7 +6,7 @@ import axios from '../../../../utils/axios';
 import { ToastContainer, toast } from 'react-toastify'; // Asegúrate de importar 'toast'
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation';
-
+import Cookies from 'js-cookie';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -14,10 +14,9 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
-    // Evitar que el usuario vuelva al login si ya está autenticado
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        const role = localStorage.getItem('role');
+        const token = Cookies.get('token');
+        const role = Cookies.get('role');
         if (token && role) {
             router.push(role === 'admin' ? '/admin' : '/client');
         }
@@ -25,26 +24,21 @@ export default function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        setLoading(true); // Inicia el loading
+        setLoading(true);
 
-        const dataForm = {
-            email,
-            password,
-        };
+        const dataForm = { email, password };
 
         try {
-            const response = await axios.post('/api/auth/login', dataForm);
+            const response = await axios.post('/api/auth/login', dataForm, { withCredentials: true });
             const { token, role, userId } = response.data;
 
-            localStorage.setItem('token', token);
-            localStorage.setItem('role', role);
-            localStorage.setItem('userId', userId);
+            // Guardar en cookies en lugar de localStorage
+            Cookies.set('role', role, { expires: 7 });
+            Cookies.set('userId', userId, { expires: 7 });
 
-            // Redirige al usuario según su rol
             router.push(role === 'admin' ? '/admin' : '/client');
-
         } catch (error) {
-            console.log('Error:', error.response?.data?.msg || error.message);
+            console.error('Error:', error.response?.data?.msg || error.message);
             toast.error(error.response?.data?.msg || 'Verifica tus datos');
         } finally {
             setLoading(false);
