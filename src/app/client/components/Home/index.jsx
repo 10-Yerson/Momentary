@@ -16,10 +16,13 @@ export default function Welcome() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userId = localStorage.getItem('userId');
+        const userInfoResponse = await axios.get('/api/auth/user-info');
+        const userId = userInfoResponse.data.userId;
+
         if (!userId) {
-          throw new Error('ID del usuario no encontrado en localStorage');
+          throw new Error('ID del usuario no encontrado en la respuesta del servidor');
         }
+
         const response = await axios.get(`/api/user/${userId}`);
         setdata(response.data);
       } catch (error) {
@@ -29,7 +32,6 @@ export default function Welcome() {
 
     fetchData();
   }, []);
-
   return (
     <>
       <main className="w-full flex pt-2 pb-2 flex-1 justify-between dark:bg-black rounded-l-lg transition duration-500 ease-in-out overflow-hidden">

@@ -23,9 +23,11 @@ export default function ProfileInfo() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userId = localStorage.getItem('userId');
+        const userInfoResponse = await axios.get('/api/auth/user-info');
+        const userId = userInfoResponse.data.userId;
+
         if (!userId) {
-          throw new Error('ID del usuario no encontrado en localStorage');
+          throw new Error('ID del usuario no encontrado en la respuesta del servidor');
         }
         const response = await axios.get(`/api/user/${userId}`);
         setdata(response.data);
@@ -52,15 +54,18 @@ export default function ProfileInfo() {
   const handleSaveImage = async () => {
     setIsLoading(true);
     try {
-      const userId = localStorage.getItem('userId');
+      const userInfoResponse = await axios.get('/api/auth/user-info');
+      const userId = userInfoResponse.data.userId;
+
       if (!userId) {
-        throw new Error('ID del usuario no encontrado en localStorage');
+        throw new Error('ID del usuario no encontrado en la respuesta del servidor');
       }
+
       const formData = new FormData();
       formData.append('profilePicture', selectedImage);
       const response = await axios.put(`/api/user/profile/${userId}`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'multipart/form-data',  withCredentials: true,
         },
       });
 

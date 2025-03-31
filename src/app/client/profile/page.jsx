@@ -9,18 +9,23 @@ import Layout from '../layout/Layout'
 
 
 export default function ProfilePage() {
-  const [mani, setMani] = useState(null); // Estado para almacenar datos del usuario
+  const [data, setData] = useState(null); // Estado para almacenar datos del usuario
   const [loading, setLoading] = useState(true); // Estado de carga
 
   useEffect(() => {
+    
     const fetchData = async () => {
       try {
-        const userId = localStorage.getItem('userId');
+
+        const userInfoResponse = await axios.get('/api/auth/user-info');
+        const userId = userInfoResponse.data.userId;
+
         if (!userId) {
-          throw new Error('ID del usuario no encontrado en localStorage');
+          throw new Error('ID del usuario no encontrado en la respuesta del servidor');
         }
+
         const response = await axios.get(`/api/user/${userId}`);
-        setMani(response.data);
+        setData(response.data);
         setLoading(false); // Finaliza la carga
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -39,8 +44,8 @@ export default function ProfilePage() {
             <>
               <ProfileInfo />
               <PostBox />
-              <PublicNav/>
-            </> 
+              <PublicNav />
+            </>
           )}
         </div>
       </main>

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios';
 import Createpublication from '../Modal/Createpublication';
 import Link from 'next/link';
-import { BsPersonLinesFill, BsHouseDoorFill, BsHeartFill  } from "react-icons/bs";
+import { BsPersonLinesFill, BsHouseDoorFill, BsHeartFill } from "react-icons/bs";
 
 export default function PostBox() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -13,10 +13,13 @@ export default function PostBox() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userId = localStorage.getItem('userId');
+        const userInfoResponse = await axios.get('/api/auth/user-info');
+        const userId = userInfoResponse.data.userId;
+
         if (!userId) {
-          throw new Error('ID del usuario no encontrado en localStorage');
+          throw new Error('ID del usuario no encontrado en la respuesta del servidor');
         }
+
         const response = await axios.get(`/api/user/${userId}`);
         setUser(response.data);
       } catch (error) {
@@ -33,7 +36,7 @@ export default function PostBox() {
           <h2 className="text-lg font-semibold mb-4">Detalles</h2>
           {user?.profile?.descripcion ? (
             <div className="flex items-center mb-2">
-              <BsPersonLinesFill  className="text-gray-600 text-2xl mr-2 flex-shrink-0" />
+              <BsPersonLinesFill className="text-gray-600 text-2xl mr-2 flex-shrink-0" />
               <span className="break-words">{user.profile.descripcion}</span>
             </div>
           ) : (
@@ -46,7 +49,7 @@ export default function PostBox() {
 
           {user?.profile?.origen && (
             <div className="flex items-center mb-4">
-              <BsHouseDoorFill  className="text-gray-600 text-2xl mr-2" />
+              <BsHouseDoorFill className="text-gray-600 text-2xl mr-2" />
               <span>
                 De <span className="font-semibold">{user.profile.origen}</span>
               </span>
