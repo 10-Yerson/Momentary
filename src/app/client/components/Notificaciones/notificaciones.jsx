@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios';
 import Link from 'next/link';
 import io from 'socket.io-client';
-import PublicationModal from './PublicationModal'; 
+import PublicationModal from './PublicationModal';
 
 export default function Notification() {
   const [notifications, setNotifications] = useState([]);
-  const [groupedNotifications, setGroupedNotifications] = useState([]); 
+  const [groupedNotifications, setGroupedNotifications] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [socket, setSocket] = useState(null);
   const [selectedPublicationId, setSelectedPublicationId] = useState(null);
@@ -31,12 +31,13 @@ export default function Notification() {
 
     fetchNotifications();
 
-    const initSocket = () => {
+    const initSocket = async () => {
       try {
-        const userId = localStorage.getItem("userId");
+        const userInfoResponse = await axios.get('/api/auth/user-info');
+        const userId = userInfoResponse.data.userId;
 
         if (!userId) {
-          console.error('No se encontró el ID del usuario en localStorage');
+          console.error('No se encontró el ID del usuario en la respuesta del servidor');
           return;
         }
 
@@ -116,7 +117,7 @@ export default function Notification() {
       if (notif.type === 'like' || notif.type === 'comment') {
         // Clave para agrupar: tipo + referencia
         const key = `${notif.type}_${notif.reference}`;
-        
+
         if (!groupsMap.has(key)) {
           // Iniciar un nuevo grupo
           groupsMap.set(key, {
@@ -316,13 +317,13 @@ export default function Notification() {
 
     // Si es tipo like o comment, abrir modal de publicación
     if (notification.type === 'like' || notification.type === 'comment') {
-       setSelectedPublicationId(notification.reference);
+      setSelectedPublicationId(notification.reference);
       setIsModalOpen(true);
     } else {
       window.location.href = getNotificationLink(notification);
     }
   };
-  
+
   return (
     <div className="w-full md:w-1/2 p-4">
       <h2 className="text-xl font-bold mb-6 border-b pb-2">Notificaciones</h2>

@@ -2,15 +2,18 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import axios from '../../../../utils/axios'
 
 export default function ModalProfile({ isOpen, onClose }) {
     const router = useRouter();
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('role');
-        router.push('/');
+    const handleLogout = async () => {
+        try {
+            await axios.post('/api/auth/logout'); // Llamar al backend para cerrar sesión
+            router.push('/');
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error);
+        }
     };
 
     if (!isOpen) return null;

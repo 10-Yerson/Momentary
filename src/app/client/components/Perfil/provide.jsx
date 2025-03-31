@@ -21,9 +21,12 @@ export default function UpdateProfile() {
     const fetchUserData = async () => {
       setLoading(true);
       try {
-        const userId = localStorage.getItem('userId');
-        if (!userId) throw new Error('ID del usuario no encontrado.');
+        const userInfoResponse = await axios.get('/api/auth/user-info');
+        const userId = userInfoResponse.data.userId;
 
+        if (!userId) {
+            throw new Error('ID del usuario no encontrado en la respuesta del servidor');
+        }
         const response = await axios.get(`/api/user/${userId}`);
         setUserData(response.data.profile);
       } catch (error) {
@@ -48,11 +51,11 @@ export default function UpdateProfile() {
     setSaving(true);
     setMessage('');
 
-    const userId = localStorage.getItem('userId');
+    const userInfoResponse = await axios.get('/api/auth/user-info');
+    const userId = userInfoResponse.data.userId;
+
     if (!userId) {
-      setMessage('Error: ID del usuario no encontrado.');
-      setSaving(false);
-      return;
+      throw new Error('ID del usuario no encontrado en la respuesta del servidor');
     }
 
     try {

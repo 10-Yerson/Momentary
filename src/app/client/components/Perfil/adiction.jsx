@@ -12,8 +12,12 @@ export default function Adiction() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userId = localStorage.getItem('userId');
-        if (!userId) throw new Error('ID del usuario no encontrado en localStorage');
+        const userInfoResponse = await axios.get('/api/auth/user-info');
+        const userId = userInfoResponse.data.userId;
+
+        if (!userId) {
+          throw new Error('ID del usuario no encontrado en la respuesta del servidor');
+        }
         const response = await axios.get(`/api/user/${userId}`);
         setUser(response.data);
       } catch (error) {
@@ -29,8 +33,8 @@ export default function Adiction() {
   if (loading) {
     return (
       <div className="flex items-center justify-center bg-white bg-opacity-50 w-full min-h-screen">
-      <div className="w-16 h-16 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
-    </div>
+        <div className="w-16 h-16 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
+      </div>
     );
   }
 

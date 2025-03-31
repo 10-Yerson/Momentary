@@ -22,20 +22,22 @@ const Messages = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const storedUserId = localStorage.getItem("userId");
-        if (!storedUserId) {
-            console.error("ID del usuario no encontrado");
-            setLoading(false);
-            return;
-        }
-        setUserId(storedUserId);
-        socket.emit("join", storedUserId);
-
         const fetchData = async () => {
             setLoading(true);
             try {
+                // Obtener el ID del usuario desde el servidor
+                const userInfoResponse = await axios.get('/api/auth/user-info');
+                const userId = userInfoResponse.data.userId;
+
+                if (!userId) {
+                    throw new Error('ID del usuario no encontrado en la respuesta del servidor');
+                }
+
+                setUserId(userId);
+                socket.emit("join", userId);
+
                 // Obtener usuarios seguidos
-                const usersResponse = await axios.get(`/api/followers/seguidos/${storedUserId}`);
+                const usersResponse = await axios.get(`/api/followers/seguidos/${userId}`);
                 setActiveUsers(usersResponse.data);
 
                 // Obtener la bandeja de entrada
@@ -43,7 +45,7 @@ const Messages = () => {
                 setInbox(inboxResponse.data);
 
                 // Obtener datos del usuario actual
-                const userResponse = await axios.get(`/api/user/${storedUserId}`);
+                const userResponse = await axios.get(`/api/user/${userId}`);
                 setUser(userResponse.data);
 
                 // Obtener sugerencias de usuarios
@@ -57,11 +59,7 @@ const Messages = () => {
 
                     const foundUser = usersResponse.data.find(user => user._id === userToChat._id);
 
-                    if (foundUser) {
-                        selectUser(foundUser);
-                    } else {
-                        selectUser(userToChat);
-                    }
+                    selectUser(foundUser || userToChat);
                     localStorage.removeItem('chatWithUser');
                 }
             } catch (error) {

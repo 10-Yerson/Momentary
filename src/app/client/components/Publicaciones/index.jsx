@@ -17,8 +17,22 @@ export default function SeguidoresPublication() {
     const [selectedPublication, setSelectedPublication] = useState(null);
 
     useEffect(() => {
-        const id = localStorage.getItem('userId');
-        setUserId(id);
+        const fetchUserId = async () => {
+            try {
+                const response = await axios.get('/api/auth/user-info');
+                const id = response.data.userId;
+                if (!id) {
+                    throw new Error('ID del usuario no encontrado en la respuesta del servidor');
+                }
+                setUserId(id);
+            } catch (error) {
+                console.error("Error obteniendo el ID del usuario:", error);
+                setError("Error obteniendo la información del usuario.");
+                setLoading(false);
+            }
+        };
+
+        fetchUserId();
     }, []);
 
     useEffect(() => {
@@ -27,7 +41,7 @@ export default function SeguidoresPublication() {
                 const response = await axios.get('/api/publication/following');
                 setPublications(response.data);
             } catch (err) {
-                setError('Error fetching publications');
+                setError('Error obteniendo publicaciones');
                 console.error('Error:', err);
             } finally {
                 setLoading(false);
@@ -39,7 +53,7 @@ export default function SeguidoresPublication() {
 
     const handleLike = async (publicationId, liked) => {
         if (!userId) {
-            console.error("No se encontró el userId en localStorage");
+            console.error("No se encontró el userId");
             return;
         }
 
@@ -88,15 +102,6 @@ export default function SeguidoresPublication() {
         setSelectedPublication(null);
     };
 
-    // const refreshPublications = async () => {
-    //     try {
-    //         const response = await axios.get('/api/publication/user');
-    //         setPublications(response.data);
-    //     } catch (error) {
-    //         console.error('Error al actualizar las publicaciones:', error);
-    //     }
-    // };
-
     return (
         <div className="w-full md:w-1/2 flex justify-center flex-col">
             {publications.map((publication) => {
@@ -128,7 +133,7 @@ export default function SeguidoresPublication() {
 
                         <div className="w-full">
                             {publication.video ? (
-                                <div className="relative w-full"> 
+                                <div className="relative w-full">
                                     <video
                                         controls
                                         className="w-full h-auto object-contain rounded-md p-1 sm:p-2"
