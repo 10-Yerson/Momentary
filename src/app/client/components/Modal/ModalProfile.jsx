@@ -9,8 +9,9 @@ export default function ModalProfile({ isOpen, onClose }) {
 
     const handleLogout = async () => {
         try {
-            await axios.post('/api/auth/logout'); // Llamar al backend para cerrar sesión
+            await axios.post('/api/auth/logout',  {}, { withCredentials: true }); // Llamar al backend para cerrar sesión
             router.push('/');
+            console.log("Sesión cerrada correctamente");
         } catch (error) {
             console.error("Error al cerrar sesión:", error);
         }
