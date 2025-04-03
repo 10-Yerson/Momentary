@@ -29,7 +29,7 @@ export default function ProfileInfo() {
         if (!userId) {
           throw new Error('ID del usuario no encontrado en la respuesta del servidor');
         }
-        const response = await axios.get(`/api/user/${userId}`);
+        const response = await axios.get(`/api/user/${userId}`, {withCredentials: true});
         setdata(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -54,7 +54,7 @@ export default function ProfileInfo() {
   const handleSaveImage = async () => {
     setIsLoading(true);
     try {
-      const userInfoResponse = await axios.get('/api/auth/user-info');
+      const userInfoResponse = await axios.get('/api/auth/user-info', { withCredentials: true });
       const userId = userInfoResponse.data.userId;
 
       if (!userId) {
@@ -63,10 +63,9 @@ export default function ProfileInfo() {
 
       const formData = new FormData();
       formData.append('profilePicture', selectedImage);
+
       const response = await axios.put(`/api/user/profile/${userId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',  withCredentials: true,
-        },
+        withCredentials: true // Asegura que las cookies se envíen
       });
 
       // Actualizamos el estado 'data' con la nueva imagen de perfil
@@ -81,9 +80,10 @@ export default function ProfileInfo() {
       console.error('Error updating profile picture:', error);
       toast.error('Error actualizando la imagen de perfil');
     } finally {
-      setIsLoading(false); // Detiene el estado de carga
+      setIsLoading(false);
     }
   };
+
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
