@@ -18,12 +18,28 @@ export default function PublicationGetting() {
     const [selectedPublication, setSelectedPublication] = useState(null);
 
     useEffect(() => {
-        const id = localStorage.getItem('userId');
-        setUserId(id);
+        const fetchUserInfo = async () => {
+            try {
+                const userInfoResponse = await axios.get('/api/auth/user-info');
+                const userIdFromResponse = userInfoResponse.data.userId;
+
+                if (!userIdFromResponse) {
+                    throw new Error('ID del usuario no encontrado en la respuesta del servidor');
+                }
+
+                setUserId(userIdFromResponse);
+            } catch (error) {
+                console.error('Error al obtener la información del usuario:', error.response ? error.response.data : error.message);
+            }
+        };
+
+        fetchUserInfo();
     }, []);
 
     useEffect(() => {
         const fetchUserPublications = async () => {
+            if (!userId) return;  // Asegúrate de no hacer la llamada si el userId no está disponible
+
             try {
                 const response = await axios.get('/api/publication/user');
                 setPublications(response.data);
@@ -41,14 +57,10 @@ export default function PublicationGetting() {
         };
 
         fetchUserPublications();
-    }, [userId]);
+    }, [userId]); // Este efecto se ejecuta cada vez que el userId cambia
 
     const handleLike = async (publicationId) => {
-        if (!userId) {
-            console.error("No se encontró el userId en localStorage");
-            return;
-        }
-
+        
         const liked = likesState[publicationId];
         try {
             if (liked) {

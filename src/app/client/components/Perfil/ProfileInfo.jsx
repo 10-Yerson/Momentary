@@ -102,7 +102,7 @@ export default function ProfileInfo() {
               <div className="relative flex justify-center">
                 <div className="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full bg-gray-200 border-4 border-white relative overflow-hidden">
                   <img
-                    src={data.profilePicture}
+                    src={data.profilePicture || 'https://res.cloudinary.com/dbgj8dqup/image/upload/v1743182322/uploads/ixv6tw8jfbhykflcmyex.png'}
                     alt="Profile picture"
                     className="w-full h-full object-cover"
                   />

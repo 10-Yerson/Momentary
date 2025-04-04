@@ -56,7 +56,7 @@ export default function Adiction() {
             onClick={() => setShowModal(true)}
           >
             <img
-              src={user.profilePicture || '/default-profile.png'}
+              src={user.profilePicture || 'https://res.cloudinary.com/dbgj8dqup/image/upload/v1743182322/uploads/ixv6tw8jfbhykflcmyex.png'}
               alt="Foto de perfil"
               className="w-full h-full object-cover"
             />
