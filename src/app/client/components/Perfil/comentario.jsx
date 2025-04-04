@@ -183,7 +183,7 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                                     className="w-8 h-8 rounded-full object-cover mr-3"
                                 />
                                 <div>
-                                    <span className="font-semibold">{publicationData.user?.name}</span>
+                                    <span className="font-semibold">{publicationData.user?.name} {publicationData.user?.apellido}</span>
                                     <span className="text-blue-500 ml-2">•</span>
                                 </div>
                                 <div className="ml-auto flex items-center">
@@ -236,7 +236,7 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                                             className="w-8 h-8 rounded-full"
                                         />
                                         <div className="ml-3 flex-1">
-                                            <p className="font-semibold">{comment.user.name}</p>
+                                            <p className="font-semibold">{comment.user.name} {comment.user.apellido}</p>
                                             <p>{comment.text}</p>
                                             <div className="flex items-center mt-2 text-xs text-gray-500">
                                                 <span className="mr-3">{timeAgo(comment.createdAt)}</span>
@@ -310,7 +310,7 @@ export default function CommentModal({ isOpen, onClose, publicationId, refreshCo
                                                             className="w-6 h-6 rounded-full"
                                                         />
                                                         <div className="ml-2 flex-1">
-                                                            <p className="font-semibold text-sm">{reply.user.name}</p>
+                                                            <p className="font-semibold text-sm">{reply.user.name} {reply.user.apellido}</p>
                                                             <p className="text-sm">{reply.text}</p>
                                                             <div className="flex items-center mt-1 text-xs text-gray-500 space-x-3">
                                                                 <span className="text-xs">{timeAgo(reply.createdAt)}</span>
