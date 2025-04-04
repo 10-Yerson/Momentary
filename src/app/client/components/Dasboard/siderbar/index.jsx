@@ -9,6 +9,7 @@ import { MdVideoLibrary } from "react-icons/md";
 import { IoNotifications } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
+import axios from '../../../../../utils/axios';
 
 import { io } from "socket.io-client";
 const socket = io(process.env.NEXT_PUBLIC_BASE_URL);
@@ -25,7 +26,7 @@ export default function UserPanel() {
   const playNotificationSound = () => {
     try {
       const sound = new Audio('/sounds/notification.mp3');
-      sound.volume = 0.5; 
+      sound.volume = 0.5;
       const playPromise = sound.play();
       if (playPromise !== undefined) {
         playPromise.catch(error => {
@@ -38,10 +39,19 @@ export default function UserPanel() {
   };
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
+    const initSocket = async () => {
+      try {
+        // Obtener el ID del usuario desde el backend
+        const userInfoResponse = await axios.get('/api/auth/user-info');
+        const userId = userInfoResponse.data.userId;
 
-    if (userId) {
-      socket.emit("join", userId);
+        if (!userId) {
+          console.error('No se encontró el ID del usuario en la respuesta del servidor');
+          return;
+        }
+
+        // Ahora puedes usar el `userId` para unirte al socket
+        socket.emit("join", userId);
 
       // Listener para mensajes nuevos
       socket.on("receiveMessage", (message) => {
@@ -65,18 +75,23 @@ export default function UserPanel() {
         }
       });
 
-      // Listener para notificaciones nuevas
-      socket.on("newNotification", (notification) => {
-        if (!isNotificationsPage) {
-          setHasNewNotification(true);
+        // Listener para notificaciones nuevas
+        socket.on("newNotification", (notification) => {
+          if (!isNotificationsPage) {
+            setHasNewNotification(true);
 
-          // Reproducir sonido cuando llega una notificación nueva
-          if (typeof window !== 'undefined') {
-            playNotificationSound();
+            // Reproducir sonido cuando llega una notificación nueva
+            if (typeof window !== 'undefined') {
+              playNotificationSound();
+            }
           }
-        }
-      });
-    }
+        });
+      } catch (error) {
+        console.error('Error al obtener el ID del usuario:', error);
+      }
+    };
+
+    initSocket();
 
     // Resetear el indicador cuando el usuario visita la página correspondiente
     if (isMessagesPage) {
@@ -93,7 +108,6 @@ export default function UserPanel() {
       socket.off("newNotification");
     };
   }, [isMessagesPage, isNotificationsPage]);
-
   const NavItem = ({ href, Icon, label, hasNotification }) => {
     const isActive = pathname === href;
 

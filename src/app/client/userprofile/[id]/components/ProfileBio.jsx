@@ -16,7 +16,6 @@ export default function ProfileBio() {
       try {
         const response = await axios.get(`/api/user/${id}`);
         setData(response.data);
-        console.log('Respuesta Data dd ', response.data)
       } catch (error) {
         console.error('Error al obtener notificaciones:', error);
       }
@@ -53,7 +52,7 @@ export default function ProfileBio() {
           )}
         </>
       ) : (
-        <div class="flex items-center w-full bg-white rounded-md" >
+        <div className="flex items-center w-full bg-white rounded-md" >
           <section className="flex justify-center items-center w-16 h-16 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-full shadow-md overflow-hidden">
             <img
               src={data.profilePicture}
@@ -62,10 +61,10 @@ export default function ProfileBio() {
             />
           </section>
 
-          <section class="block border-l border-gray-300 m-3">
-            <div class="pl-3">
-              <h3 class="text-gray-600 font-semibold text-sm">{data.name} {data.apellido}</h3>
-              <h3 class="text-gray-700 text-lg font-bold">
+          <section className="block border-l border-gray-300 m-3">
+            <div className="pl-3">
+              <h3 className="text-gray-600 font-semibold text-sm">{data.name} {data.apellido}</h3>
+              <h3 className="text-gray-700 text-lg font-bold">
                 No hay información disponible
               </h3>
             </div>

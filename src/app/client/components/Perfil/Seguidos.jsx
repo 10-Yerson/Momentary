@@ -14,9 +14,11 @@ export default function Seguidos({ OpenIS, Modaltoggle }) {
     const FollowersData = async () => {
       try {
         setLoading(true);
-        const userId = localStorage.getItem('userId');
+        const userInfoResponse = await axios.get('/api/auth/user-info');
+        const userId = userInfoResponse.data.userId;
+
         if (!userId) {
-          throw new Error('ID del usuario no encontrado en localStorage');
+          throw new Error('ID del usuario no encontrado en la respuesta del servidor');
         }
         const response = await axios.get(`/api/followers/seguidos/${userId}`);
         setData(response.data);

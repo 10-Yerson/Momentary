@@ -13,9 +13,11 @@ export default function Seguidores({ isOpen, toggleModal }) {
     const FollowersData = async () => {
       setLoading(true);
       try {
-        const userId = localStorage.getItem('userId');
+        const userInfoResponse = await axios.get('/api/auth/user-info');
+        const userId = userInfoResponse.data.userId;
+
         if (!userId) {
-          throw new Error('ID del usuario no encontrado en localStorage');
+          throw new Error('ID del usuario no encontrado en la respuesta del servidor');
         }
         const response = await axios.get(`/api/followers/seguidores/${userId}`);
         setData(response.data);

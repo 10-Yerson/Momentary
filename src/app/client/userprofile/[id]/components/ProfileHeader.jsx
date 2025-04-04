@@ -22,13 +22,19 @@ export default function ProfileHeader() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        const userInfoResponse = await axios.get('/api/auth/user-info');
+        const userId = userInfoResponse.data.userId;
+
+        if (!userId) {
+          throw new Error('ID del usuario no encontrado en la respuesta del servidor');
+        }
+
         const response = await axios.get(`/api/user/${id}`);
         setUser(response.data);
-        const currentUserId = localStorage.getItem('userId');
 
         // Actualizar el estado de `isFollowing` y `isFollowedBy` basado en la respuesta
-        setIsFollowing(response.data.followers.includes(currentUserId));
-        setIsFollowedBy(response.data.following.includes(currentUserId));
+        setIsFollowing(response.data.followers.includes(userId));
+        setIsFollowedBy(response.data.following.includes(userId));
       } catch (error) {
         console.error(error);
         toast.error('Error al cargar la información del usuario');
@@ -69,7 +75,7 @@ export default function ProfileHeader() {
         apellido: user.apellido,
         profilePicture: user.profilePicture || "https://res.cloudinary.com/dbgj8dqup/image/upload/v1725640005/uploads/ktsngfmjvjv094hygwsu.png"
       }));
-      
+
       // Navegamos a la página de mensajes
       router.push('/client/messages');
     }
@@ -108,9 +114,8 @@ export default function ProfileHeader() {
         <img
           alt="Profile picture of user"
           className="rounded-full border border-gray-300 shadow-lg w-32 h-32 md:w-40 md:h-40 object-cover"
-          src={
-            user.profilePicture ||
-            "https://res.cloudinary.com/dbgj8dqup/image/upload/v1725640005/uploads/ktsngfmjvjv094hygwsu.png"
+          src= {
+            user.profilePicture
           }
         />
 
@@ -142,7 +147,7 @@ export default function ProfileHeader() {
             >
               {followButtonText}
             </button>
-            <button 
+            <button
               className="px-4 py-1 md:px-6 md:py-2 bg-gray-200 text-gray-800 rounded-lg text-sm md:text-md font-semibold hover:bg-gray-300 transition"
               onClick={navigateToChat}
             >
