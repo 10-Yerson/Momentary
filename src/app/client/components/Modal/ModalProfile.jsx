@@ -16,6 +16,10 @@ export default function ModalProfile({ isOpen, onClose }) {
             console.error("Error al cerrar sesión:", error);
         }
     };
+    
+    const goToVerification = () => {
+        router.push('/client/verificacion');
+    };
 
     if (!isOpen) return null;
 
@@ -33,8 +37,11 @@ export default function ModalProfile({ isOpen, onClose }) {
                 <button className="w-full text-left py-2">
                     Configuración y privacidad
                 </button>
-                <button className="w-full text-left py-2">
-                    Ayuda y asistencia
+                <button
+                    onClick={goToVerification}
+                    className="w-full text-left py-2"
+                >
+                    Verificar cuenta
                 </button>
                 <button className="w-full text-left py-2">
                     Enviar comentarios
