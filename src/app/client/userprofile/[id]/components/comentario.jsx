@@ -144,6 +144,32 @@ export default function ModalComment({ isOpen, onClose, publicationId, refreshCo
         return 'hace unos segundos';
     };
 
+    // Función para renderizar el contenido multimedia (imagen o video)
+    const renderMedia = () => {
+        if (!publicationData) return null;
+
+        if (publicationData.video) {
+            return (
+                <video
+                    src={publicationData.video}
+                    controls
+                    className="h-full w-full object-contain rounded-md"
+                    autoPlay
+                    loop
+                />
+            );
+        } else if (publicationData.image) {
+            return (
+                <img
+                    src={publicationData.image}
+                    alt="Publicación"
+                    className="h-full w-full object-contain rounded-md"
+                />
+            );
+        }
+
+        return null;
+    };
 
     if (!isOpen) return null;
 
@@ -160,17 +186,13 @@ export default function ModalComment({ isOpen, onClose, publicationId, refreshCo
                     </svg>
                 </button>
 
-                {publicationData && publicationData.image && (
+                {publicationData && (publicationData.image || publicationData.video) && (
                     <div className="hidden md:flex md:w-1/2 bg-black items-center justify-center">
-                        <img
-                            src={publicationData.image}
-                            alt="Publicación"
-                            className="max-h-full max-w-full object-contain"
-                        />
+                        {renderMedia()}
                     </div>
                 )}
 
-                <div className={`${publicationData && publicationData.image ? 'md:w-1/2 w-full' : 'w-full'} flex flex-col h-full`}>
+                <div className={`${publicationData && (publicationData.image || publicationData.video) ? 'md:w-1/2 w-full' : 'w-full'} flex flex-col h-full`}>
 
 
                     {publicationData && (
@@ -187,7 +209,7 @@ export default function ModalComment({ isOpen, onClose, publicationId, refreshCo
                                     <span className="text-blue-500 ml-2">•</span>
                                 </div>
                                 <div className="ml-auto flex items-center">
-                                    <svg 
+                                    <svg
                                         className="w-6 h-6 hidden lg:block"
                                         fill="none"
                                         stroke="currentColor"
