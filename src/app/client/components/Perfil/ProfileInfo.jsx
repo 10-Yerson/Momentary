@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios';
-import { FaCamera } from 'react-icons/fa';
+import { MdVerified } from "react-icons/md";
 import Modal from 'react-modal';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -29,7 +29,7 @@ export default function ProfileInfo() {
         if (!userId) {
           throw new Error('ID del usuario no encontrado en la respuesta del servidor');
         }
-        const response = await axios.get(`/api/user/${userId}`, {withCredentials: true});
+        const response = await axios.get(`/api/user/${userId}`, { withCredentials: true });
         setdata(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -116,7 +116,15 @@ export default function ProfileInfo() {
               </div>
 
               <div className="flex-1">
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">{data.name} {data.apellido}</h1>
+                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 flex items-center gap-2">
+                  {data.name} {data.apellido}
+                  {data.isVerified === true && (
+                    <MdVerified
+                      className="text-blue-500 ml-1"
+                      title="Cuenta verificada"
+                    />
+                  )}
+                </h1>
                 <div className="text-base sm:text-lg text-gray-500 mb-3 flex items-center">
                   <span
                     onClick={toggleModal} >{data.followers?.length || 0} seguidores</span>

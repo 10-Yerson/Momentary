@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SavePublication from '@/app/client/components/Perfil/guardado';
 import ModalComment from './comentario';
+import { MdVerified } from "react-icons/md";
 
 export default function ProfilePost() {
   const { id } = useParams();
@@ -61,7 +62,7 @@ export default function ProfilePost() {
   }, [id, userId]); // Este efecto depende de userId, y solo se ejecuta cuando se obtiene correctamente
 
   const handleLike = async (publicationId, liked) => {
-    
+
     try {
       if (liked) {
         await axios.post(`/api/publication/${publicationId}/unlike`, { userId });
@@ -136,7 +137,15 @@ export default function ProfilePost() {
                     className="w-10 h-10 rounded-full object-cover"
                   />
                   <div>
-                    <h3 className="text-lg font-semibold">{publication.user.name} {publication.user.apellido}</h3>
+                    <h2 className="flex items-center text-sm font-semibold">
+                      {publication.user.name} {publication.user.apellido}
+                      {publication.user.isVerified === true && (
+                        <MdVerified
+                          className="text-blue-500 ml-2"
+                          title="Cuenta verificada"
+                        />
+                      )}
+                    </h2>
                     <p className="text-sm text-gray-500">{new Date(publication.createdAt).toLocaleString()}</p>
                   </div>
                 </div>

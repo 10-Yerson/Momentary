@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { FaCog } from 'react-icons/fa';
 import UserSeguidores from './UserSeguidores';
 import UserSeguidos from './UserSeguidos';
+import { MdVerified } from "react-icons/md";
 
 export default function ProfileHeader() {
   const { id } = useParams();
@@ -114,15 +115,22 @@ export default function ProfileHeader() {
         <img
           alt="Profile picture of user"
           className="rounded-full border border-gray-300 shadow-lg w-32 h-32 md:w-40 md:h-40 object-cover"
-          src= {
+          src={
             user.profilePicture
           }
         />
 
         <div className="mt-4 md:mt-0 md:ml-8">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
-            {user.name} {user.apellido}
+            <span>{user.name} {user.apellido}</span>
+            {user.isVerified === true && (
+              <MdVerified
+                className="text-blue-500 inline align-middle ml-3"
+                title="Cuenta verificada"
+              />
+            )}
           </h2>
+
 
           <div className="flex justify-center md:justify-start gap-4 md:gap-6 mt-2 text-gray-700 text-sm sm:text-base md:text-lg">
             <div><span className="font-bold">{user.postsCount || 0}</span> publicaciones</div>

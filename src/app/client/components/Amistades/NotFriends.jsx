@@ -6,6 +6,7 @@ import { useContext } from 'react';
 import { MyContext } from '../../../../context/MyProvider';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
+import { MdVerified } from "react-icons/md";
 
 const UsersToFollow = () => {
   const [users, setUsers] = useState(null); // Cambiar el valor inicial de [] a null
@@ -19,6 +20,7 @@ const UsersToFollow = () => {
         setLoading(true);
         const response = await axios.get('/api/followers/sugerencias');
         setUsers(response.data);
+
       } catch (error) {
         toast.error('Error al obtener usuarios para seguir');
       } finally {
@@ -98,7 +100,7 @@ const UsersToFollow = () => {
             id="voice-search"
             type="text"
           />
-        
+
         </div>
         <button
           className="inline-flex items-center py-2.5 px-3 ms-2 text-sm font-medium text-white rounded-lg border bg-blue-500 hover:bg-blue-700"
@@ -138,9 +140,15 @@ const UsersToFollow = () => {
                     alt="Foto de perfil"
                     className="w-10 h-10 rounded-full mr-4"
                   />
-                  <div>
-                    <p>{user.name} {user.apellido}</p>
-                  </div>
+                  <p className="flex items-center gap-2 font-medium text-gray-800">
+                    {user.name} {user.apellido}
+                    {user.isVerified === true && (
+                      <MdVerified
+                        className="text-blue-500"
+                        title="Cuenta verificada"
+                      />
+                    )}
+                  </p>
                 </Link>
               </div>
               <button

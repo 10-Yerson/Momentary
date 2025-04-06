@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios';
 import NotFriends from '../../components/Amistades/NotFriends';
 import Link from 'next/link';
+import { MdVerified } from "react-icons/md";
 import ModalComment from '../../userprofile/[id]/components/comentario';
 
 
@@ -117,7 +118,16 @@ export default function SeguidoresPublication() {
                                     className="w-12 h-12 rounded-full"
                                 />
                                 <div className="ml-3">
-                                    <h2 className="font-semibold text-sm">{publication.user.name} {publication.user.apellido}</h2>
+                                    <h2 className="flex items-center text-sm font-semibold">
+                                        {publication.user.name} {publication.user.apellido}
+                                        {publication.user.isVerified === true && (
+                                            <MdVerified
+                                                className="text-blue-500 ml-2"
+                                                title="Cuenta verificada"
+                                            />
+                                        )}
+                                    </h2>
+
                                     <span className="text-xs text-gray-500">
                                         {new Date(publication.createdAt).toLocaleString()}
                                     </span>

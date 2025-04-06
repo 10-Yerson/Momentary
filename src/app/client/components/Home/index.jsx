@@ -6,6 +6,7 @@ import ModalProfile from "../Modal/ModalProfile";
 import Link from 'next/link';
 import SeguidoresPublication from "../Publicaciones";
 import CompanyFollowers from "../Publicaciones/company";
+import { MdVerified } from "react-icons/md";
 
 export default function Welcome() {
 
@@ -36,8 +37,14 @@ export default function Welcome() {
     <>
       <main className="w-full flex pt-2 pb-2 flex-1 justify-between dark:bg-black rounded-l-lg transition duration-500 ease-in-out overflow-hidden">
         <div className="flex items-center text-2xl md:text-3xl px-2">
-          <p className="font-semibold text-gray-800 text-xl md:text-2xl">
-            {data.name} <span className="text-gray-600">{data.apellido}</span>
+        <p className="flex gap-x-2 font-semibold text-gray-800 text-xl md:text-2xl items-center">
+            {data.name} {data.apellido}
+            {data.isVerified === true && (
+              <MdVerified
+                className="text-blue-500"
+                title="Cuenta verificada"
+              />
+            )}
           </p>
         </div>
         <aside className="px-4 md:px-6 py-4 flex flex-col dark:bg-black dark:text-gray-100 rounded-r-lg overflow-hidden">
