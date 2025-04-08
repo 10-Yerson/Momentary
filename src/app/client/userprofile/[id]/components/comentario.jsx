@@ -155,7 +155,6 @@ export default function ModalComment({ isOpen, onClose, publicationId, refreshCo
                     src={publicationData.video}
                     controls
                     className="h-full w-full object-contain rounded-md"
-                    autoPlay
                     loop
                 />
             );
