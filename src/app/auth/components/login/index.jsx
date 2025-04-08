@@ -21,7 +21,7 @@ export default function Login() {
                 const { role } = response.data;
                 router.push(role === 'admin' ? '/admin' : '/client');
             } catch (error) {
-                console.log('No autenticado, permanece en login');
+               // console.log('No autenticado, permanece en login');
             }
         };
 

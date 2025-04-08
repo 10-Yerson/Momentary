@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from '../../../../../utils/axios';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { MdVerified } from "react-icons/md";
 
 export default function UserSeguidos({OpenIS, Modaltoggle}) {
   const [data, setData] = useState([]);
@@ -67,7 +68,15 @@ export default function UserSeguidos({OpenIS, Modaltoggle}) {
                 </Link>
                 <div>
                   <Link href={`/client/userprofile/${follower._id}`}>
-                    <p className="font-semibold text-gray-800">{follower.name} {follower.apellido}</p>
+                  <p className="font-semibold text-gray-800 flex items-center gap-x-1">
+                      {follower.name} {follower.apellido}
+                      {follower.isVerified === true && (
+                        <MdVerified
+                          className="text-blue-500"
+                          title="Cuenta verificada"
+                        />
+                      )}
+                    </p>
                   </Link>
                 </div>
               </div>

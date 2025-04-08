@@ -127,10 +127,18 @@ export default function ProfileInfo() {
                 </h1>
                 <div className="text-base sm:text-lg text-gray-500 mb-3 flex items-center">
                   <span
-                    onClick={toggleModal} >{data.followers?.length || 0} seguidores</span>
+                    onClick={toggleModal}
+                    className="cursor-pointer"
+                  >
+                    {data.followers?.length || 0} seguidores
+                  </span>
                   <span className="mx-2">·</span>
-                  <span onClick={Modaltoggle}>
-                    {data.following?.length || 0} siguiendo</span>
+                  <span
+                    onClick={Modaltoggle}
+                    className="cursor-pointer"
+                  >
+                    {data.following?.length || 0} siguiendo
+                  </span>
                 </div>
               </div>
 

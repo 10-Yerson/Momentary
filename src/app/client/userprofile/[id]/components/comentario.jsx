@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import axios from '../../../../../utils/axios';
 import { FaRegHeart, FaHeart, FaReply, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { MdVerified } from "react-icons/md";
 
 export default function ModalComment({ isOpen, onClose, publicationId, refreshComments }) {
     const [comment, setComment] = useState('');
@@ -204,10 +205,19 @@ export default function ModalComment({ isOpen, onClose, publicationId, refreshCo
                                     alt="Perfil"
                                     className="w-8 h-8 rounded-full object-cover mr-3"
                                 />
-                                <div>
-                                    <span className="font-semibold">{publicationData.user?.name} {publicationData.user?.apellido}</span>
-                                    <span className="text-blue-500 ml-2">•</span>
+                                <div className="flex items-center gap-x-2">
+                                    <span className="font-semibold flex items-center gap-x-1">
+                                        {publicationData.user?.name} {publicationData.user?.apellido}
+                                        {publicationData.user?.isVerified === true && (
+                                            <MdVerified
+                                                className="text-blue-500"
+                                                title="Cuenta verificada"
+                                            />
+                                        )}
+                                    </span>
+                                    <span className="text-blue-500 text-sm">autor</span>
                                 </div>
+
                                 <div className="ml-auto flex items-center">
                                     <svg
                                         className="w-6 h-6 hidden lg:block"
@@ -258,7 +268,17 @@ export default function ModalComment({ isOpen, onClose, publicationId, refreshCo
                                             className="w-8 h-8 rounded-full"
                                         />
                                         <div className="ml-3 flex-1">
-                                            <p className="font-semibold">{comment.user.name} {comment.user.apellido}</p>
+                                            <div className="flex items-center gap-x-2">
+                                                <span className="font-semibold flex items-center gap-x-1">
+                                                    {comment.user.name} {comment.user.apellido}
+                                                    {comment.user.isVerified === true && (
+                                                        <MdVerified
+                                                            className="text-blue-500"
+                                                            title="Cuenta verificada"
+                                                        />
+                                                    )}
+                                                </span>
+                                            </div>
                                             <p>{comment.text}</p>
                                             <div className="flex items-center mt-2 text-xs text-gray-500">
                                                 <span className="mr-3">{timeAgo(comment.createdAt)}</span>
@@ -332,7 +352,17 @@ export default function ModalComment({ isOpen, onClose, publicationId, refreshCo
                                                             className="w-6 h-6 rounded-full"
                                                         />
                                                         <div className="ml-2 flex-1">
-                                                            <p className="font-semibold text-sm">{reply.user.name} {reply.user.apellido}</p>
+                                                            <div className="flex items-center gap-x-2">
+                                                                <span className="font-semibold flex items-center gap-x-1">
+                                                                    {reply.user.name} {reply.user.apellido}
+                                                                    {reply.user.isVerified === true && (
+                                                                        <MdVerified
+                                                                            className="text-blue-500"
+                                                                            title="Cuenta verificada"
+                                                                        />
+                                                                    )}
+                                                                </span>
+                                                            </div>
                                                             <p className="text-sm">{reply.text}</p>
                                                             <div className="flex items-center mt-1 text-xs text-gray-500 space-x-3">
                                                                 <span className="text-xs">{timeAgo(reply.createdAt)}</span>
