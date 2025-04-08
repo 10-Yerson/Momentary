@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://momentary-indol.vercel.app/sitemap.xml
