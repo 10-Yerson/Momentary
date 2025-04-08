@@ -16,6 +16,9 @@ export default function PublicationGetting() {
     const [isModalOpen, setModalOpen] = useState(false);
     const [commentModalOpen, setCommentModalOpen] = useState(false);
     const [selectedPublication, setSelectedPublication] = useState(null);
+    const [menuOpenId, setMenuOpenId] = useState(null);
+    const [editingId, setEditingId] = useState(null);
+    const [editDescription, setEditDescription] = useState('');
 
     useEffect(() => {
         const fetchUserInfo = async () => {
@@ -60,7 +63,7 @@ export default function PublicationGetting() {
     }, [userId]); // Este efecto se ejecuta cada vez que el userId cambia
 
     const handleLike = async (publicationId) => {
-        
+
         const liked = likesState[publicationId];
         try {
             if (liked) {
@@ -109,6 +112,49 @@ export default function PublicationGetting() {
         }
     };
 
+
+    const toggleMenu = (id) => {
+        setMenuOpenId(menuOpenId === id ? null : id);
+    };
+
+    const handleEdit = (id, currentDescription) => {
+        setEditingId(id);
+        setEditDescription(currentDescription); 
+        setMenuOpenId(null); 
+    };
+    
+    const saveEdit = async (id) => {
+        try {
+            const response = await axios.put(`/api/publication/update/${id}`,
+                { description: editDescription },
+                { withCredentials: true }
+            );
+            setPublications(prev =>
+                prev.map(pub => pub._id === id ? { ...pub, ...response.data.publication } : pub)
+            );
+
+            setEditingId(null);
+        } catch (error) {
+            console.error('Error al actualizar publicación:', error.response?.data?.message || error.message);
+        }
+    };
+
+    const cancelEdit = () => {
+        setEditingId(null);
+    };
+
+    const handleDelete = async (id) => {
+        try {
+            const response = await axios.delete(`/api/publication/delete/${id}`, {
+                withCredentials: true,
+            });
+            setPublications(prev => prev.filter(pub => pub._id !== id));
+            setMenuOpenId(null);
+        } catch (error) {
+            console.error('Error al eliminar publicación:', error.response?.data?.message || error.message);
+        }
+    };
+
     return (
         <>
             <div className="rounded-lg mt-8 flex w-full">
@@ -131,19 +177,71 @@ export default function PublicationGetting() {
                     ) : (
                         publications.map((publication) => (
                             <div key={publication._id} className="rounded-lg">
-                                <div className="flex items-center space-x-4 mb-2 px-2">
-                                    <img
-                                        src={publication.user.profilePicture || 'https://metro.co.uk/wp-content/uploads/2018/09/sei_30244558-285d.jpg?quality=90&strip=all'}
-                                        alt="Perfil"
-                                        className="w-10 h-10 rounded-full object-cover"
-                                    />
-                                    <div>
-                                        <h3 className="text-lg font-semibold">{publication.user.name} {publication.user.apellido}</h3>
-                                        <p className="text-sm text-gray-500">{new Date(publication.createdAt).toLocaleString()}</p>
+                                <div className="flex items-center justify-between mb-2 px-2">
+                                    <div className="flex items-center space-x-4">
+                                        <img
+                                            src={publication.user.profilePicture || 'https://metro.co.uk/wp-content/uploads/2018/09/sei_30244558-285d.jpg?quality=90&strip=all'}
+                                            alt="Perfil"
+                                            className="w-10 h-10 rounded-full object-cover"
+                                        />
+                                        <div>
+                                            <h3 className="text-lg font-semibold">
+                                                {publication.user.name} {publication.user.apellido}
+                                            </h3>
+                                            <p className="text-sm text-gray-500">{new Date(publication.createdAt).toLocaleString()}</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="relative">
+                                        <button onClick={() => toggleMenu(publication._id)} className="text-gray-600 hover:text-black text-xl">
+                                            ⋮
+                                        </button>
+
+                                        {menuOpenId === publication._id && (
+                                            <div className="absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-lg z-50">
+                                                <button
+                                                   onClick={() => handleEdit(publication._id, publication.description)}
+                                                    className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                                                >
+                                                    Editar
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDelete(publication._id)}
+                                                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                                                >
+                                                    Eliminar
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
+                                {editingId === publication._id ? (
+                                    <div className="mb-4 px-2">
+                                        <textarea
+                                            className="w-full border border-gray-300 rounded p-2 mb-2"
+                                            value={editDescription}
+                                            onChange={(e) => setEditDescription(e.target.value)}
+                                            rows={2}
 
-                                <p className="mb-4 px-2">{publication.description}</p>
+                                        />
+                                        <div className="flex justify-end space-x-2">
+                                            <button
+                                                onClick={cancelEdit}
+                                                className="px-3 py-1 bg-gray-200 rounded text-sm"
+                                            >
+                                                Cancelar
+                                            </button>
+                                            <button
+                                                onClick={() => saveEdit(publication._id)}
+                                                className="px-3 py-1 bg-blue-500 text-white rounded text-sm"
+                                            >
+                                                Guardar
+                                            </button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <p className="mb-4 px-2">{publication.description}</p>
+                                )}
 
                                 <div className="w-full">
                                     {publication.video ? (
