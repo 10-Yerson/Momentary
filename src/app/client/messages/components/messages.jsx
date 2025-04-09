@@ -211,7 +211,7 @@ const Messages = () => {
                 </div>
 
                 {search.trim() !== '' && (
-                    <div className="bg-white shadow-md rounded-lg p-4 mb-4">
+                    <div className="bg-white shadow-md rounded-lg px-4 py-1 mb-4">
                         {results.length > 0 ? (
                             results.map((user) => (
                                 <div
@@ -226,7 +226,12 @@ const Messages = () => {
                                         />
                                         <span className="font-medium text-sm text-gray-800 flex items-center gap-1">
                                             {user.name} {user.apellido}
-                                            {user.isVerified && <MdVerified className="text-blue-500" />}
+                                            {user.isVerified === true && (
+                                                <MdVerified
+                                                    className="text-blue-500"
+                                                    title="Cuenta verificada"
+                                                />
+                                            )}
                                         </span>
                                     </Link>
                                     <button
@@ -357,7 +362,12 @@ const Messages = () => {
                                 <FaArrowLeft onClick={() => setSelectedUser(null)} className="text-blue-500 text-xl " />
                                 <img src={selectedUser?.profilePicture} alt="User profile" className="rounded-full ml-2 h-14 w-14 object-cover" />
                                 <div className="ml-2">
-                                    <div className="font-bold">{selectedUser.name} {selectedUser.apellido}</div>
+                                    <div className="font-bold flex items-center">{selectedUser.name} {selectedUser.apellido}  {selectedUser.isVerified === true && (
+                                        <MdVerified
+                                            className="text-blue-500 ml-2"
+                                            title="Cuenta verificada"
+                                        />
+                                    )}</div>
                                     <div className="text-gray-500 text-sm">Activo(a) hace 28 minutos</div>
                                 </div>
                             </div>
@@ -366,11 +376,23 @@ const Messages = () => {
                         <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
                             <div className="flex flex-col items-center p-4">
                                 <img src={selectedUser?.profilePicture} alt="User profile large" className="rounded-xl h-24 w-24 object-cover" />
-                                <div className="font-bold text-xl mt-2">{selectedUser.name} {selectedUser.apellido}</div>
-                                <div className="bg-gray-100 p-2 rounded-xl mt-2 text-center">
-                                    Cifrado de extremo a extremo
-                                    <div className="text-gray-500 text-sm">
-                                        Los mensajes y las llamadas están protegidos con cifrado de extremo a extremo.
+                                <div className="font-bold text-xl mt-2 flex items-center">{selectedUser.name} {selectedUser.apellido} {selectedUser.isVerified === true && (
+                                    <MdVerified
+                                        className="text-blue-500 ml-2"
+                                        title="Cuenta verificada"
+                                    />
+                                )}</div>
+                                <div className="flex items-center gap-4 bg-white border border-gray-200 rounded-lg p-4 mt-4 shadow">
+                                    <div className="bg-blue-100 rounded-full p-3">
+                                        <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-gray-800 font-semibold">Chat seguro y privado</h3>
+                                        <p className="text-sm text-gray-600">
+                                            Disfruta de conversaciones privadas con tecnología de cifrado avanzada. Solo tú y tu contacto pueden ver los mensajes.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -379,7 +401,7 @@ const Messages = () => {
                                 {messages.map((msg) => (
                                     <div
                                         key={msg._id}
-                                        className={`flex items-start mb-4 ${msg.sender === userId ? "justify-end" : "justify-start"}`}
+                                        className={`flex items-end mb-4 ${msg.sender === userId ? "justify-end" : "justify-start"}`}
                                     >
                                         {msg.sender !== userId && (
                                             <img src={selectedUser?.profilePicture} alt="User profile" className="rounded-full h-9 w-9 object-cover" />
@@ -406,7 +428,7 @@ const Messages = () => {
                                                 {msg.seen ? (
                                                     <FaCheckCircle className="text-blue-500 w-5 h-5" />
                                                 ) : (
-                                                    <FaRegCheckCircle className="text-gray-400 w-5 h-5" />
+                                                    <FaRegCheckCircle className="text-gray-500 w-5 h-5" />
                                                 )}
                                             </div>
                                         )}
@@ -416,19 +438,21 @@ const Messages = () => {
                             </div>
                         </div>
 
-                        <div className="flex items-center p-2 bg-gray-100 rounded-md shadow rounded-t-lg">
-                            <FaImage className="text-blue-500 text-2xl ml-4" />
-                            <FaSmile className="text-blue-500 text-2xl ml-4" />
+                        <div className="flex items-center p-2 gap-3">
                             <input
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
                                 onKeyDown={handleKeyDown}
                                 type="text"
-                                placeholder="Mensaje"
-                                className="flex-1 mx-4 p-2 border rounded-full"
+                                placeholder="Escribe un mensaje..."
+                                className="flex-1 p-3 border rounded-full focus:outline-none focus:ring-1 focus:ring-gray-300 bg-gray-50"
                             />
-                            <FaPaperPlane onClick={sendMessage} className="text-blue-500 text-2xl cursor-pointer" />
+                            <FaPaperPlane
+                                onClick={sendMessage}
+                                className="text-gray-800 text-2xl cursor-pointer hover:text-gray-900 transition-colors duration-200"
+                            />
                         </div>
+
                     </>
                 ) : (
                     <div className="flex items-center justify-center h-full text-gray-500">

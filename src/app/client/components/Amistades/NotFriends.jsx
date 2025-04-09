@@ -7,6 +7,7 @@ import { MyContext } from '../../../../context/MyProvider';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { MdVerified } from "react-icons/md";
+import { FaSearch } from "react-icons/fa";
 
 const UsersToFollow = () => {
   const [users, setUsers] = useState(null); // Cambiar el valor inicial de [] a null
@@ -92,74 +93,39 @@ const UsersToFollow = () => {
 
   return (
     <div className="w-full md:w-1/2 py-4">
-      <form className="flex items-center max-w-lg px-2 pb-6 w-2/3">
-        <label className="sr-only">Buscar</label>
-        <div className="relative w-full">
-          <div
-            className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
-          >
-            <svg
-              viewBox="0 0 21 21"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-              className="w-4 h-4 text-gray-500 dark:text-gray-400"
-            >
-              <path
-                d="M11.15 5.6h.01m3.337 1.913h.01m-6.979 0h.01M5.541 11h.01M15 15h2.706a1.957 1.957 0 0 0 1.883-1.325A9 9 0 1 0 2.043 11.89 9.1 9.1 0 0 0 7.2 19.1a8.62 8.62 0 0 0 3.769.9A2.013 2.013 0 0 0 13 18v-.857A2.034 2.034 0 0 1 15 15Z"
-                strokeWidth="2"
-                strokeLinejoin="round"
-                strokeLinecap="round"
-                stroke="currentColor"
-              ></path>
-            </svg>
-          </div>
+      <form className="flex items-center px-2 pb-5">
+
+        <div className="relative mb-4 w-full">
+          <FaSearch className="absolute left-3 top-3 text-gray-500" />
           <input
-            placeholder="Buscar..."
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            id="voice-search"
             type="text"
+            placeholder="Buscar"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-10 pr-3 py-2 border rounded-full"
           />
-
-
         </div>
-        <button
-          className="inline-flex items-center py-2.5 px-3 ms-2 text-sm font-medium text-white rounded-lg border bg-blue-500 hover:bg-blue-700"
-          type="submit"
-        >
-          <svg
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            className="w-4 h-4 me-2"
-          >
-            <path
-              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-              strokeWidth="2"
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              stroke="currentColor"
-            ></path></svg>Buscar
-        </button>
       </form>
 
       {searchTerm.trim() !== '' && (
-        <ul className="mb-4">
+        <div className="bg-white shadow-md rounded-lg px-4 py-1 mb-4">
           {searchResults.length > 0 ? (
             searchResults.map((user) => (
-              <li key={user._id} className="flex justify-between items-center mb-2 p-2 border-b border-gray-200">
-                <Link href={`/client/userprofile/${user._id}`} className="flex items-center">
+              <div key={user._id} className="flex items-center justify-between py-2 border-b last:border-b-0">
+                <Link href={`/client/userprofile/${user._id}`} className="flex items-center gap-2">
                   <img
                     src={user.profilePicture || '/default-profile.png'}
                     alt="Foto de perfil"
-                    className="w-8 h-8 rounded-full mr-2"
+                    className="w-8 h-8 rounded-full"
                   />
-                  <span className="text-sm font-medium text-gray-800 flex items-center gap-1">
+                  <span className="font-medium text-sm text-gray-800 flex items-center gap-1">
                     {user.name} {user.apellido}
-                    {user.isVerified && <MdVerified className="text-blue-500" />}
+                    {user.isVerified === true && (
+                      <MdVerified
+                        className="text-blue-500 ml-1"
+                        title="Cuenta verificada"
+                      />
+                    )}
                   </span>
                 </Link>
                 <button
@@ -169,12 +135,12 @@ const UsersToFollow = () => {
                 >
                   {following[user._id] ? 'Siguiendo' : 'Seguir'}
                 </button>
-              </li>
+              </div>
             ))
           ) : (
             <p className="px-2 text-sm text-gray-500">No se encontraron usuarios.</p>
           )}
-        </ul>
+        </div>
       )}
 
       {loading ? (
