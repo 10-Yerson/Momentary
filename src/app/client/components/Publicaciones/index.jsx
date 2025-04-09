@@ -128,7 +128,7 @@ export default function SeguidoresPublication() {
                                         )}
                                     </h2>
 
-                                    <span className="text-xs text-gray-500">
+                                    <span className="text-[11px] text-gray-500">
                                         {new Date(publication.createdAt).toLocaleString()}
                                     </span>
                                 </div>

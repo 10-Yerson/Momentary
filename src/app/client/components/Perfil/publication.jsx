@@ -6,6 +6,7 @@ import SavePublication from './guardado.jsx';
 import { FaCamera } from "react-icons/fa";
 import Createpublication from '../Modal/Createpublication';
 import CommentModal from './comentario';
+import { Edit3 as EditIcon, Trash as TrashIcon } from 'lucide-react';
 
 export default function PublicationGetting() {
     const [publications, setPublications] = useState([]);
@@ -119,10 +120,10 @@ export default function PublicationGetting() {
 
     const handleEdit = (id, currentDescription) => {
         setEditingId(id);
-        setEditDescription(currentDescription); 
-        setMenuOpenId(null); 
+        setEditDescription(currentDescription);
+        setMenuOpenId(null);
     };
-    
+
     const saveEdit = async (id) => {
         try {
             const response = await axios.put(`/api/publication/update/${id}`,
@@ -177,7 +178,7 @@ export default function PublicationGetting() {
                     ) : (
                         publications.map((publication) => (
                             <div key={publication._id} className="rounded-lg">
-                                <div className="flex items-center justify-between mb-2 px-2">
+                                <div className="flex items-center justify-between mb-3 px-2">
                                     <div className="flex items-center space-x-4">
                                         <img
                                             src={publication.user.profilePicture || 'https://metro.co.uk/wp-content/uploads/2018/09/sei_30244558-285d.jpg?quality=90&strip=all'}
@@ -188,60 +189,81 @@ export default function PublicationGetting() {
                                             <h3 className="text-lg font-semibold">
                                                 {publication.user.name} {publication.user.apellido}
                                             </h3>
-                                            <p className="text-sm text-gray-500">{new Date(publication.createdAt).toLocaleString()}</p>
+                                            <p className="text-[11px] text-gray-500">{new Date(publication.createdAt).toLocaleString()}</p>
                                         </div>
                                     </div>
 
                                     <div className="relative">
-                                        <button onClick={() => toggleMenu(publication._id)} className="text-gray-600 hover:text-black text-xl">
+                                        <button
+                                            onClick={() => toggleMenu(publication._id)}
+                                            className="text-black hover:text-black text-xl font-semibold mr-2 sm:mr-0"
+                                        >
                                             ⋮
                                         </button>
 
                                         {menuOpenId === publication._id && (
-                                            <div className="absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-lg z-50">
-                                                <button
-                                                   onClick={() => handleEdit(publication._id, publication.description)}
-                                                    className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
-                                                >
-                                                    Editar
-                                                </button>
-                                                <button
-                                                    onClick={() => handleDelete(publication._id)}
-                                                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-                                                >
-                                                    Eliminar
-                                                </button>
+                                            <div className="absolute right-0 mt-2 w-52 bg-white border border-gray-100 rounded-xl shadow-lg z-50 overflow-hidden transform transition-all duration-200 ease-out">
+                                                <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                                                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Opciones</p>
+                                                </div>
+
+                                                <div className="p-2">
+                                                    <button
+                                                        onClick={() => handleEdit(publication._id, publication.description)}
+                                                        className="flex items-center w-full px-3 py-2.5 rounded-lg text-sm hover:bg-blue-50 transition-all duration-200"
+                                                    >
+                                                        <div className="flex items-center justify-center h-8 w-8 rounded-full bg-blue-100 mr-3">
+                                                            <EditIcon className="h-4 w-4 text-blue-600" />
+                                                        </div>
+                                                        <div className="flex flex-col items-start">
+                                                            <span className="font-medium text-gray-700">Editar</span>
+                                                        </div>
+                                                    </button>
+
+                                                    <button
+                                                        onClick={() => handleDelete(publication._id)}
+                                                        className="flex items-center w-full px-3 py-2.5 rounded-lg text-sm hover:bg-red-50 transition-all duration-200 mt-1"
+                                                    >
+                                                        <div className="flex items-center justify-center h-8 w-8 rounded-full bg-red-100 mr-3">
+                                                            <TrashIcon className="h-4 w-4 text-red-600" />
+                                                        </div>
+                                                        <div className="flex flex-col items-start">
+                                                            <span className="font-medium text-gray-700">Eliminar</span>
+                                                        </div>
+                                                    </button>
+                                                </div>
                                             </div>
                                         )}
                                     </div>
                                 </div>
                                 {editingId === publication._id ? (
-                                    <div className="mb-4 px-2">
+                                    <div className="px-2 pb-2">
                                         <textarea
-                                            className="w-full border border-gray-300 rounded p-2 mb-2"
+                                            className="w-full border border-gray-300 rounded-xl p-3 mb-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm transition-all"
                                             value={editDescription}
                                             onChange={(e) => setEditDescription(e.target.value)}
-                                            rows={2}
-
+                                            rows={3}
+                                            placeholder="Edita la descripción..."
                                         />
-                                        <div className="flex justify-end space-x-2">
+                                        <div className="flex justify-end gap-3">
                                             <button
                                                 onClick={cancelEdit}
-                                                className="px-3 py-1 bg-gray-200 rounded text-sm"
+                                                className="px-4 py-2 rounded-xl text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 transition-all shadow-sm"
                                             >
                                                 Cancelar
                                             </button>
                                             <button
                                                 onClick={() => saveEdit(publication._id)}
-                                                className="px-3 py-1 bg-blue-500 text-white rounded text-sm"
+                                                className="px-4 py-2 rounded-xl text-sm bg-blue-600 hover:bg-blue-700 text-white transition-all shadow-md"
                                             >
                                                 Guardar
                                             </button>
                                         </div>
                                     </div>
                                 ) : (
-                                    <p className="mb-4 px-2">{publication.description}</p>
+                                    <p className="mb-2 px-2 leading-relaxed">{publication.description}</p>
                                 )}
+
 
                                 <div className="w-full">
                                     {publication.video ? (
