@@ -1,7 +1,6 @@
 'use client'
 
 import { MyProvider, useState } from '../context/MyContext';
-import UserPanel from '../components/Dasboard/siderbar'
 import NotFriends from '../components/Amistades/NotFriends';
 import Jireh from '../components/Amistades/Jireh';
 import Layout from '../layout/Layout'

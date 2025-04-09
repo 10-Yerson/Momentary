@@ -3,6 +3,8 @@ import { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import axios from "../../../../utils/axios";
 import Loading from "./loading";
+import { MdVerified } from 'react-icons/md';
+import Link from 'next/link';
 
 const socket = io(process.env.NEXT_PUBLIC_BASE_URL);
 import { FaPaperPlane, FaSmile, FaSearch, FaRegEdit, FaCog, FaArrowLeft, FaImage, FaCheckCircle, FaTrash, FaRegCheckCircle } from "react-icons/fa";
@@ -20,6 +22,9 @@ const Messages = () => {
     const [userIM, setUser] = useState('');
     const [suggestedUsers, setSuggestedUsers] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const [results, setResults] = useState([]);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -124,6 +129,23 @@ const Messages = () => {
         }
     };
 
+    useEffect(() => {
+        const delayDebounce = setTimeout(async () => {
+            if (search.trim() === '') {
+                setResults([]);
+                return;
+            }
+            try {
+                const res = await axios.get(`/api/followers/search?q=${search}`);
+                setResults(res.data);
+            } catch (err) {
+                console.error('Error al buscar:', err.message);
+            }
+        }, 500);
+
+        return () => clearTimeout(delayDebounce);
+    }, [search]);
+
     const markMessageAsSeen = async (msgId) => {
         if (!msgId) {
             console.error("Error: msgId es undefined");
@@ -184,9 +206,42 @@ const Messages = () => {
                         placeholder="Buscar"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="w-full pl-10 pr-3 py-2 border rounded-full focus:outline-none focus:ring"
+                        className="w-full pl-10 pr-3 py-2 border rounded-full"
                     />
                 </div>
+
+                {search.trim() !== '' && (
+                    <div className="bg-white shadow-md rounded-lg p-4 mb-4">
+                        {results.length > 0 ? (
+                            results.map((user) => (
+                                <div
+                                    key={user._id}
+                                    className="flex items-center justify-between py-2 border-b last:border-b-0"
+                                >
+                                    <Link href={`/client/userprofile/${user._id}`} className="flex items-center gap-2">
+                                        <img
+                                            src={user.profilePicture || '/default-profile.png'}
+                                            alt="Foto"
+                                            className="w-8 h-8 rounded-full"
+                                        />
+                                        <span className="font-medium text-sm text-gray-800 flex items-center gap-1">
+                                            {user.name} {user.apellido}
+                                            {user.isVerified && <MdVerified className="text-blue-500" />}
+                                        </span>
+                                    </Link>
+                                    <button
+                                        onClick={() => selectUser(user)}
+                                        className="ml-2 text-sm bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                                    >
+                                        Enviar mensaje
+                                    </button>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-sm text-gray-500">No se encontraron usuarios.</p>
+                        )}
+                    </div>
+                )}
 
                 <div className="w-full bg-white rounded-lg p-2">
                     <h2 className="text-sm font-semibold text-gray-700 mb-2">Historias</h2>

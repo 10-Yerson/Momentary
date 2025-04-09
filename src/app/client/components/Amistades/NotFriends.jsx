@@ -13,6 +13,8 @@ const UsersToFollow = () => {
   const [loading, setLoading] = useState(true); // Estado de cargando
   const { toggle, setToggle } = useContext(MyContext);
   const [following, setFollowing] = useState({}); // Estado para manejar a quién ya estás siguiendo
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     const fetchUsersToFollow = async () => {
@@ -69,6 +71,25 @@ const UsersToFollow = () => {
     }
   };
 
+  useEffect(() => {
+    const delayDebounce = setTimeout(async () => {
+      if (searchTerm.trim() === '') {
+        setSearchResults([]);
+        return;
+      }
+
+      try {
+        const res = await axios.get(`/api/followers/search?q=${searchTerm}`);
+        setSearchResults(res.data);
+      } catch (err) {
+        toast.error('Error al buscar usuarios');
+      }
+    }, 500); // 500ms de debounce
+
+    return () => clearTimeout(delayDebounce);
+  }, [searchTerm]);
+
+
   return (
     <div className="w-full md:w-1/2 py-4">
       <form className="flex items-center max-w-lg px-2 pb-6 w-2/3">
@@ -94,12 +115,14 @@ const UsersToFollow = () => {
             </svg>
           </div>
           <input
-            required=""
             placeholder="Buscar..."
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="voice-search"
             type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
+
 
         </div>
         <button
@@ -122,6 +145,37 @@ const UsersToFollow = () => {
             ></path></svg>Buscar
         </button>
       </form>
+
+      {searchTerm.trim() !== '' && (
+        <ul className="mb-4">
+          {searchResults.length > 0 ? (
+            searchResults.map((user) => (
+              <li key={user._id} className="flex justify-between items-center mb-2 p-2 border-b border-gray-200">
+                <Link href={`/client/userprofile/${user._id}`} className="flex items-center">
+                  <img
+                    src={user.profilePicture || '/default-profile.png'}
+                    alt="Foto de perfil"
+                    className="w-8 h-8 rounded-full mr-2"
+                  />
+                  <span className="text-sm font-medium text-gray-800 flex items-center gap-1">
+                    {user.name} {user.apellido}
+                    {user.isVerified && <MdVerified className="text-blue-500" />}
+                  </span>
+                </Link>
+                <button
+                  className={`text-sm px-3 py-1 ${following[user._id] ? 'bg-gray-500' : 'bg-blue-500 hover:bg-blue-700'} text-white rounded`}
+                  onClick={() => following[user._id] ? handleUnfollowUser(user._id) : handleFollowUser(user._id)}
+                  disabled={loading}
+                >
+                  {following[user._id] ? 'Siguiendo' : 'Seguir'}
+                </button>
+              </li>
+            ))
+          ) : (
+            <p className="px-2 text-sm text-gray-500">No se encontraron usuarios.</p>
+          )}
+        </ul>
+      )}
 
       {loading ? (
         <div className="flex-col gap-4 flex items-center justify-center h-full w-full">
