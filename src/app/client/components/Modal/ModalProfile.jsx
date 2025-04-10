@@ -3,20 +3,21 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import axios from '../../../../utils/axios'
+import { LogOut, CheckCircle, MessageSquare } from "lucide-react";
 
 export default function ModalProfile({ isOpen, onClose }) {
     const router = useRouter();
 
     const handleLogout = async () => {
         try {
-            await axios.post('/api/auth/logout',  {}, { withCredentials: true }); // Llamar al backend para cerrar sesión
+            await axios.post('/api/auth/logout', {}, { withCredentials: true }); // Llamar al backend para cerrar sesión
             router.push('/');
             console.log("Sesión cerrada correctamente");
         } catch (error) {
             console.error("Error al cerrar sesión:", error);
         }
     };
-    
+
     const goToVerification = () => {
         router.push('/client/verificacion');
     };
@@ -33,24 +34,27 @@ export default function ModalProfile({ isOpen, onClose }) {
                 </button>
             </div>
 
-            <div className="p-4 pt-5">
-                <button className="w-full text-left py-2">
-                    Configuración y privacidad
-                </button>
+            <div className="p-4 pt-10 space-y-2">
                 <button
                     onClick={goToVerification}
-                    className="w-full text-left py-2"
+                    className="flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg hover:bg-gray-100 transition"
                 >
-                    Verificar cuenta
+                    <CheckCircle className="w-5 h-5 text-blue-600" />
+                    <span className="text-gray-800 font-medium">Verificación cuenta
+                    </span>
                 </button>
-                <button className="w-full text-left py-2">
-                    Enviar comentarios
+
+                <button className="flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg hover:bg-gray-100 transition">
+                    <MessageSquare className="w-5 h-5 text-green-600" />
+                    <span className="text-gray-800 font-medium">Enviar comentarios</span>
                 </button>
+
                 <button
                     onClick={handleLogout}
-                    className="w-full text-left py-2"
+                    className="flex items-center gap-3 w-full text-left py-2 px-3 rounded-lg hover:bg-gray-100 transition"
                 >
-                    Cerrar sesión
+                    <LogOut className="w-5 h-5 text-red-600" />
+                    <span className="text-gray-800 font-medium">Cerrar sesión</span>
                 </button>
             </div>
 

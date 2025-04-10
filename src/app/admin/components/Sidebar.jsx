@@ -35,7 +35,6 @@ export default function Sidebar() {
       </div>
 
       <div className="pt-4 border-t border-gray-200">
-        <li>
           <button
             onClick={handleLogout}
             className="flex items-center gap-3 p-3 w-full text-left rounded-lg transition-all duration-300 hover:bg-red-500 hover:text-white"
@@ -43,7 +42,6 @@ export default function Sidebar() {
             <FiLogOut size={20} />
             <span className="font-medium">Salir</span>
           </button>
-        </li>
       </div>
     </div>
   );
