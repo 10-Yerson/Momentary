@@ -91,24 +91,24 @@ export default function ProfileInfo() {
     try {
       const userInfoResponse = await axios.get('/api/auth/user-info', { withCredentials: true });
       const userId = userInfoResponse.data.userId;
-  
+
       if (!userId) throw new Error('ID del usuario no encontrado');
-  
+
       await axios.delete(`/api/user/picture/${userId}`, null, {
         withCredentials: true
       });
-  
+
       setdata(prev => ({
         ...prev,
         profilePicture: 'https://res.cloudinary.com/dbgj8dqup/image/upload/v1743182322/uploads/ixv6tw8jfbhykflcmyex.png'
       }));
-  
-      togglePreviewModal(); 
+
+      togglePreviewModal();
     } catch (error) {
       console.error(error);
     }
   };
-  
+
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
@@ -119,8 +119,19 @@ export default function ProfileInfo() {
 
   const togglePreviewModal = () => {
     setIsPreviewOpen(!isPreviewOpen);
+    if (isPreviewOpen) {
+      setShowOptions(false);
+    }
   };
 
+  // Manejador para cerrar el modal cuando se haga clic en el overlay
+  const handleOverlayClick = (e) => {
+    // Solo cerrar si el clic fue directamente en el overlay y no en su contenido
+    if (e.target === e.currentTarget) {
+      togglePreviewModal();
+      setShowOptions(false);
+    }
+  };
 
   return (
     <>
@@ -245,55 +256,59 @@ export default function ProfileInfo() {
         onRequestClose={togglePreviewModal}
         contentLabel="Vista previa de imagen de perfil"
         className="relative bg-transparent w-full h-full flex items-center justify-center"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-90 z-50"
+        overlayClassName="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center"
+        shouldCloseOnOverlayClick={true}
       >
-        <div className="relative bg-white rounded-sm"
-        onClick={(e) => e.stopPropagation()} 
-        >
-          <div className="absolute top-4 right-4 z-10">
-            <button
-              onClick={() => setShowOptions(prev => !prev)}
-              className="bg-white p-2 rounded-full shadow hover:bg-gray-100 transition"
-            >
-              <MoreHorizontal className="w-6 h-6 text-gray-700" />
-            </button>
+        <div className="flex items-center justify-center w-full h-full" onClick={handleOverlayClick}>
+          <div
+            className="relative bg-white rounded-sm"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="absolute top-4 right-4 z-10">
+              <button
+                onClick={() => setShowOptions(prev => !prev)}
+                className="bg-white p-2 rounded-full shadow hover:bg-gray-100 transition"
+              >
+                <MoreHorizontal className="w-6 h-6 text-gray-700" />
+              </button>
 
-            {showOptions && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-20">
-                <button
-                  onClick={() => {
-                    togglePreviewModal();
-                    setIsModalOpen(true);
-                    setShowOptions(false);
-                  }}
-                  className="w-full text-left px-4 py-2 hover:bg-gray-100"
-                >
-                  Cambiar imagen
-                </button>
-                <button
-                  onClick={() => {
-                    eliminarImagen(); // Asume que tienes esta función
-                    setShowOptions(false);
-                  }}
-                  className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
-                >
-                  Eliminar imagen
-                </button>
-                <button
-                  onClick={togglePreviewModal}
-                  className="w-full text-left px-4 py-2 hover:bg-gray-100"
-                >
-                  Cerrar
-                </button>
-              </div>
-            )}
+              {showOptions && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-20">
+                  <button
+                    onClick={() => {
+                      togglePreviewModal();
+                      setIsModalOpen(true);
+                      setShowOptions(false);
+                    }}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                  >
+                    Cambiar imagen
+                  </button>
+                  <button
+                    onClick={() => {
+                      eliminarImagen();
+                      setShowOptions(false);
+                    }}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
+                  >
+                    Eliminar imagen
+                  </button>
+                  <button
+                    onClick={togglePreviewModal}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                  >
+                    Cerrar
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <img
+              src={data.profilePicture}
+              alt="Profile Preview"
+              className="max-w-[90vw] max-h-[90vh] object-cover rounded-sm shadow-sm"
+            />
           </div>
-
-          <img
-            src={data.profilePicture}
-            alt="Profile Preview"
-            className="w-auto h-[80vh] object-cover rounded-lg shadow-lg"
-          />
         </div>
       </Modal>
 
