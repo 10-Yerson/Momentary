@@ -19,6 +19,9 @@ export default function ProfileInfo() {
   const [isOpen, setIsOpen] = useState(false);
   const [OpenIs, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -84,12 +87,38 @@ export default function ProfileInfo() {
     }
   };
 
+  const eliminarImagen = async () => {
+    try {
+      const userInfoResponse = await axios.get('/api/auth/user-info', { withCredentials: true });
+      const userId = userInfoResponse.data.userId;
+  
+      if (!userId) throw new Error('ID del usuario no encontrado');
+  
+      await axios.delete(`/api/user/picture/${userId}`, null, {
+        withCredentials: true
+      });
+  
+      setdata(prev => ({
+        ...prev,
+        profilePicture: 'https://res.cloudinary.com/dbgj8dqup/image/upload/v1743182322/uploads/ixv6tw8jfbhykflcmyex.png'
+      }));
+  
+      togglePreviewModal(); 
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
 
   const Modaltoggle = () => {
     setOpen(!OpenIs);
+  };
+
+  const togglePreviewModal = () => {
+    setIsPreviewOpen(!isPreviewOpen);
   };
 
 
@@ -105,6 +134,7 @@ export default function ProfileInfo() {
                     src={data.profilePicture || 'https://res.cloudinary.com/dbgj8dqup/image/upload/v1743182322/uploads/ixv6tw8jfbhykflcmyex.png'}
                     alt="Profile picture"
                     className="w-full h-full object-cover"
+                    onClick={togglePreviewModal}
                   />
                 </div>
                 <button
@@ -172,7 +202,7 @@ export default function ProfileInfo() {
       >
         <button
           onClick={() => setIsModalOpen(false)}
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+          className="absolute top-2 right-3 text-black text-2xl font-semibold"
         >
           x
         </button>
@@ -186,7 +216,6 @@ export default function ProfileInfo() {
           className="mb-4 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
         />
 
-        {/* Mostrar la vista previa solo si se ha seleccionado una imagen */}
         {selectedImage && (
           <div className="flex justify-center">
             <img
@@ -210,6 +239,64 @@ export default function ProfileInfo() {
           </div>
         )}
       </Modal>
+
+      <Modal
+        isOpen={isPreviewOpen}
+        onRequestClose={togglePreviewModal}
+        contentLabel="Vista previa de imagen de perfil"
+        className="relative bg-transparent w-full h-full flex items-center justify-center"
+        overlayClassName="fixed inset-0 bg-black bg-opacity-90 z-50"
+      >
+        <div className="relative bg-white rounded-sm"
+        onClick={(e) => e.stopPropagation()} 
+        >
+          <div className="absolute top-4 right-4 z-10">
+            <button
+              onClick={() => setShowOptions(prev => !prev)}
+              className="bg-white p-2 rounded-full shadow hover:bg-gray-100 transition"
+            >
+              <MoreHorizontal className="w-6 h-6 text-gray-700" />
+            </button>
+
+            {showOptions && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-20">
+                <button
+                  onClick={() => {
+                    togglePreviewModal();
+                    setIsModalOpen(true);
+                    setShowOptions(false);
+                  }}
+                  className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                >
+                  Cambiar imagen
+                </button>
+                <button
+                  onClick={() => {
+                    eliminarImagen(); // Asume que tienes esta función
+                    setShowOptions(false);
+                  }}
+                  className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
+                >
+                  Eliminar imagen
+                </button>
+                <button
+                  onClick={togglePreviewModal}
+                  className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                >
+                  Cerrar
+                </button>
+              </div>
+            )}
+          </div>
+
+          <img
+            src={data.profilePicture}
+            alt="Profile Preview"
+            className="w-auto h-[80vh] object-cover rounded-lg shadow-lg"
+          />
+        </div>
+      </Modal>
+
       <Seguidores isOpen={isOpen} toggleModal={toggleModal} />
       <Seguidos OpenIS={OpenIs} Modaltoggle={Modaltoggle} />
     </>
