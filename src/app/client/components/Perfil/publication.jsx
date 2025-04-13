@@ -7,6 +7,7 @@ import { FaCamera } from "react-icons/fa";
 import Createpublication from '../Modal/Createpublication';
 import CommentModal from './comentario';
 import { Edit3 as EditIcon, Trash as TrashIcon } from 'lucide-react';
+import LikesModal from '../Publicaciones/LikesModal';
 
 export default function PublicationGetting() {
     const [publications, setPublications] = useState([]);
@@ -20,6 +21,11 @@ export default function PublicationGetting() {
     const [menuOpenId, setMenuOpenId] = useState(null);
     const [editingId, setEditingId] = useState(null);
     const [editDescription, setEditDescription] = useState('');
+
+    // Estado para el modal de likes
+    const [likesModalOpen, setLikesModalOpen] = useState(false);
+    const [selectedPublicationForLikes, setSelectedPublicationForLikes] = useState(null);
+
 
     useEffect(() => {
         const fetchUserInfo = async () => {
@@ -154,6 +160,17 @@ export default function PublicationGetting() {
         } catch (error) {
             console.error('Error al eliminar publicación:', error.response?.data?.message || error.message);
         }
+    };
+
+    // Funciones para manejar el modal de likes
+    const openLikesModal = (publicationId) => {
+        setSelectedPublicationForLikes(publicationId);
+        setLikesModalOpen(true);
+    };
+
+    const closeLikesModal = () => {
+        setLikesModalOpen(false);
+        setSelectedPublicationForLikes(null);
     };
 
     return (
@@ -311,18 +328,23 @@ export default function PublicationGetting() {
                                     </button>
                                 </div>
                                 <div className="px-4 pb-2">
-                                    {Array.isArray(publication.likes) ? publication.likes.length.toLocaleString() : '0'} Me gusta
+                                    <p
+                                        className="text-sm font-semibold mb-1 cursor-pointer"
+                                        onClick={() => openLikesModal(publication._id)}
+                                    >
+                                        {Array.isArray(publication.likes) ? publication.likes.length.toLocaleString() : '0'} Me gusta
+                                    </p>
                                 </div>
                             </div>
                         ))
                     )}
                 </div>
                 <Createpublication isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
-                <CommentModal
-                    isOpen={commentModalOpen}
-                    onClose={closeCommentModal}
-                    publicationId={selectedPublication}
+                <CommentModal isOpen={commentModalOpen} onClose={closeCommentModal} publicationId={selectedPublication}
                     refreshComments={refreshPublications}
+                />
+                <LikesModal isOpen={likesModalOpen} toggleModal={closeLikesModal}
+                    publicationId={selectedPublicationForLikes}
                 />
                 <div className='hidden lg:block w-1/2'>
                     <SavePublication />

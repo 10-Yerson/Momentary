@@ -6,7 +6,7 @@ import NotFriends from '../../components/Amistades/NotFriends';
 import Link from 'next/link';
 import { MdVerified } from "react-icons/md";
 import ModalComment from '../../userprofile/[id]/components/comentario';
-
+import LikesModal from './LikesModal'; // Importa el nuevo componente de modal de likes
 
 export default function SeguidoresPublication() {
     const [publications, setPublications] = useState([]);
@@ -16,6 +16,10 @@ export default function SeguidoresPublication() {
 
     const [commentModalOpen, setCommentModalOpen] = useState(false);
     const [selectedPublication, setSelectedPublication] = useState(null);
+    
+    // Estado para el modal de likes
+    const [likesModalOpen, setLikesModalOpen] = useState(false);
+    const [selectedPublicationForLikes, setSelectedPublicationForLikes] = useState(null);
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -101,6 +105,17 @@ export default function SeguidoresPublication() {
     const closeCommentModal = () => {
         setCommentModalOpen(false);
         setSelectedPublication(null);
+    };
+    
+    // Funciones para manejar el modal de likes
+    const openLikesModal = (publicationId) => {
+        setSelectedPublicationForLikes(publicationId);
+        setLikesModalOpen(true);
+    };
+    
+    const closeLikesModal = () => {
+        setLikesModalOpen(false);
+        setSelectedPublicationForLikes(null);
     };
 
     return (
@@ -201,18 +216,22 @@ export default function SeguidoresPublication() {
 
                         {/* Contador de likes */}
                         <div className="px-4 pb-2">
-                            <p className="text-sm font-semibold mb-1">
+                            <p 
+                                className="text-sm font-semibold mb-1 cursor-pointer"
+                                onClick={() => openLikesModal(publication._id)}
+                            >
                                 {Array.isArray(publication.likes) ? publication.likes.length.toLocaleString() : '0'} Me gusta
                             </p>
                         </div>
                     </div>
                 );
             })}
-            <ModalComment
-                isOpen={commentModalOpen}
-                onClose={closeCommentModal}
+            <ModalComment isOpen={commentModalOpen} onClose={closeCommentModal}
                 publicationId={selectedPublication}
-            // refreshComments={refreshPublications}
+            />
+            
+            <LikesModal isOpen={likesModalOpen} toggleModal={closeLikesModal}
+                publicationId={selectedPublicationForLikes}
             />
         </div>
     );

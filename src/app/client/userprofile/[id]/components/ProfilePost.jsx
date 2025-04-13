@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import SavePublication from '@/app/client/components/Perfil/guardado';
 import ModalComment from './comentario';
 import { MdVerified } from "react-icons/md";
+import LikesModal from '@/app/client/components/Publicaciones/LikesModal';
 
 export default function ProfilePost() {
   const { id } = useParams();
@@ -17,6 +18,10 @@ export default function ProfilePost() {
   const [userId, setUserId] = useState(null);
   const [commentModalOpen, setCommentModalOpen] = useState(false);
   const [selectedPublication, setSelectedPublication] = useState(null);
+
+  // Estado para el modal de likes
+  const [likesModalOpen, setLikesModalOpen] = useState(false);
+  const [selectedPublicationForLikes, setSelectedPublicationForLikes] = useState(null);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -111,14 +116,17 @@ export default function ProfilePost() {
     setCommentModalOpen(false);
     setSelectedPublication(null);
   };
-  // const refreshPublications = async () => {
-  //   try {
-  //     const response = await axios.get('/api/publication/user');
-  //     setPublications(response.data);
-  //   } catch (error) {
-  //     console.error('Error al actualizar las publicaciones:', error);
-  //   }
-  // };
+
+  // Funciones para manejar el modal de likes
+  const openLikesModal = (publicationId) => {
+    setSelectedPublicationForLikes(publicationId);
+    setLikesModalOpen(true);
+  };
+
+  const closeLikesModal = () => {
+    setLikesModalOpen(false);
+    setSelectedPublicationForLikes(null);
+  };
 
   return (
     <div div className="rounded-lg mt-8 flex w-full" >
@@ -206,7 +214,10 @@ export default function ProfilePost() {
                 </div>
 
                 <div className="px-4 pb-2">
-                  <p className="text-sm font-semibold mb-1">
+                  <p
+                    className="text-sm font-semibold mb-1 cursor-pointer"
+                    onClick={() => openLikesModal(publication._id)}
+                  >
                     {Array.isArray(publication.likes) ? publication.likes.length.toLocaleString() : '0'} Me gusta
                   </p>
                 </div>
@@ -221,11 +232,11 @@ export default function ProfilePost() {
       <div className='hidden lg:block w-1/2'>
         <SavePublication />
       </div>
-      <ModalComment
-        isOpen={commentModalOpen}
-        onClose={closeCommentModal}
+      <ModalComment isOpen={commentModalOpen} onClose={closeCommentModal}
         publicationId={selectedPublication}
-      // refreshComments={refreshPublications}
+      />
+      <LikesModal  isOpen={likesModalOpen} toggleModal={closeLikesModal}
+        publicationId={selectedPublicationForLikes}
       />
       <ToastContainer />
     </div>
