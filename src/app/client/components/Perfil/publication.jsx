@@ -317,10 +317,17 @@ export default function PublicationGetting() {
                                             />
                                         </button>
                                         <button
-                                            className="focus:outline-none"
+                                            className="focus:outline-none flex items-end space-x-1"
                                             onClick={() => openCommentModal(publication._id)}
                                         >
-                                            <img src="/img/icons/comentario.png" alt="Comment" className="w-7 h-7 object-cover" />
+                                            <img
+                                                src="/img/icons/comentario.png"
+                                                alt="Comment"
+                                                className="w-7 h-7 object-cover"
+                                            />
+                                            <span className="text-sm font-medium text-gray-600">
+                                                {publication.comments?.length || 0}
+                                            </span>
                                         </button>
                                     </div>
                                     <button className="focus:outline-none">

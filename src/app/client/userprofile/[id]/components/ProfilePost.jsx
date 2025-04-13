@@ -196,12 +196,16 @@ export default function ProfilePost() {
                     </button>
 
                     <button onClick={() => openCommentModal(publication._id)}
-                      className="focus:outline-none">
+                      className="focus:outline-none flex items-end space-x-1"
+                    >
                       <img
                         src="/img/icons/comentario.png"
                         alt="Comment"
                         className="w-7 h-7 object-cover"
                       />
+                      <span className="text-sm font-medium text-gray-600">
+                        {publication.comments?.length || 0}
+                      </span>
                     </button>
                   </div>
                   <button className="focus:outline-none">
@@ -235,7 +239,7 @@ export default function ProfilePost() {
       <ModalComment isOpen={commentModalOpen} onClose={closeCommentModal}
         publicationId={selectedPublication}
       />
-      <LikesModal  isOpen={likesModalOpen} toggleModal={closeLikesModal}
+      <LikesModal isOpen={likesModalOpen} toggleModal={closeLikesModal}
         publicationId={selectedPublicationForLikes}
       />
       <ToastContainer />

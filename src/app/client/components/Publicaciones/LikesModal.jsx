@@ -70,7 +70,7 @@ export default function LikesModal({ isOpen, toggleModal, publicationId }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center px-1 sm:px-0">
       <div className="bg-white rounded-lg w-full max-w-md max-h-[80vh] overflow-hidden">
         <div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center">
           <h3 className="text-lg font-semibold text-gray-800">Me gusta</h3>

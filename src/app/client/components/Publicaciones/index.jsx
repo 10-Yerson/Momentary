@@ -106,13 +106,13 @@ export default function SeguidoresPublication() {
         setCommentModalOpen(false);
         setSelectedPublication(null);
     };
-    
+
     // Funciones para manejar el modal de likes
     const openLikesModal = (publicationId) => {
         setSelectedPublicationForLikes(publicationId);
         setLikesModalOpen(true);
     };
-    
+
     const closeLikesModal = () => {
         setLikesModalOpen(false);
         setSelectedPublicationForLikes(null);
@@ -196,13 +196,18 @@ export default function SeguidoresPublication() {
 
                                 {/* Botón de Comentario */}
                                 <button onClick={() => openCommentModal(publication._id)}
-                                    className="focus:outline-none">
+                                    className="focus:outline-none flex items-end space-x-1"
+                                >
                                     <img
                                         src="/img/icons/comentario.png"
                                         alt="Comment"
                                         className="w-7 h-7 object-cover"
                                     />
+                                    <span className="text-sm font-medium text-gray-600">
+                                        {publication.comments?.length || 0}
+                                    </span>
                                 </button>
+
                             </div>
                             {/* Botón de Guardar */}
                             <button className="focus:outline-none">
@@ -216,7 +221,7 @@ export default function SeguidoresPublication() {
 
                         {/* Contador de likes */}
                         <div className="px-4 pb-2">
-                            <p 
+                            <p
                                 className="text-sm font-semibold mb-1 cursor-pointer"
                                 onClick={() => openLikesModal(publication._id)}
                             >
@@ -229,7 +234,7 @@ export default function SeguidoresPublication() {
             <ModalComment isOpen={commentModalOpen} onClose={closeCommentModal}
                 publicationId={selectedPublication}
             />
-            
+
             <LikesModal isOpen={likesModalOpen} toggleModal={closeLikesModal}
                 publicationId={selectedPublicationForLikes}
             />
