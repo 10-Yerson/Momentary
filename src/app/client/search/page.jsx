@@ -10,7 +10,7 @@ export default function ViewPublication() {
     return (
         <MyProvider>
             <Layout>
-                <div className='flex overflow-hidden md:flex-row'>
+                <div className='flex md:flex-row'>
                     <NotFriends />
                     <Jireh />
                 </div>

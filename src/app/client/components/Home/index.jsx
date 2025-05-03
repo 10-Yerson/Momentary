@@ -94,7 +94,7 @@ export default function Welcome() {
           </div>
         </aside>
       </main>
-      <div className="flex overflow-hidden select-none md:flex-row mb-24 lg:mb-0">
+      <div className="flex select-none md:flex-row mb-24 lg:mb-0">
         <SeguidoresPublication />
         <CompanyFollowers />
       </div>
