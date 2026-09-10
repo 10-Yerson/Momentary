@@ -20,7 +20,7 @@ export default function Home() {
         </svg>
       ),
       title: "Mensajes en Tiempo Real",
-      description: "Chatea con tus amigos al instante. Sin esperas, sin retrasos. Conexión directa y fluida.",
+      description: "Chatea con otros usuarios al instante. La conversación fluye sin recargar la página gracias a WebSockets.",
     },
     {
       icon: (
@@ -29,7 +29,7 @@ export default function Home() {
         </svg>
       ),
       title: "Comparte Momentos",
-      description: "Publica fotos, videos y pensamientos. Captura cada instante y compártelo con el mundo.",
+      description: "Publica fotos, videos y pensamientos. Captura cada instante y compártelo con quienes te siguen.",
     },
     {
       icon: (
@@ -37,8 +37,8 @@ export default function Home() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
         </svg>
       ),
-      title: "Sigue a Creadores",
-      description: "Descubre nuevas personas, sigue a tus creadores favoritos y construye tu comunidad.",
+      title: "Sigue a Personas",
+      description: "Descubre nuevos perfiles, sigue a quienes te interesan y construye tu propia comunidad.",
     },
     {
       icon: (
@@ -47,36 +47,33 @@ export default function Home() {
         </svg>
       ),
       title: "Contenido Multimedia",
-      description: "Comparte videos, historias y transmisiones en vivo. Tu creatividad sin límites.",
+      description: "Comparte imágenes y videos. Tu contenido, tus reglas. Todo en una interfaz simple y limpia.",
     },
   ];
 
-  const stats = [
-    { number: "10K+", label: "Usuarios activos" },
-    { number: "500K+", label: "Momentos compartidos" },
-    { number: "1M+", label: "Mensajes enviados" },
-    { number: "99.9%", label: "Uptime garantizado" },
+  const howItWorks = [
+    {
+      step: "01",
+      title: "Crea tu cuenta",
+      description: "Regístrate en segundos con tu email. Sin complicaciones, sin formularios largos.",
+    },
+    {
+      step: "02",
+      title: "Personaliza tu perfil",
+      description: "Añade tu foto, una bio y empieza a construir tu identidad dentro de la plataforma.",
+    },
+    {
+      step: "03",
+      title: "Conecta y comparte",
+      description: "Sigue a otros usuarios, publica tus momentos y conversa en tiempo real.",
+    },
   ];
 
-  const testimonials = [
-    {
-      name: "María González",
-      role: "Fotógrafa",
-      text: "Momentary Connect cambió la forma en que comparto mis fotos. La interfaz es hermosa y mis seguidores pueden interactuar de forma única.",
-      avatar: "MG",
-    },
-    {
-      name: "Carlos Ruiz",
-      role: "Streamer",
-      text: "Los mensajes en tiempo real son increíbles. Puedo conectar con mi comunidad de una manera que ninguna otra plataforma me ofrece.",
-      avatar: "CR",
-    },
-    {
-      name: "Ana Martínez",
-      role: "Artista Digital",
-      text: "La mejor red social que he usado. El diseño es elegante y las funciones son exactamente lo que necesitaba para mi portafolio.",
-      avatar: "AM",
-    },
+  const techStack = [
+    { name: "Next.js", description: "Framework de React" },
+    { name: "Tailwind CSS", description: "Estilos utilitarios" },
+    { name: "WebSockets", description: "Mensajería en vivo" },
+    { name: "Node.js", description: "Backend y API" },
   ];
 
   return (
@@ -105,11 +102,11 @@ export default function Home() {
           <a href="#features" className="text-sm font-medium text-gray-600 hover:text-black transition-colors">
             Características
           </a>
-          <a href="#testimonials" className="text-sm font-medium text-gray-600 hover:text-black transition-colors">
-            Testimonios
+          <a href="#how-it-works" className="text-sm font-medium text-gray-600 hover:text-black transition-colors">
+            Cómo funciona
           </a>
           <a href="#about" className="text-sm font-medium text-gray-600 hover:text-black transition-colors">
-            Sobre Nosotros
+            Sobre el proyecto
           </a>
         </div>
 
@@ -153,11 +150,11 @@ export default function Home() {
             <a href="#features" onClick={() => setIsMenuOpen(false)} className="text-2xl font-semibold">
               Características
             </a>
-            <a href="#testimonials" onClick={() => setIsMenuOpen(false)} className="text-2xl font-semibold">
-              Testimonios
+            <a href="#how-it-works" onClick={() => setIsMenuOpen(false)} className="text-2xl font-semibold">
+              Cómo funciona
             </a>
             <a href="#about" onClick={() => setIsMenuOpen(false)} className="text-2xl font-semibold">
-              Sobre Nosotros
+              Sobre el proyecto
             </a>
             <hr className="border-gray-200" />
             <Link href="/auth/sign-in" className="text-xl font-medium">
@@ -185,7 +182,7 @@ export default function Home() {
           <div className="w-full md:w-2/5 justify-center">
             <div className="inline-flex items-center gap-2 bg-red-50 border border-red-100 rounded-full px-4 py-1.5 mb-6">
               <span className="w-2 h-2 bg-red-600 rounded-full animate-pulse"></span>
-              <span className="text-xs font-medium text-red-600">Nueva versión disponible</span>
+              <span className="text-xs font-medium text-red-600">Proyecto en desarrollo</span>
             </div>
 
             <div className="mb-8">
@@ -196,37 +193,35 @@ export default function Home() {
             </div>
 
             <p className="text-base md:text-lg text-gray-600 max-w-md mb-8 leading-relaxed">
-              Cada momento cuenta. Comparte el tuyo con el mundo, conecta con personas increíbles y
-              construye tu comunidad antes de que se pierda.
+              Una red social para compartir tus momentos, seguir a otras personas y conversar en
+              tiempo real. Cada instante cuenta.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/auth/sign-up">
                 <button className="w-full sm:w-auto bg-black text-white rounded-full px-8 py-4 text-base font-medium hover:bg-red-600 transition-colors duration-300 shadow-lg shadow-black/10">
-                  Comenzar gratis
+                  Crear cuenta
                 </button>
               </Link>
               <Link href="/auth/sign-in">
                 <button className="w-full sm:w-auto border-2 border-gray-200 rounded-full px-8 py-4 text-base font-medium hover:border-black transition-colors duration-300">
-                  Explorar ahora
+                  Iniciar sesión
                 </button>
               </Link>
             </div>
 
-            {/* Trust indicators */}
-            <div className="flex items-center gap-4 mt-8">
-              <div className="flex -space-x-3">
-                {["A", "B", "C", "D"].map((letter, i) => (
-                  <div
-                    key={i}
-                    className="w-9 h-9 rounded-full bg-gradient-to-br from-red-400 to-red-600 border-2 border-white flex items-center justify-center text-white text-xs font-bold"
+            {/* Tech stack mini */}
+            <div className="flex flex-wrap items-center gap-3 mt-8">
+              <span className="text-xs text-gray-400 uppercase tracking-wider">Construido con</span>
+              <div className="flex flex-wrap gap-2">
+                {["Next.js", "Tailwind", "WebSockets"].map((tech) => (
+                  <span
+                    key={tech}
+                    className="text-xs font-medium px-3 py-1 bg-gray-100 text-gray-700 rounded-full"
                   >
-                    {letter}
-                  </div>
+                    {tech}
+                  </span>
                 ))}
-              </div>
-              <div className="text-sm text-gray-600">
-                <span className="font-semibold text-black">10,000+</span> personas ya se unieron
               </div>
             </div>
           </div>
@@ -252,7 +247,7 @@ export default function Home() {
                 />
               </div>
 
-              {/* Floating cards */}
+              {/* Floating cards (decorativas, sin números falsos) */}
               <div className="absolute top-8 left-0 md:left-4 bg-white rounded-2xl shadow-xl p-4 flex items-center gap-3 animate-float">
                 <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
                   <svg className="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 24 24">
@@ -260,8 +255,8 @@ export default function Home() {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">Nuevos likes</p>
-                  <p className="text-sm font-bold">+1,234</p>
+                  <p className="text-xs text-gray-500">Reacciones</p>
+                  <p className="text-sm font-bold">Me gusta</p>
                 </div>
               </div>
 
@@ -272,8 +267,8 @@ export default function Home() {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">Mensajes</p>
-                  <p className="text-sm font-bold">+567 hoy</p>
+                  <p className="text-xs text-gray-500">Chat</p>
+                  <p className="text-sm font-bold">En vivo</p>
                 </div>
               </div>
 
@@ -297,15 +292,25 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Stats Section */}
-      <section className="py-16 md:py-20 px-5 md:px-10 bg-gray-50">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
-          {stats.map((stat, i) => (
-            <div key={i} className="text-center">
-              <p className="text-3xl md:text-5xl font-bold text-black mb-2">{stat.number}</p>
-              <p className="text-sm md:text-base text-gray-600">{stat.label}</p>
-            </div>
-          ))}
+      {/* About Section (reemplaza los stats falsos) */}
+      <section className="py-20 md:py-28 px-5 md:px-10 bg-gray-50">
+        <div className="max-w-4xl mx-auto text-center">
+          <span className="text-sm font-semibold text-red-600 uppercase tracking-wider">
+            Sobre el proyecto
+          </span>
+          <h2 className="text-3xl md:text-5xl font-bold mt-3 mb-6">
+            ¿Qué es Momentary Connect?
+          </h2>
+          <p className="text-gray-600 text-lg leading-relaxed mb-6">
+            Momentary Connect es una red social que estoy desarrollando como proyecto personal.
+            La idea nace de querer crear un espacio donde compartir momentos sea simple, rápido y
+            sin distracciones.
+          </p>
+          <p className="text-gray-600 text-lg leading-relaxed">
+            Aquí puedes publicar contenido, seguir a otras personas y conversar en tiempo real.
+            Es un proyecto en constante evolución donde voy añadiendo nuevas funcionalidades
+            mientras aprendo y experimento con nuevas tecnologías.
+          </p>
         </div>
       </section>
 
@@ -315,12 +320,10 @@ export default function Home() {
           <div className="text-center mb-16">
             <span className="text-sm font-semibold text-red-600 uppercase tracking-wider">Características</span>
             <h2 className="text-3xl md:text-5xl font-bold mt-3 mb-4">
-              Todo lo que necesitas <br className="hidden md:block" />
-              en un solo lugar
+              Lo que puedes hacer
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Diseñado para conectar personas de forma auténtica. Descubre todo lo que Momentary
-              Connect tiene para ofrecerte.
+              Estas son las funcionalidades principales que ofrece la plataforma.
             </p>
           </div>
 
@@ -341,42 +344,59 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 md:py-28 px-5 md:px-10 bg-gray-50">
+      {/* How it works Section (reemplaza testimonios) */}
+      <section id="how-it-works" className="py-20 md:py-28 px-5 md:px-10 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <span className="text-sm font-semibold text-red-600 uppercase tracking-wider">Testimonios</span>
+            <span className="text-sm font-semibold text-red-600 uppercase tracking-wider">Cómo funciona</span>
             <h2 className="text-3xl md:text-5xl font-bold mt-3 mb-4">
-              Lo que dicen nuestros usuarios
+              Empezar es muy fácil
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Miles de personas ya están creando momentos inolvidables en nuestra plataforma.
+              En tres pasos ya estás dentro de la comunidad.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((t, i) => (
+            {howItWorks.map((item, i) => (
               <div
                 key={i}
-                className="bg-white rounded-3xl p-8 shadow-sm hover:shadow-lg transition-shadow duration-300"
+                className="relative bg-white rounded-3xl p-8 shadow-sm hover:shadow-lg transition-shadow duration-300"
               >
-                <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, j) => (
-                    <svg key={j} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
+                <span className="text-6xl font-bold text-red-100 absolute top-6 right-8">
+                  {item.step}
+                </span>
+                <div className="relative">
+                  <h3 className="text-xl font-bold mb-3 mt-8">{item.title}</h3>
+                  <p className="text-gray-600 leading-relaxed">{item.description}</p>
                 </div>
-                <p className="text-gray-700 mb-6 leading-relaxed">{t.text}</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center text-white font-bold">
-                    {t.avatar}
-                  </div>
-                  <div>
-                    <p className="font-semibold">{t.name}</p>
-                    <p className="text-sm text-gray-500">{t.role}</p>
-                  </div>
-                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Tech Stack Section (nueva sección para proyecto personal) */}
+      <section className="py-20 md:py-28 px-5 md:px-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="text-sm font-semibold text-red-600 uppercase tracking-wider">Stack técnico</span>
+            <h2 className="text-3xl md:text-5xl font-bold mt-3 mb-4">
+              Construido con tecnología moderna
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Estas son las herramientas que uso para dar vida a Momentary Connect.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {techStack.map((tech, i) => (
+              <div
+                key={i}
+                className="text-center p-6 rounded-2xl border border-gray-100 hover:border-red-200 hover:shadow-md transition-all duration-300"
+              >
+                <p className="font-bold text-lg mb-1">{tech.name}</p>
+                <p className="text-sm text-gray-500">{tech.description}</p>
               </div>
             ))}
           </div>
@@ -392,11 +412,10 @@ export default function Home() {
 
             <div className="relative">
               <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-                ¿Listo para empezar?
+                ¿Quieres probarlo?
               </h2>
               <p className="text-gray-300 mb-10 max-w-xl mx-auto text-lg">
-                Únete a miles de personas que ya están compartiendo sus momentos. Es gratis y solo
-                toma un minuto.
+                Crea tu cuenta y empieza a compartir tus momentos. Es gratis y siempre lo será.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/auth/sign-up">
@@ -433,10 +452,9 @@ export default function Home() {
               <a href="#" className="hover:text-black transition-colors">Privacidad</a>
               <a href="#" className="hover:text-black transition-colors">Términos</a>
               <a href="#" className="hover:text-black transition-colors">Contacto</a>
-              <a href="#" className="hover:text-black transition-colors">Ayuda</a>
             </div>
             <p className="text-sm text-gray-500">
-              © {new Date().getFullYear()} Momentary Connect
+              © {new Date().getFullYear()} Momentary Connect · Proyecto personal
             </p>
           </div>
         </div>
