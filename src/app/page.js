@@ -80,9 +80,8 @@ export default function Home() {
     <div className="relative min-h-screen bg-white overflow-x-hidden">
       {/* Navbar */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-5 md:px-10 py-4 transition-all duration-300 ${
-          scrolled ? "bg-white/90 backdrop-blur-md shadow-sm" : "bg-transparent"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-5 md:px-10 py-4 transition-all duration-300 ${scrolled ? "bg-white/90 backdrop-blur-md shadow-sm" : "bg-transparent"
+          }`}
       >
         <Link href="/" className="flex items-center gap-3">
           <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16">
@@ -292,25 +291,90 @@ export default function Home() {
         </div>
       </main>
 
-      {/* About Section (reemplaza los stats falsos) */}
-      <section className="py-20 md:py-28 px-5 md:px-10 bg-gray-50">
-        <div className="max-w-4xl mx-auto text-center">
-          <span className="text-sm font-semibold text-red-600 uppercase tracking-wider">
-            Sobre el proyecto
-          </span>
-          <h2 className="text-3xl md:text-5xl font-bold mt-3 mb-6">
-            ¿Qué es Momentary Connect?
-          </h2>
-          <p className="text-gray-600 text-lg leading-relaxed mb-6">
-            Momentary Connect es una red social que estoy desarrollando como proyecto personal.
-            La idea nace de querer crear un espacio donde compartir momentos sea simple, rápido y
-            sin distracciones.
-          </p>
-          <p className="text-gray-600 text-lg leading-relaxed">
-            Aquí puedes publicar contenido, seguir a otras personas y conversar en tiempo real.
-            Es un proyecto en constante evolución donde voy añadiendo nuevas funcionalidades
-            mientras aprendo y experimento con nuevas tecnologías.
-          </p>
+      {/* About Section */}
+      <section id="about" className="py-20 md:py-28 px-5 md:px-10 bg-gray-50 overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+
+            {/* Visual / mockup */}
+            <div className="relative order-2 md:order-1">
+              {/* Círculos decorativos */}
+              <div className="absolute -top-10 -left-10 w-40 h-40 bg-red-100 rounded-full blur-3xl opacity-60"></div>
+              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-gray-200 rounded-full blur-3xl opacity-60"></div>
+
+              <div className="relative bg-white rounded-3xl p-6 shadow-2xl border border-gray-100">
+                {/* Barra de navegador falsa */}
+                <div className="flex items-center gap-2 mb-6 pb-4 border-b border-gray-100">
+                  <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                  <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                  <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                  <span className="ml-3 text-xs text-gray-400 font-mono">momentary.app</span>
+                </div>
+
+                {/* Contenido simulado */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-400 to-red-600"></div>
+                    <div className="flex-1">
+                      <div className="h-3 w-24 bg-gray-200 rounded mb-2"></div>
+                      <div className="h-2 w-16 bg-gray-100 rounded"></div>
+                    </div>
+                  </div>
+                  <div className="h-32 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl"></div>
+                  <div className="flex gap-2">
+                    <div className="h-3 w-12 bg-gray-200 rounded"></div>
+                    <div className="h-3 w-12 bg-gray-200 rounded"></div>
+                    <div className="h-3 w-12 bg-gray-200 rounded"></div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Badge flotante */}
+              <div className="absolute -bottom-4 -left-4 bg-black text-white text-xs font-medium px-4 py-2 rounded-full shadow-lg">
+                🚀 En desarrollo
+              </div>
+            </div>
+
+            {/* Texto */}
+            <div className="order-1 md:order-2">
+              <span className="text-sm font-semibold text-red-600 uppercase tracking-wider">
+                Sobre el proyecto
+              </span>
+              <h2 className="text-3xl md:text-5xl font-bold mt-3 mb-6 leading-tight">
+                Un espacio para <br />
+                <span className="text-red-600">tus momentos</span>
+              </h2>
+
+              <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-4">
+                Momentary Connect es una red social que estoy desarrollando como proyecto personal.
+                La idea nace de querer crear un espacio donde compartir momentos sea simple, rápido y
+                sin distracciones.
+              </p>
+              <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-8">
+                Aquí puedes publicar contenido, seguir a otras personas y conversar en tiempo real.
+                Es un proyecto en constante evolución donde voy añadiendo nuevas funcionalidades
+                mientras aprendo y experimento con nuevas tecnologías.
+              </p>
+
+              {/* Stats del proyecto (reales, sin inflar) */}
+              <div className="flex flex-wrap gap-6">
+                <div>
+                  <p className="text-2xl font-bold">100%</p>
+                  <p className="text-sm text-gray-500">Hecho a mano</p>
+                </div>
+                <div className="w-px bg-gray-200"></div>
+                <div>
+                  <p className="text-2xl font-bold">Full Stack</p>
+                  <p className="text-sm text-gray-500">Proyecto completo</p>
+                </div>
+                <div className="w-px bg-gray-200"></div>
+                <div>
+                  <p className="text-2xl font-bold">Open</p>
+                  <p className="text-sm text-gray-500">Código abierto</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -404,7 +468,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section id="about" className="py-20 md:py-28 px-5 md:px-10">
+      <section className="py-20 md:py-28 px-5 md:px-10">
         <div className="max-w-4xl mx-auto text-center">
           <div className="bg-black rounded-[2.5rem] p-12 md:p-20 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-red-600 rounded-full blur-3xl opacity-20"></div>
